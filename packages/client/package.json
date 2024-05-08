@@ -8,7 +8,8 @@
     "build": "tsc && vite build",
     "lint": "eslint ./src/**/*.ts --quiet",
     "preview": "vite preview",
-    "test": "jest",
+    "test": "jest ./src",
+    "test:coverage": "jest --coverage",
     "test:watch": "jest --watchAll",
     "pre-commit": "lint-staged"
   },
@@ -19,6 +20,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.5",
     "@testing-library/react": "^15.0.7",
+    "@testing-library/user-event": "^14.5.2",
     "@types/jest": "^29.5.12",
     "@types/react": "^18.3.1",
     "@types/react-dom": "^18.3.0",
@@ -41,8 +43,7 @@
   "lint-staged": {
     "src/**/*.{ts,tsx}": [
       "npm run lint",
-      "npm run test",
-      "git add ."
+      "npm run test"
     ]
   }
 }

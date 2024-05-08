@@ -1,9 +1,7 @@
+import InvoicesPage from "./pages/InvoicesPage";
+
 function App() {
-  return (
-    <div>
-      <p>App</p>
-    </div>
-  );
+  return <InvoicesPage />;
 }
 
 export default App;
