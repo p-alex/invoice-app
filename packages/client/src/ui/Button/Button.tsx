@@ -9,7 +9,7 @@ function Button({ children, ...btnProps }: Props) {
     <button
       type="button"
       {...btnProps}
-      className="transition-colors flex items-center font-bold h-12 px-6 py-[18px] hover:bg-buttonBgHoverLightTheme dark:hover:bg-buttonBgHoverDarkTheme hover:text-buttonTextHoverLightTheme dark:hover:text-buttonTextHoverDarkTheme bg-buttonBgLightTheme dark:bg-buttonBgDarkTheme text-buttonTextLightTheme dark:text-buttonTextDarkTheme rounded-[500px]"
+      className="transition-colors flex items-center font-bold h-12 px-6 py-[18px] hover:bg-btnBgHoverLT dark:hover:bg-btnBgHoverDT hover:text-btnTextHoverLT dark:hover:text-btnTextDT bg-btnBgLT dark:bg-btnBgDT text-btnTextLT dark:text-buttonTextDarkTheme rounded-[500px]"
     >
       {children}
     </button>

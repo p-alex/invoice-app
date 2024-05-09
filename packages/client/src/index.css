@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 body {
-  @apply bg-siteBgLightTheme dark:bg-siteBgDarkTheme;
+  @apply bg-siteBgLT dark:bg-siteBgDT;
 }

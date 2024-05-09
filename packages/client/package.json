@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "test": "jest ./src",
     "test:coverage": "jest --coverage",
-    "test:watch": "jest --watchAll",
+    "test:watch": "jest --watchAll --verbose",
     "pre-commit": "lint-staged"
   },
   "dependencies": {

@@ -4,7 +4,9 @@ import { Button } from "../ui";
 function InvoicesPage() {
   return (
     <Layout>
-      <Button>Save as draft</Button>
+      <div className="flex gap-4">
+        <Button>Save as draft</Button>
+      </div>
     </Layout>
   );
 }
