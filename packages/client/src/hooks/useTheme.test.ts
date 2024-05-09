@@ -25,6 +25,7 @@ describe("useTheme.ts", () => {
     const initialTheme = JSON.parse(window.localStorage.getItem("theme")!);
 
     expect(result.current.theme).toBe("light");
+
     expect(initialTheme).toBe("light");
 
     act(() => {
@@ -34,6 +35,7 @@ describe("useTheme.ts", () => {
     const currentTheme = JSON.parse(window.localStorage.getItem("theme")!);
 
     expect(result.current.theme).toBe("dark");
+
     expect(currentTheme).toBe("dark");
   });
 });
