@@ -1,12 +1,7 @@
 import Layout from "../components/Layout";
-import Navbar from "../components/Navbar";
 
 function InvoicesPage() {
-  return (
-    <Layout>
-      <Navbar />
-    </Layout>
-  );
+  return <Layout>InvoicesPage</Layout>;
 }
 
 export default InvoicesPage;
