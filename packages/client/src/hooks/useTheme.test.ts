@@ -3,9 +3,12 @@ import useTheme, { DEFAULT_THEME } from "./useTheme";
 import { act } from "react";
 
 describe("useTheme.ts", () => {
-  beforeEach(() => {
+  beforeAll(() => {
     window.localStorage.clear();
-    document.documentElement.setAttribute("class", "");
+  });
+
+  afterEach(() => {
+    window.localStorage.clear();
   });
 
   it("should set default theme if there is no theme set in localStorage", () => {

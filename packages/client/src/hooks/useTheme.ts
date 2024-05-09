@@ -1,42 +1,56 @@
 import { useEffect, useState } from "react";
+import useLocalStorage from "./useLocalStorage";
+import setThemeToDocument from "../utils/setThemeToDocument";
 
-type Theme = "dark" | "light";
+export type Theme = "dark" | "light";
 
 export const DEFAULT_THEME = "light";
 
 function useTheme() {
   const [theme, setTheme] = useState<Theme>(DEFAULT_THEME);
 
+  const localStorage = useLocalStorage();
+
+  const handleSetLightTheme = () => {
+    setThemeToDocument("light");
+
+    setTheme("light");
+
+    localStorage.setItem("theme", "light");
+  };
+
+  const handleSetDarkTheme = () => {
+    setThemeToDocument("dark");
+
+    setTheme("dark");
+
+    localStorage.setItem("theme", "dark");
+  };
+
   const handleToggleTheme = () => {
-    const isDarkMode = document.documentElement.classList.contains("dark");
+    const isDarkMode = localStorage.getItem<Theme>("theme") === "dark";
 
     if (isDarkMode) {
-      document.documentElement.classList.remove("dark");
-
-      setTheme("light");
-
-      window.localStorage.setItem("theme", JSON.stringify("light"));
+      handleSetLightTheme();
     } else {
-      document.documentElement.classList.add("dark");
-
-      setTheme("dark");
-
-      window.localStorage.setItem("theme", JSON.stringify("dark"));
+      handleSetDarkTheme();
     }
   };
 
   useEffect(() => {
-    const theme = window.localStorage.getItem("theme");
+    const theme = localStorage.getItem<Theme>("theme");
 
     if (!theme) {
-      window.localStorage.setItem("theme", JSON.stringify(DEFAULT_THEME));
+      localStorage.setItem("theme", DEFAULT_THEME);
 
-      document.documentElement.classList.add(DEFAULT_THEME);
-    } else {
-      setTheme(JSON.parse(theme));
+      DEFAULT_THEME === "light" ? handleSetLightTheme() : handleSetDarkTheme();
 
-      document.documentElement.classList.add(JSON.parse(theme));
+      return;
     }
+
+    setTheme(theme);
+
+    setThemeToDocument(theme);
   }, []);
 
   return { theme, handleToggleTheme };
