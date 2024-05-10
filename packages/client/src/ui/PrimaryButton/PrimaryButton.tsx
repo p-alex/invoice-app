@@ -12,10 +12,10 @@ function PrimaryButton({ children, icon, ...btnProps }: Props) {
     <button
       type="button"
       {...btnProps}
-      className={`flex items-center gap-4 transition-colors font-bold h-12 ${paddingX} py-[18px] hover:bg-primaryLight dark:hover:text-btnTextDT bg-primary text-white dark:text-buttonTextDarkTheme rounded-[500px]`}
+      className={`flex h-12 items-center gap-4 font-bold transition-colors ${paddingX} dark:text-buttonTextDarkTheme rounded-[500px] bg-primary py-[18px] text-white hover:bg-primaryLight dark:hover:text-btnTextDT`}
     >
       {icon && (
-        <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center">{icon}</div>
+        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white">{icon}</div>
       )}
       {children}
     </button>

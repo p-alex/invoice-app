@@ -6,7 +6,7 @@ import NavbarThemeToggle from "../NavbarThemeToggle";
 
 function Navbar() {
   return (
-    <nav className="relative md:rounded-tr-nav md:rounded-br-nav h-20 w-full flex justify-between md:h-screen md:w-[103px] md:flex-col bg-uiBgDT">
+    <nav className="relative flex h-20 w-full justify-between bg-uiBgDT md:h-screen md:w-[103px] md:flex-col md:rounded-br-nav md:rounded-tr-nav">
       <NavLogo />
       <NavbarSectionContainer>
         <NavbarSection>
@@ -16,7 +16,7 @@ function Navbar() {
           <NavbarButton aria-label="toggle profile menu">
             <img
               src="./images/image-avatar.jpg"
-              className="rounded-[inherit] w-full h-full"
+              className="h-full w-full rounded-[inherit]"
               alt=""
             />
           </NavbarButton>

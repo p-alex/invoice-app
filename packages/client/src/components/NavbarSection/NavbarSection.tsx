@@ -4,7 +4,7 @@ interface Props {
 
 function NavbarSection({ children }: Props) {
   return (
-    <div className="border-l first-of-type:border-none h-full w-auto md:h-auto md:w-full md:border-l-0 md:border-t border-borderDT flex items-center justify-center aspect-square md:first-of-type:border-none">
+    <div className="flex aspect-square h-full w-auto items-center justify-center border-l border-borderDT first-of-type:border-none md:h-auto md:w-full md:border-l-0 md:border-t md:first-of-type:border-none">
       {children}
     </div>
   );
