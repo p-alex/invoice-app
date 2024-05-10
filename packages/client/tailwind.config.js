@@ -10,6 +10,8 @@ export default {
       colors: {
         primary: "#7C5DFA",
         primaryLight: "#9277FF",
+        danger: "#EC5757",
+        dangerLight: "#FF9797",
         textLT: "#0C0E16",
         textDT: "#FFFFFF",
         btnBgLT: "#F9FAFE",

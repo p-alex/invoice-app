@@ -1,6 +1,6 @@
 import Layout from "../components/Layout";
 import { PlusIcon } from "../svgs";
-import { Button, PrimaryButton } from "../ui";
+import { Button, DangerButton, PrimaryButton } from "../ui";
 
 function InvoicesPage() {
   return (
@@ -9,6 +9,7 @@ function InvoicesPage() {
         <Button>Save as draft</Button>
         <PrimaryButton>Mark as Paid</PrimaryButton>
         <PrimaryButton icon={<PlusIcon className="text-primary" />}>New Invoice</PrimaryButton>
+        <DangerButton>Delete</DangerButton>
       </div>
     </Layout>
   );
