@@ -8,18 +8,14 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 function InputGroup({ label, error, ...inputProps }: Props) {
   const isError = typeof error === "string";
 
-  const borderColor = isError ? "border-danger" : "border-[#DFE3FA]";
+  const borderColor = isError ? "border-danger" : "border-borderLT dark:border-borderDT";
 
   return (
     <div className={`flex flex-col gap-2 ${inputProps.disabled ? "opacity-75" : ""}`}>
       <label className="text-sm font-medium text-muted" htmlFor={inputProps.id}>
         {label}
       </label>
-      <input
-        type="text"
-        {...inputProps}
-        className={`block h-12 w-full rounded-[4px] border ${borderColor} bg-white px-5 py-4 font-bold text-black outline-none focus:border-primary disabled:cursor-not-allowed dark:border-[#252945] dark:bg-[#1E2139] dark:text-white`}
-      />
+      <input type="text" {...inputProps} className={`field ${borderColor}`} />
       {error && <p className="text-sm text-danger">{error}</p>}
     </div>
   );

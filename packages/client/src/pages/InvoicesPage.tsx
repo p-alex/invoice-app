@@ -1,6 +1,6 @@
 import Layout from "../components/Layout";
 import { PlusIcon } from "../svgs";
-import { Button, DangerButton, InputGroup, PrimaryButton } from "../ui";
+import { Button, DangerButton, InputGroup, PrimaryButton, SelectGroup } from "../ui";
 
 function InvoicesPage() {
   return (
@@ -10,7 +10,14 @@ function InvoicesPage() {
         <PrimaryButton>Mark as Paid</PrimaryButton>
         <PrimaryButton icon={<PlusIcon className="text-primary" />}>New Invoice</PrimaryButton>
         <DangerButton>Delete</DangerButton>
-        <InputGroup label="Street Address" id="street" />
+        <InputGroup error="error" label="Street Address" id="street" />
+        <SelectGroup
+          id="test"
+          label="Select Group"
+          error="hello"
+          options={["test", "hello", "world"]}
+          onChange={(option) => option}
+        />
       </div>
     </Layout>
   );
