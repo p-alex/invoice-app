@@ -12,7 +12,7 @@ export default {
         primaryLight: "#9277FF",
         danger: "#EC5757",
         dangerLight: "#FF9797",
-        muted: "#888EB0",
+        muted: "#7E88C3",
         borderDT: "#494E6E",
         siteBgDT: "#141625",
         siteBgLT: "#F8F8FB",
