@@ -8,5 +8,5 @@ body {
 }
 
 .field {
-  @apply h-12 w-full rounded-[4px] border bg-white px-5 py-4 font-bold text-black outline-none focus:border-primary disabled:cursor-not-allowed dark:bg-[#1E2139] dark:text-white;
+  @apply h-fieldHeight w-full rounded-[4px] border bg-white px-5 py-4 font-bold text-black outline-none focus:border-primary disabled:cursor-not-allowed dark:bg-[#1E2139] dark:text-white;
 }

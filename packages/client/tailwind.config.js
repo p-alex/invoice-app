@@ -7,6 +7,9 @@ export default {
       borderRadius: {
         nav: "20px",
       },
+      height: {
+        fieldHeight: "48px",
+      },
       colors: {
         primary: "#7C5DFA",
         primaryLight: "#9277FF",

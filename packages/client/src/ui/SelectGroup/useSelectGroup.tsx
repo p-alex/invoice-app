@@ -12,11 +12,7 @@ function useSelectGroup({ id, options, onChange, value }: SelectGroupProps) {
 
   const handleToggle = () => setIsActive((prev) => !prev);
 
-  const handleDeactivate = () => {
-    setIsActive(false);
-
-    document.getElementById(id)?.focus();
-  };
+  const handleDeactivate = () => setIsActive(false);
 
   useHideWhenClickOutside({ containerId: selectGroupId, hideFunc: handleDeactivate });
 
@@ -29,7 +25,10 @@ function useSelectGroup({ id, options, onChange, value }: SelectGroupProps) {
   };
 
   const handleDeactivateOnEscPress = (event: KeyboardEvent) => {
-    if (event.key === "Escape") handleDeactivate();
+    if (event.key === "Escape") {
+      handleDeactivate();
+      document.getElementById(id)?.focus();
+    }
   };
 
   useEffect(() => {

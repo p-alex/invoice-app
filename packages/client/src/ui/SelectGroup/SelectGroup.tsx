@@ -24,7 +24,7 @@ function SelectGroup(props: SelectGroupProps) {
   const borderColor = isError ? "border-danger" : "border-borderLT dark:border-borderDT";
 
   return (
-    <div className="flex flex-col gap-6 rounded-[4px]" id={selectGroupId}>
+    <div className="relative flex flex-col gap-6 rounded-[4px]" id={selectGroupId}>
       <div className="flex flex-col gap-2">
         {props.label && (
           <label htmlFor={props.id} className="text-sm font-medium text-muted">
@@ -42,7 +42,7 @@ function SelectGroup(props: SelectGroupProps) {
       </div>
 
       {isActive && props.options.length > 0 && (
-        <ul className="flex w-full flex-col rounded-[inherit] bg-uiBgLT dark:bg-uiBgDT">
+        <ul className="absolute top-28 flex w-full flex-col rounded-[inherit] bg-uiBgLT dark:bg-uiBgDT">
           <FocusTrap element={lastFocusableElement} />
           {props.options.map((option, index) => {
             return (
