@@ -12,7 +12,8 @@ export interface SelectGroupProps {
 }
 
 function SelectGroup(props: SelectGroupProps) {
-  const { isActive, selectedOption, handleToggle, handleChange } = useSelectGroup(props);
+  const { isActive, selectedOption, handleToggle, handleChange, selectGroupId } =
+    useSelectGroup(props);
 
   const firstFocusableElement = useRef<HTMLButtonElement>(null);
 
@@ -23,7 +24,7 @@ function SelectGroup(props: SelectGroupProps) {
   const borderColor = isError ? "border-danger" : "border-borderLT dark:border-borderDT";
 
   return (
-    <div className="flex flex-col gap-6 rounded-[4px]">
+    <div className="flex flex-col gap-6 rounded-[4px]" id={selectGroupId}>
       <div className="flex flex-col gap-2">
         {props.label && (
           <label htmlFor={props.id} className="text-sm font-medium text-muted">
