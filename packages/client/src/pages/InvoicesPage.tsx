@@ -1,3 +1,4 @@
+import Calendar from "../components/Calendar";
 import Layout from "../components/Layout";
 import { PlusIcon } from "../svgs";
 import { Button, DangerButton, InputGroup, PrimaryButton, SelectGroup } from "../ui";
@@ -19,6 +20,7 @@ function InvoicesPage() {
           onChange={(option) => option}
         />
       </div>
+      <Calendar onChange={(date) => console.log(date)} />
     </Layout>
   );
 }
