@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SelectGroupProps } from "./SelectGroup";
-import createRandomId from "../../utils/createRandomId";
 import useHideWhenClickOutside from "../../hooks/useHideWhenClickOutside";
 
 function useSelectGroup({ id, options, onChange, value }: SelectGroupProps) {
-  const selectGroupId = createRandomId();
+  const selectGroupContainerRef = useRef<HTMLDivElement>(null);
+
+  const selectGroupToggleRef = useRef<HTMLButtonElement>(null);
 
   const [isActive, setIsActive] = useState(false);
 
@@ -14,7 +15,7 @@ function useSelectGroup({ id, options, onChange, value }: SelectGroupProps) {
 
   const handleDeactivate = () => setIsActive(false);
 
-  useHideWhenClickOutside({ containerId: selectGroupId, hideFunc: handleDeactivate });
+  useHideWhenClickOutside({ containerRef: selectGroupContainerRef, hideFunc: handleDeactivate });
 
   const handleChange = (option: string) => {
     onChange(option);
@@ -25,8 +26,12 @@ function useSelectGroup({ id, options, onChange, value }: SelectGroupProps) {
   };
 
   const handleDeactivateOnEscPress = (event: KeyboardEvent) => {
-    if (event.key === "Escape") {
+    if (
+      event.key === "Escape" &&
+      selectGroupContainerRef.current!.contains(document.activeElement)
+    ) {
       handleDeactivate();
+      console.log("here");
       document.getElementById(id)?.focus();
     }
   };
@@ -39,7 +44,14 @@ function useSelectGroup({ id, options, onChange, value }: SelectGroupProps) {
     };
   }, []);
 
-  return { isActive, selectedOption, handleToggle, handleChange, selectGroupId };
+  return {
+    isActive,
+    selectedOption,
+    handleToggle,
+    handleChange,
+    selectGroupContainerRef,
+    selectGroupToggleRef,
+  };
 }
 
 export default useSelectGroup;

@@ -1,29 +1,27 @@
 import { useCallback, useEffect } from "react";
 
 interface Props {
-  containerId: string;
+  containerRef: React.RefObject<HTMLElement>;
   hideFunc: () => void;
 }
 
-function useHideWhenClickOutside({ containerId, hideFunc }: Props) {
+function useHideWhenClickOutside({ containerRef, hideFunc }: Props) {
   const handleCloseWhenClickOutside = useCallback(
-    (container: HTMLElement) => (event: MouseEvent) => {
-      if (!container) return;
+    (event: MouseEvent) => {
+      if (!containerRef.current) return;
 
-      if (!container.contains(event.target as HTMLElement)) hideFunc();
+      if (!containerRef.current.contains(event.target as HTMLElement)) hideFunc();
     },
     [hideFunc],
   );
 
   useEffect(() => {
-    const container = document.getElementById(containerId) as HTMLElement;
-
-    document.addEventListener("click", handleCloseWhenClickOutside(container));
+    document.addEventListener("click", handleCloseWhenClickOutside);
 
     return () => {
-      document.removeEventListener("click", handleCloseWhenClickOutside(container));
+      document.removeEventListener("click", handleCloseWhenClickOutside);
     };
-  }, [containerId, handleCloseWhenClickOutside]);
+  }, [handleCloseWhenClickOutside]);
 
   return null;
 }

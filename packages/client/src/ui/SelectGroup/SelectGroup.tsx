@@ -12,8 +12,14 @@ export interface SelectGroupProps {
 }
 
 function SelectGroup(props: SelectGroupProps) {
-  const { isActive, selectedOption, handleToggle, handleChange, selectGroupId } =
-    useSelectGroup(props);
+  const {
+    isActive,
+    selectedOption,
+    handleToggle,
+    handleChange,
+    selectGroupContainerRef,
+    selectGroupToggleRef,
+  } = useSelectGroup(props);
 
   const firstFocusableElement = useRef<HTMLButtonElement>(null);
 
@@ -24,7 +30,7 @@ function SelectGroup(props: SelectGroupProps) {
   const borderColor = isError ? "border-danger" : "border-borderLT dark:border-borderDT";
 
   return (
-    <div className="relative flex flex-col gap-6 rounded-[4px]" id={selectGroupId}>
+    <div className="relative flex flex-col gap-6 rounded-[4px]" ref={selectGroupContainerRef}>
       <div className="flex flex-col gap-2">
         {props.label && (
           <label htmlFor={props.id} className="text-sm font-medium text-muted">
@@ -35,6 +41,7 @@ function SelectGroup(props: SelectGroupProps) {
           className={`field ${borderColor} flex items-center justify-between`}
           id={props.id}
           onClick={handleToggle}
+          ref={selectGroupToggleRef}
         >
           {selectedOption} <img src="./images/icon-arrow-down.svg" width={11} height={7} alt="" />
         </button>
