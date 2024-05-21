@@ -63,10 +63,6 @@ function useCalendar({ date, onChange }: Props) {
   const handleResetSteps = () => setStep(CalendarSteps["ChooseYear"]);
 
   useEffect(() => {
-    onChange(new Date(currentDate.year, currentDate.month - 1, currentDate.day));
-  }, [currentDate.day]);
-
-  useEffect(() => {
     const currentNumOfDaysInMonth = getMonthTotalDays({
       year: currentDate.year,
       month: currentDate.month,
@@ -76,6 +72,10 @@ function useCalendar({ date, onChange }: Props) {
       setCurrentDate((prevState) => ({ ...prevState, day: currentNumOfDaysInMonth }));
     }
   }, [currentDate.month, currentDate.year]);
+
+  useEffect(() => {
+    onChange(new Date(currentDate.year, currentDate.month - 1, currentDate.day));
+  }, [currentDate.day]);
 
   return {
     step,

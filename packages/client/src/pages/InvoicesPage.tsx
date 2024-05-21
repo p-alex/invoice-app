@@ -1,7 +1,8 @@
-import Calendar from "../components/Calendar";
 import Layout from "../components/Layout";
 import { PlusIcon } from "../svgs";
 import { Button, DangerButton, InputGroup, PrimaryButton, SelectGroup } from "../ui";
+import DateGroup from "../ui/DateGroup/DateGroup";
+import createRandomId from "../utils/createRandomId";
 
 function InvoicesPage() {
   return (
@@ -19,8 +20,14 @@ function InvoicesPage() {
           options={["test", "hello", "world"]}
           onChange={(option) => option}
         />
+        <DateGroup
+          label="Issue date"
+          error="error"
+          id={createRandomId()}
+          date={new Date(Date.now())}
+          onChange={(date) => console.log(date)}
+        />
       </div>
-      <Calendar onChange={(date) => console.log(date)} />
     </Layout>
   );
 }

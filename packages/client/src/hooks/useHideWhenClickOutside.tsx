@@ -12,7 +12,7 @@ function useHideWhenClickOutside({ containerRef, hideFunc }: Props) {
 
       if (!containerRef.current.contains(event.target as HTMLElement)) hideFunc();
     },
-    [hideFunc],
+    [hideFunc, containerRef],
   );
 
   useEffect(() => {

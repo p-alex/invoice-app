@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { SelectGroupProps } from "./SelectGroup";
 import useHideWhenClickOutside from "../../hooks/useHideWhenClickOutside";
 
-function useSelectGroup({ id, options, onChange, value }: SelectGroupProps) {
+function useSelectGroup({ options, onChange, value }: SelectGroupProps) {
   const selectGroupContainerRef = useRef<HTMLDivElement>(null);
 
   const selectGroupToggleRef = useRef<HTMLButtonElement>(null);
@@ -31,8 +31,7 @@ function useSelectGroup({ id, options, onChange, value }: SelectGroupProps) {
       selectGroupContainerRef.current!.contains(document.activeElement)
     ) {
       handleDeactivate();
-      console.log("here");
-      document.getElementById(id)?.focus();
+      selectGroupToggleRef.current!.focus();
     }
   };
 
