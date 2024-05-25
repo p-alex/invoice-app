@@ -1,33 +1,57 @@
+import InvoiceFilter from "./InvoiceFilter";
 import Layout from "../components/Layout";
 import { PlusIcon } from "../svgs";
-import { Button, DangerButton, InputGroup, PrimaryButton, SelectGroup } from "../ui";
-import DateGroup from "../ui/DateGroup/DateGroup";
-import createRandomId from "../utils/createRandomId";
+import { PrimaryButton } from "../ui";
+import InvoiceList from "./InvoiceList";
+import useIsWindowSizeLowerThan from "../hooks/useIsWindowSizeLowerThan";
+import { useState } from "react";
+
+export interface IInvoiceFilters {
+  draft: boolean;
+  pending: boolean;
+  paid: boolean;
+}
+
+export type InvoiceFilterType = keyof IInvoiceFilters;
 
 function InvoicesPage() {
+  const invoices = [] as unknown[];
+
+  const [invoiceFilters, setInvoiceFilters] = useState<IInvoiceFilters>({
+    draft: false,
+    pending: false,
+    paid: false,
+  });
+
+  const handleSetInvoiceFilter = (filter: InvoiceFilterType, isChecked: boolean) => {
+    setInvoiceFilters((prevState) => ({ ...prevState, [filter]: isChecked }));
+  };
+
+  const isMobileSize = useIsWindowSizeLowerThan(640);
+
   return (
     <Layout>
-      <div className="grid grid-cols-2 gap-4">
-        <Button>Save as draft</Button>
-        <PrimaryButton>Mark as Paid</PrimaryButton>
-        <PrimaryButton icon={<PlusIcon className="text-primary" />}>New Invoice</PrimaryButton>
-        <DangerButton>Delete</DangerButton>
-        <InputGroup error="error" label="Street Address" id="street" />
-        <SelectGroup
-          id="test"
-          label="Select Group"
-          error="hello"
-          options={["test", "hello", "world"]}
-          onChange={(option) => option}
-        />
-        <DateGroup
-          label="Issue date"
-          error="error"
-          id={createRandomId()}
-          date={new Date(Date.now())}
-          onChange={(date) => console.log(date)}
-        />
-      </div>
+      <section>
+        <header className="mb-14 flex flex-col items-center justify-between gap-7 text-center sm:flex-row sm:text-start">
+          <div className="flex flex-col gap-2">
+            <h1 className="text-4xl font-bold text-textLT dark:text-textDT">Invoices</h1>
+            <p className="font-medium text-muted ">No invoices</p>
+          </div>
+          <div className="flex items-center gap-5 sm:gap-10">
+            <InvoiceFilter
+              invoiceFilters={invoiceFilters}
+              handleSetInvoiceFilter={handleSetInvoiceFilter}
+            >
+              {isMobileSize ? "Filter" : "Filter by status"}
+            </InvoiceFilter>
+            <PrimaryButton icon={<PlusIcon />}>
+              {isMobileSize ? "New" : "New Invoice"}
+            </PrimaryButton>
+          </div>
+        </header>
+
+        <InvoiceList invoices={invoices} />
+      </section>
     </Layout>
   );
 }

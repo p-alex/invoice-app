@@ -15,7 +15,9 @@ function PrimaryButton({ children, icon, ...btnProps }: Props) {
       className={`flex h-12 w-max items-center gap-4 font-bold transition-colors ${paddingX} dark:text-buttonTextDarkTheme dark:hover:text-btnTextDT rounded-[500px] bg-primary py-[18px] text-white hover:bg-primaryLight`}
     >
       {icon && (
-        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white">{icon}</div>
+        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-primary">
+          {icon}
+        </div>
       )}
       {children}
     </button>
