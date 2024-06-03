@@ -7,7 +7,6 @@ function NavLogo() {
         alt=""
       />
       <div className="absolute bottom-0 left-0 h-[50%] w-full rounded-br-[inherit] rounded-tl-[20px] bg-primaryLight"></div>
-      <div></div>
     </div>
   );
 }
