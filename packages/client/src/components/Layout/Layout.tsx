@@ -6,7 +6,7 @@ interface Props {
 
 function Layout({ children }: Props) {
   return (
-    <div className="relative flex flex-col md:flex-row">
+    <div className="relative flex flex-col md:ml-[103px] md:flex-row">
       <Navbar />
       <main className="relative mx-auto mt-[32px] max-[880px]:mx-6 sm:mt-[61px] md:mt-[77px] md:w-full md:max-w-[730px]">
         {children}

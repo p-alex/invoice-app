@@ -6,7 +6,7 @@ import NavbarThemeToggle from "../NavbarThemeToggle";
 
 function Navbar() {
   return (
-    <nav className="relative flex h-20 w-full justify-between bg-uiBgDT md:h-screen md:w-[103px] md:flex-col md:rounded-br-nav md:rounded-tr-nav">
+    <nav className="relative flex h-20 w-full justify-between bg-uiBgDT md:fixed md:left-0 md:top-0  md:h-screen md:w-[103px] md:flex-col md:rounded-br-nav md:rounded-tr-nav">
       <NavLogo />
       <NavbarSectionContainer>
         <NavbarSection>
