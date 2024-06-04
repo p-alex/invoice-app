@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 function useIsWindowSizeLowerThan(size: number) {
   const [isLower, setIsLower] = useState(false);
@@ -11,10 +11,17 @@ function useIsWindowSizeLowerThan(size: number) {
     }
   }, [size]);
 
+  const renderCount = useRef<number>(0);
+
   useEffect(() => {
+    if (renderCount.current === 0) handleResize();
+
     window.addEventListener("resize", handleResize);
+
     return () => {
       window.removeEventListener("resize", handleResize);
+
+      renderCount.current = renderCount.current + 1;
     };
   }, [handleResize]);
 
