@@ -7,8 +7,24 @@ export default {
       borderRadius: {
         nav: "20px",
       },
+      margin: {
+        navMdOffset: "113px",
+        navSmOffset: "80px",
+      },
+      left: {
+        navMdOffset: "113px",
+        navSmOffset: "80px",
+      },
+      top: {
+        navMdOffset: "113px",
+        navSmOffset: "80px",
+      },
+      width: {
+        navWidthMd: "113px",
+      },
       height: {
         fieldHeight: "48px",
+        navHeightSm: "80px",
       },
       colors: {
         primary: "#7C5DFA",
@@ -20,6 +36,8 @@ export default {
         borderDT: "#252945",
         siteBgDT: "#141625",
         siteBgLT: "#F8F8FB",
+        modalBgDT: "#141625",
+        modalBgLt: "#F8F8FB",
         textLT: "#0C0E16",
         textDT: "#FFFFFF",
         uiBgLT: "#FFFFFF",

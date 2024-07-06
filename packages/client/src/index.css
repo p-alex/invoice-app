@@ -10,3 +10,14 @@ body {
 .field {
   @apply h-fieldHeight w-full rounded-[4px] border bg-white px-5 py-4 font-bold text-black outline-none focus:border-primary disabled:cursor-not-allowed dark:bg-[#1E2139] dark:text-white;
 }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}

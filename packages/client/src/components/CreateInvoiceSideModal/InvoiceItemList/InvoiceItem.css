@@ -1,0 +1,17 @@
+.invoiceItemGrid {
+  display: grid;
+  align-content: center;
+  align-items: end;
+  gap: 16px;
+  grid-template-columns: 214px 75px 1fr 70px 25px;
+  grid-template-areas: "itemName quantity price total delete";
+}
+
+@media screen and (max-width: 640px) {
+  .invoiceItemGrid {
+    grid-template-columns: 1fr 1fr 70px 25px;
+    grid-template-areas:
+      "itemName itemName itemName itemName"
+      "quantity price total delete";
+  }
+}

@@ -12,11 +12,12 @@ function CalendarDayList({ currentYear, currentMonth, currentDay, onChange }: Pr
   const dayCount = getMonthTotalDays({ year: currentYear, month: currentMonth });
 
   return (
-    <ul data-testid="dayList" className="grid grid-cols-7 gap-1 text-sm">
+    <ul data-testid="dayList" className="relative grid w-full grid-cols-7 gap-1 text-sm">
       {[...Array(dayCount)].map((_, index) => {
         return (
           <li key={"choose-day-" + index + 1}>
             <button
+              type="button"
               data-testid={`dayBtn-${index + 1}`}
               className={`${currentDay === index + 1 ? "text-primary" : ""} flex w-full items-center justify-center gap-y-4 p-1`}
               onClick={() => onChange(index + 1)}

@@ -22,10 +22,11 @@ function Calendar({ date, onChange }: Props) {
   } = useCalendar({ date, onChange });
 
   return (
-    <div className="relative flex max-h-[260px] w-full max-w-[240px] flex-col rounded-[8px] bg-uiBgLT px-4 py-6 font-bold text-textLT shadow-lg dark:bg-uiBgDT dark:text-textDT">
+    <div className="relative flex max-h-[260px] w-[240px] flex-col rounded-[8px] bg-uiBgLT px-4 py-6 font-bold text-textLT shadow-lg dark:bg-uiBgDT dark:text-textDT">
       <div className="mx-auto mb-8 flex items-center gap-8 text-center">
         {step === CalendarSteps["ChooseDay"] && (
           <button
+            type="button"
             data-testid="prevMonthBtn"
             className="flex h-5 w-5 items-center justify-center"
             onClick={handlePrevMonth}
@@ -35,12 +36,13 @@ function Calendar({ date, onChange }: Props) {
           </button>
         )}
 
-        <button data-testid="fullDateBtn" onClick={handleResetSteps}>
+        <button type="button" data-testid="fullDateBtn" onClick={handleResetSteps}>
           {getPrettyDate(currentDate.year, currentDate.month, currentDate.day)}
         </button>
 
         {step === CalendarSteps["ChooseDay"] && (
           <button
+            type="button"
             data-testid="nextMonthBtn"
             className="flex h-5 w-5 items-center justify-center"
             onClick={handleNextMonth}

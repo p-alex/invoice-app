@@ -5,6 +5,8 @@ import { PrimaryButton } from "../ui";
 import InvoiceList from "./InvoiceList";
 import useIsWindowSizeLowerThan from "../hooks/useIsWindowSizeLowerThan";
 import { useState } from "react";
+import CreateInvoiceSideModal from "../components/CreateInvoiceSideModal";
+import VisibiltyToggleProvider from "../components/VisibilityToggleProvider";
 
 export interface IInvoiceFilters {
   draft: boolean;
@@ -31,27 +33,34 @@ function InvoicesPage() {
 
   return (
     <Layout>
-      <section>
-        <header className="mb-14 flex flex-col items-center justify-between gap-7 text-center sm:flex-row sm:text-start">
-          <div className="flex flex-col gap-2">
-            <h1 className="text-4xl font-bold text-textLT dark:text-textDT">Invoices</h1>
-            <p className="font-medium text-muted ">No invoices</p>
-          </div>
-          <div className="flex items-center gap-5 sm:gap-10">
-            <InvoiceFilter
-              invoiceFilters={invoiceFilters}
-              handleSetInvoiceFilter={handleSetInvoiceFilter}
-            >
-              {isMobileSize ? "Filter" : "Filter by status"}
-            </InvoiceFilter>
-            <PrimaryButton icon={<PlusIcon />}>
-              {isMobileSize ? "New" : "New Invoice"}
-            </PrimaryButton>
-          </div>
-        </header>
-
-        <InvoiceList invoices={invoices} />
-      </section>
+      <header className="mb-14 flex flex-col items-center justify-between gap-7 sm:flex-row">
+        <div className="flex flex-col gap-2 text-center sm:text-left">
+          <h1 className="text-4xl font-bold text-textLT dark:text-textDT">Invoices</h1>
+          <p className="font-medium text-muted">
+            {invoices.length === 0 ? "No Invoices" : `There are ${invoices.length} total invoices`}
+          </p>
+        </div>
+        <div className="flex items-center gap-5 sm:gap-10">
+          <InvoiceFilter
+            invoiceFilters={invoiceFilters}
+            handleSetInvoiceFilter={handleSetInvoiceFilter}
+          >
+            {isMobileSize ? "Filter" : "Filter by status"}
+          </InvoiceFilter>
+          <VisibiltyToggleProvider
+            toggle={({ toggleRef, handleToggleVisibilty }) => (
+              <PrimaryButton icon={<PlusIcon />} onClick={handleToggleVisibilty} ref={toggleRef}>
+                {isMobileSize ? "New" : "New Invoice"}
+              </PrimaryButton>
+            )}
+            content={({ handleToggleOffVisibilty }) => (
+              <CreateInvoiceSideModal handleCloseModal={handleToggleOffVisibilty} />
+            )}
+            hideWithEsc
+          />
+        </div>
+      </header>
+      <InvoiceList invoices={invoices} />
     </Layout>
   );
 }

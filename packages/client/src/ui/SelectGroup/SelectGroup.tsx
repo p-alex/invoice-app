@@ -30,7 +30,10 @@ function SelectGroup(props: SelectGroupProps) {
   const borderColor = isError ? "border-danger" : "border-borderLT dark:border-borderDT";
 
   return (
-    <div className="relative flex flex-col gap-6 rounded-[4px]" ref={selectGroupContainerRef}>
+    <div
+      className="relative flex w-full flex-col gap-6 rounded-[4px]"
+      ref={selectGroupContainerRef}
+    >
       <div className="flex flex-col gap-2">
         {props.label && (
           <label htmlFor={props.id} className="text-sm font-medium text-muted">
@@ -38,6 +41,7 @@ function SelectGroup(props: SelectGroupProps) {
           </label>
         )}
         <button
+          type="button"
           className={`field ${borderColor} flex items-center justify-between`}
           id={props.id}
           onClick={handleToggle}
@@ -49,11 +53,12 @@ function SelectGroup(props: SelectGroupProps) {
       </div>
 
       {isActive && props.options.length > 0 && (
-        <ul className="absolute top-28 flex w-full flex-col rounded-[inherit] bg-uiBgLT dark:bg-uiBgDT">
+        <ul className="absolute top-24 flex w-full flex-col rounded-lg bg-uiBgLT shadow-lg dark:bg-uiBgDT">
           <FocusTrap element={lastFocusableElement} />
           {props.options.map((option, index) => {
             return (
               <button
+                type="button"
                 className="last-of-type:border-b-none border-b border-b-borderLT px-6 py-3 text-left font-bold text-textLT dark:border-b-borderDT dark:text-textDT"
                 key={"select-group-option-" + option + index}
                 onClick={() => handleChange(option)}

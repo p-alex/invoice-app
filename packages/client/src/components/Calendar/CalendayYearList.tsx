@@ -8,11 +8,15 @@ function CalendayYearList({ currentYear, onChange }: Props) {
   const maxYear = new Date(Date.now()).getFullYear() + 101;
 
   return (
-    <ul data-testid="yearList" className="grid h-full grid-cols-3 gap-2 overflow-y-scroll text-sm">
+    <ul
+      data-testid="yearList"
+      className="grid h-full w-full grid-cols-3 gap-2 overflow-y-scroll text-sm"
+    >
       {[...Array(maxYear - minYear)].map((_, index) => {
         return (
           <li key={"choose-year-" + minYear + index}>
             <button
+              type="button"
               data-testid={`yearBtn-${minYear + index}`}
               className={`${currentYear === minYear + index ? "text-primary" : ""} flex w-full items-center justify-center`}
               onClick={() => onChange(minYear + index)}

@@ -54,7 +54,7 @@ function DateGroup(props: Props) {
   }, [currentDay]);
 
   return (
-    <div className="relative flex flex-col gap-6 rounded-[4px]" ref={dateGroupContainerRef}>
+    <div className="relative flex w-full flex-col gap-6 rounded-[4px]" ref={dateGroupContainerRef}>
       <div className="flex flex-col gap-2">
         {props.label && (
           <label htmlFor={props.id} className="text-sm font-medium text-muted">
@@ -62,6 +62,7 @@ function DateGroup(props: Props) {
           </label>
         )}
         <button
+          type="button"
           className={`field ${borderColor} flex items-center justify-between`}
           id={props.id}
           onClick={handleToggle}
@@ -74,7 +75,7 @@ function DateGroup(props: Props) {
         {props.error && <p className="text-medium text-sm text-danger">{props.error}</p>}
       </div>
       {isActive && (
-        <div data-testid="calendarContainer">
+        <div className="absolute top-24" data-testid="calendarContainer">
           <Calendar date={date} onChange={handleSetDate} />
         </div>
       )}
