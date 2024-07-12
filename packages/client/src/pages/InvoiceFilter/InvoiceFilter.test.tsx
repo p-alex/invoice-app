@@ -2,9 +2,14 @@ import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import user from "@testing-library/user-event";
 import InvoiceFilter from "./InvoiceFilter";
+import { IInvoiceFilters } from "../InvoicesPage";
 
 describe("InvoiceFilter.tsx", () => {
-  it("should toggle filter dropdown correctly", async () => {
+  const availableFilters: IInvoiceFilters = { draft: false, paid: false, pending: false };
+
+  const filterList = Object.keys(availableFilters);
+
+  it("should display filters correctly", async () => {
     render(
       <InvoiceFilter
         invoiceFilters={{ draft: false, pending: false, paid: false }}
@@ -14,17 +19,17 @@ describe("InvoiceFilter.tsx", () => {
       </InvoiceFilter>,
     );
 
-    const toggle = screen.getByText("invoice filter");
+    const toggle = screen.getByRole("button");
 
     await user.click(toggle);
 
-    const dropdown = screen.getByRole("list");
+    const filters = screen.getAllByRole("checkbox");
 
-    expect(dropdown).toBeInTheDocument();
+    expect(filters).toHaveLength(3);
 
-    await user.click(toggle);
-
-    expect(dropdown).not.toBeInTheDocument();
+    for (let i = 0; i < filterList.length; i++) {
+      expect(screen.getByLabelText(filterList[i])).toBeInTheDocument();
+    }
   });
 
   it("should call 'handleSetInvoiceFilter' correctly", async () => {

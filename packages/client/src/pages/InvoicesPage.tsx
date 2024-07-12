@@ -48,15 +48,24 @@ function InvoicesPage() {
             {isMobileSize ? "Filter" : "Filter by status"}
           </InvoiceFilter>
           <VisibiltyToggleProvider
-            toggle={({ toggleRef, handleToggleVisibilty }) => (
-              <PrimaryButton icon={<PlusIcon />} onClick={handleToggleVisibilty} ref={toggleRef}>
+            toggle={(props) => (
+              <PrimaryButton
+                icon={<PlusIcon />}
+                onClick={props.handleToggleVisibilty}
+                ref={props.toggleRef}
+              >
                 {isMobileSize ? "New" : "New Invoice"}
               </PrimaryButton>
             )}
-            content={({ handleToggleOffVisibilty }) => (
-              <CreateInvoiceSideModal handleCloseModal={handleToggleOffVisibilty} />
+            content={(props) => (
+              <CreateInvoiceSideModal
+                handleCloseModal={props.handleToggleOffVisibilty}
+                firstFocusableButtonRef={props.firstFocusableButtonRef}
+                lastFocusableButtonRef={props.lastFocusableButtonRef}
+              />
             )}
-            hideWithEsc
+            trapFocus
+            disableScroll
           />
         </div>
       </header>

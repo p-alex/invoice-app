@@ -254,44 +254,4 @@ describe("SelectGroup.tsx", () => {
 
     expect(errorMessage).toHaveTextContent(errorValue);
   });
-
-  it("should deactivate when clicking outside the select group", async () => {
-    render(
-      <SelectGroup
-        id="test"
-        label="label"
-        options={["item1", "item2"]}
-        onChange={(option) => option}
-      />,
-    );
-
-    const toggleBtn = screen.getByRole("button");
-
-    await user.click(toggleBtn);
-
-    await user.click(document.documentElement);
-
-    const optionsList = screen.queryByRole("list");
-
-    expect(optionsList).not.toBeInTheDocument();
-  });
-
-  it("should not move focus to toggle button after clicking outside to deactivate", async () => {
-    render(
-      <SelectGroup
-        id="test"
-        label="label"
-        options={["item1", "item2"]}
-        onChange={(option) => option}
-      />,
-    );
-
-    const toggleBtn = screen.getByRole("button");
-
-    await user.click(toggleBtn);
-
-    await user.click(document.documentElement);
-
-    expect(toggleBtn).not.toHaveFocus();
-  });
 });

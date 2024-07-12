@@ -1,14 +1,13 @@
-import { useEffect } from "react";
-
 function useDisableScroll() {
-  useEffect(() => {
+  const disableScroll = () => {
     document.body.style.overflowY = "hidden";
-    return () => {
-      document.body.style.overflowY = "scroll";
-    };
-  }, []);
+  };
 
-  return null;
+  const enableScroll = () => {
+    document.body.style.overflowY = "scroll";
+  };
+
+  return { disableScroll, enableScroll };
 }
 
 export default useDisableScroll;
