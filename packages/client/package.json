@@ -11,12 +11,13 @@
     "format": "prettier --ignore-path .gitignore --write \"**/*.{ts,tsx,css,scss}\"",
     "test": "jest ./src",
     "test:coverage": "jest --coverage",
-    "test:watch": "jest --watchAll",
+    "test:watch": "jest --watchAll --coverage",
     "pre-commit": "lint-staged"
   },
   "dependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.5",
