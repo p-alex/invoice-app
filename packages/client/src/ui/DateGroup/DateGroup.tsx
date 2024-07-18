@@ -6,15 +6,17 @@ import VisibiltyToggleProvider from "../../components/VisibilityToggleProvider";
 interface Props {
   label: string;
   id: string;
-  date?: Date;
+  dateInUTCFormat?: string;
   error?: string;
-  onChange: (date: Date) => void;
+  onChange: (dateInUTCFormat: string) => void;
 }
 
 function DateGroup(props: Props) {
   const dateGroupContainerRef = useRef<HTMLDivElement>(null);
 
-  const [date, setDate] = useState<Date>(props.date ? props.date : new Date(Date.now()));
+  const [date, setDate] = useState<Date>(
+    props.dateInUTCFormat ? new Date(props.dateInUTCFormat) : new Date(Date.now()),
+  );
 
   const currentDay = date.getDate();
 
@@ -27,10 +29,8 @@ function DateGroup(props: Props) {
   };
 
   useEffect(() => {
-    props.onChange(date);
+    props.onChange(date.toUTCString());
   }, [currentDay]);
-
-  // TODO: add visibility toggle to dategroup
 
   return (
     <div className="relative flex w-full flex-col gap-6 rounded-[4px]" ref={dateGroupContainerRef}>
@@ -62,7 +62,6 @@ function DateGroup(props: Props) {
               <Calendar date={date} onChange={handleSetDate} />
             </div>
           )}
-          hideWhenClickOutside
           hideWithEsc
         />
       </div>
