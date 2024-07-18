@@ -98,11 +98,7 @@ function CreateInvoiceSideModal({
           <InputGroup label="Project Description" id="projectDescription" error={undefined} />
         </FormSection>
         <FormSection title="Item List">
-          <InvoiceItemList
-            currentInvoiceId={invoiceId.current}
-            invoices={[]}
-            onChange={(invoiceItemList) => console.log(invoiceItemList)}
-          />
+          <InvoiceItemList currentInvoiceId={invoiceId.current} />
         </FormSection>
         <div className="flex justify-end gap-2">
           <div className="flex gap-2">
