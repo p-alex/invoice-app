@@ -2,12 +2,12 @@ import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import user from "@testing-library/user-event";
 import InvoiceItem from "./InvoiceItem";
-import { IInvoiceItem } from "../../../entities/InvoiceItem";
+import { InvoiceItemType } from "../../../entities/InvoiceItem";
 
-const testInvoiceItem: IInvoiceItem = {
+const testInvoiceItem: InvoiceItemType = {
   id: "testId",
   invoiceId: "testInvoiceId",
-  name: "testName",
+  name: "",
   price: 10,
   quantity: 10,
 };
@@ -69,9 +69,9 @@ describe("InvoiceItemList.tsx", () => {
 
     const itemNameField = screen.getByLabelText(/item name/i);
 
-    await user.type(itemNameField, "name");
+    await user.type(itemNameField, "n");
 
-    expect(changeFunc).toHaveBeenCalledWith("name", testInvoiceItem.id, "name");
+    expect(changeFunc).toHaveBeenCalledWith("n", testInvoiceItem.id, "name");
 
     const quantityField = screen.getByLabelText(/qty/i);
 

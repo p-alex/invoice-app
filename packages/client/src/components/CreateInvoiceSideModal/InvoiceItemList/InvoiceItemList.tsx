@@ -1,16 +1,17 @@
 import InvoiceItem from "./InvoiceItem";
 import { Button } from "../../../ui";
 import useInvoiceItemList from "./useInvoiceItemList";
-import { IInvoiceItem } from "../../../entities/InvoiceItem";
 import createRandomId from "../../../utils/createRandomId";
+import { InvoiceItemType } from "../../../entities/InvoiceItem";
 
-export interface IInvoiceItemListProps {
+export interface InvoiceItemTypeListProps {
   currentInvoiceId: string;
-  invoices: IInvoiceItem[];
-  onChange: (invoiceItemList: IInvoiceItem[]) => void;
+  list: InvoiceItemType[];
+  onChange: (invoiceItemList: InvoiceItemType[]) => void;
+  error?: string;
 }
 
-function InvoiceItemList(props: IInvoiceItemListProps) {
+function InvoiceItemList(props: InvoiceItemTypeListProps) {
   const {
     currentInvoiceItems,
     handleAddInvoiceItem,
@@ -39,6 +40,8 @@ function InvoiceItemList(props: IInvoiceItemListProps) {
       >
         + Add New Item
       </Button>
+
+      {props.error && <p className="text-danger">{props.error}</p>}
     </div>
   );
 }

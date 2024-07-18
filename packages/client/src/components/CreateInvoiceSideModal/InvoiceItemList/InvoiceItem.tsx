@@ -1,12 +1,12 @@
-import { IInvoiceItem } from "../../../entities/InvoiceItem";
 import { TrashIcon } from "../../../svgs";
 import { InputGroup } from "../../../ui";
 import { HandleChangeInvoiceItem } from "./useInvoiceItemList";
 import "./InvoiceItem.css";
+import { InvoiceItemType } from "../../../entities/InvoiceItem";
 
 interface Props {
   invoiceItemIndex: number;
-  invoiceItem: IInvoiceItem;
+  invoiceItem: InvoiceItemType;
   handleDeleteInvoiceItem: (id: string) => void;
   handleChangeInvoiceItem: HandleChangeInvoiceItem;
 }
@@ -23,6 +23,7 @@ function InvoiceItem({
         <InputGroup
           id={`itemName${invoiceItemIndex}`}
           label="Item name"
+          value={invoiceItem.name}
           onChange={(event) => handleChangeInvoiceItem(event.target.value, invoiceItem.id, "name")}
         />
       </div>
