@@ -7,6 +7,9 @@ import useIsWindowSizeLowerThan from "../hooks/useIsWindowSizeLowerThan";
 import { useState } from "react";
 import CreateInvoiceSideModal from "../components/CreateInvoiceSideModal";
 import VisibiltyToggleProvider from "../components/VisibilityToggleProvider";
+import { useInvoiceEndpoint } from "../endpoints";
+import { InvoiceType } from "../entities/Invoice";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 export interface IInvoiceFilters {
   draft: boolean;
@@ -17,6 +20,22 @@ export interface IInvoiceFilters {
 export type InvoiceFilterType = keyof IInvoiceFilters;
 
 function InvoicesPage() {
+  const localStorage = useLocalStorage();
+
+  const { createInvoice } = useInvoiceEndpoint();
+
+  const handleSaveDraft = (invoice: InvoiceType) => {
+    localStorage.setItem("draft", invoice);
+  };
+
+  const handleRemoveDraft = (invoiceId: string) => {
+    const currentDraft = localStorage.getItem<InvoiceType>("draft");
+
+    if (!currentDraft) return;
+
+    if (currentDraft.id === invoiceId) localStorage.removeItem("draft");
+  };
+
   const invoices = [] as unknown[];
 
   const [invoiceFilters, setInvoiceFilters] = useState<IInvoiceFilters>({
@@ -60,6 +79,9 @@ function InvoicesPage() {
             content={(props) => (
               <CreateInvoiceSideModal
                 handleCloseModal={props.handleToggleOffVisibilty}
+                handleCreateInvoice={createInvoice}
+                handleSaveDraft={handleSaveDraft}
+                handleRemoveDraft={handleRemoveDraft}
                 firstFocusableButtonRef={props.firstFocusableButtonRef}
                 lastFocusableButtonRef={props.lastFocusableButtonRef}
               />

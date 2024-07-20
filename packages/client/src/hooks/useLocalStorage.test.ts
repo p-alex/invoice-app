@@ -3,11 +3,7 @@ import { act, renderHook } from "@testing-library/react";
 import useLocalStorage from "./useLocalStorage";
 
 describe("useLocalStorage.tsx", () => {
-  beforeAll(() => {
-    window.localStorage.clear();
-  });
-
-  afterEach(() => {
+  beforeEach(() => {
     window.localStorage.clear();
   });
 

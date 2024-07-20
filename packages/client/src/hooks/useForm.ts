@@ -36,8 +36,8 @@ function useForm<TState extends object>(state: TState, zodSchema: ZodSchema) {
     setFormState((prevState) => ({ ...prevState, [name]: option }));
   };
 
-  const handleDateChange = (dateInUTCFormat: string, name: keyof TState) => {
-    setFormState((prevState) => ({ ...prevState, [name]: dateInUTCFormat }));
+  const handleDateChange = (invoiceUTCDate: string, name: keyof TState) => {
+    setFormState((prevState) => ({ ...prevState, [name]: invoiceUTCDate }));
   };
 
   const handleArrayOfObjectsChange = <TArray>(list: TArray, name: keyof TState) => {
@@ -116,9 +116,9 @@ function useForm<TState extends object>(state: TState, zodSchema: ZodSchema) {
   });
 
   const registerDateInput = (name: keyof TState) => ({
-    date: formState[name] as Date,
+    date: formState[name],
     error: fieldErrors[name],
-    onChange: (dateInUTCFormat: string) => handleDateChange(dateInUTCFormat, name),
+    onChange: (invoiceUTCDate: string) => handleDateChange(invoiceUTCDate, name),
   });
 
   const registerListOfObjects = <TArray>(name: keyof TState) => ({

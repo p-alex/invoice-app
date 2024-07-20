@@ -13,7 +13,7 @@ export const invoiceSchema = z.object({
   to_city: z.string().min(1, "Can't be blank"),
   to_postCode: z.string().min(1, "Can't be blank"),
   to_country: z.string().min(1, "Can't be blank"),
-  invoiceDate: z.string().min(1, "Can't be blank"),
+  invoiceDate: z.string(),
   paymentTerms: z.enum(["Net 1 Day", "Net 7 Days", "Net 14 Days", "Net 30 Days"]),
   projectDescription: z.string().min(1, "Can't be blank"),
   invoiceItemList: z.array(invoiceItemSchema).min(1, "No invoice item added"),

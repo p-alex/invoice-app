@@ -6,17 +6,15 @@ import VisibiltyToggleProvider from "../../components/VisibilityToggleProvider";
 interface Props {
   label: string;
   id: string;
-  dateInUTCFormat?: string;
+  utcDate?: string;
   error?: string;
-  onChange: (dateInUTCFormat: string) => void;
+  onChange: (utcDate: string) => void;
 }
 
 function DateGroup(props: Props) {
   const dateGroupContainerRef = useRef<HTMLDivElement>(null);
 
-  const [date, setDate] = useState<Date>(
-    props.dateInUTCFormat ? new Date(props.dateInUTCFormat) : new Date(Date.now()),
-  );
+  const [date, setDate] = useState<Date>(props.utcDate ? new Date(props.utcDate) : new Date());
 
   const currentDay = date.getDate();
 

@@ -11,7 +11,7 @@
     "format": "prettier --ignore-path .gitignore --write \"**/*.{ts,tsx,css,scss}\"",
     "test": "jest ./src",
     "test:coverage": "jest --coverage",
-    "test:watch": "jest --watchAll --coverage",
+    "test:watch": "jest --watchAll",
     "pre-commit": "lint-staged"
   },
   "dependencies": {
