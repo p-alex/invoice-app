@@ -4,14 +4,17 @@ import useInvoiceItemList from "./useInvoiceItemList";
 import createRandomId from "../../../utils/createRandomId";
 import { InvoiceItemType } from "../../../entities/InvoiceItem";
 
-export interface InvoiceItemTypeListProps {
+export interface InvoiceItemListProps extends ArrayOfObjectFormProps {
   currentInvoiceId: string;
-  list: InvoiceItemType[];
-  onChange: (invoiceItemList: InvoiceItemType[]) => void;
-  error?: string;
 }
 
-function InvoiceItemList(props: InvoiceItemTypeListProps) {
+export interface ArrayOfObjectFormProps {
+  list: InvoiceItemType[];
+  error?: string;
+  handleChange: (invoiceItemList: InvoiceItemType[]) => void;
+}
+
+function InvoiceItemList(props: InvoiceItemListProps) {
   const {
     currentInvoiceItems,
     handleAddInvoiceItem,

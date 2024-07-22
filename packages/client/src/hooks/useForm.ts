@@ -1,7 +1,10 @@
 import { useRef, useState } from "react";
-import { SelectGroupProps } from "../ui/SelectGroup/SelectGroup";
+import { SelectGroupFormProps } from "../ui/SelectGroup/SelectGroup";
 import { ZodSchema } from "zod";
 import { DefaultResponse } from "../entities/DefaultResponse";
+import { InputGroupFormProps } from "../ui/InputGroup/InputGroup";
+import { DateGroupFormProps } from "../ui/DateGroup/DateGroup";
+import { ArrayOfObjectFormProps } from "../components/CreateInvoiceSideModal/InvoiceItemList/InvoiceItemList";
 
 type FieldErrorsType<TState> = { [Property in keyof TState]: string | undefined };
 
@@ -99,32 +102,30 @@ function useForm<TState extends object>(state: TState, zodSchema: ZodSchema) {
     }
   };
 
-  const registerTextInput = (name: keyof TState) => ({
-    id: name,
-    name: name,
-    value: formState[name] as string,
+  const registerTextInput = (name: keyof TState): InputGroupFormProps => ({
+    text: formState[name] as string,
     error: fieldErrors[name],
-    onChange: (event: React.ChangeEvent<HTMLInputElement>) => handleTextChange(event, name),
+    handleChange: (event: React.ChangeEvent<HTMLInputElement>) => handleTextChange(event, name),
   });
 
-  const registerSelectInput = (
-    name: keyof TState,
-  ): Pick<SelectGroupProps, "onChange" | "value" | "error"> => ({
-    value: formState[name] as string,
+  const registerSelectInput = (name: keyof TState): SelectGroupFormProps => ({
+    option: formState[name] as string,
     error: fieldErrors[name],
-    onChange: (option: string) => handleSelectChange(option, name),
+    handleChange: (option: string) => handleSelectChange(option, name),
   });
 
-  const registerDateInput = (name: keyof TState) => ({
-    date: formState[name],
+  const registerDateInput = (name: keyof TState): DateGroupFormProps => ({
+    utcDate: formState[name] as string,
     error: fieldErrors[name],
-    onChange: (invoiceUTCDate: string) => handleDateChange(invoiceUTCDate, name),
+    handleChange: (invoiceUTCDate: string) => handleDateChange(invoiceUTCDate, name),
   });
 
-  const registerListOfObjects = <TArray>(name: keyof TState) => ({
+  const registerListOfObjects = <TArray>(name: keyof TState): ArrayOfObjectFormProps => ({
+    // @ts-expect-error will error out if the name paramater is not correctly assigned
     list: formState[name] as TArray,
-    onChange: (list: TArray) => handleArrayOfObjectsChange(list, name),
     error: fieldErrors[name],
+    // @ts-expect-error will error out if the list paramater is not correctly assigned
+    handleChange: (list: TArray) => handleArrayOfObjectsChange(list, name),
   });
 
   return {

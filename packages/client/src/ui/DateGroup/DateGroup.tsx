@@ -3,12 +3,15 @@ import Calendar from "../../components/Calendar";
 import getPrettyDate from "../../utils/getPrettyDate";
 import VisibiltyToggleProvider from "../../components/VisibilityToggleProvider";
 
-interface Props {
+interface Props extends DateGroupFormProps {
   label: string;
   id: string;
-  utcDate?: string;
+}
+
+export interface DateGroupFormProps {
+  utcDate: string;
   error?: string;
-  onChange: (utcDate: string) => void;
+  handleChange: (utcDate: string) => void;
 }
 
 function DateGroup(props: Props) {
@@ -27,7 +30,7 @@ function DateGroup(props: Props) {
   };
 
   useEffect(() => {
-    props.onChange(date.toUTCString());
+    props.handleChange(date.toUTCString());
   }, [currentDay]);
 
   return (

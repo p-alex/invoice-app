@@ -18,7 +18,7 @@ describe("InvoiceItemList.tsx", () => {
       <InvoiceItemList
         list={[testInvoiceItem("id1"), testInvoiceItem("id2")]}
         currentInvoiceId="testInvoiceId"
-        onChange={() => {}}
+        handleChange={() => {}}
       />,
     );
 
@@ -32,7 +32,7 @@ describe("InvoiceItemList.tsx", () => {
       <InvoiceItemList
         list={[testInvoiceItem("id1"), testInvoiceItem("id2")]}
         currentInvoiceId="testInvoiceId"
-        onChange={() => {}}
+        handleChange={() => {}}
       />,
     );
 
@@ -51,7 +51,11 @@ describe("InvoiceItemList.tsx", () => {
     const onChangeFunc = jest.fn();
 
     render(
-      <InvoiceItemList list={itemsList} currentInvoiceId="testInvoiceId" onChange={onChangeFunc} />,
+      <InvoiceItemList
+        list={itemsList}
+        currentInvoiceId="testInvoiceId"
+        handleChange={onChangeFunc}
+      />,
     );
 
     const toggle = screen.getByRole("button", { name: /\+ add new item/i });
@@ -62,7 +66,7 @@ describe("InvoiceItemList.tsx", () => {
   });
 
   it("should remove item from list if you click on the 'delete item button' of an item", async () => {
-    render(<InvoiceItemList list={[]} currentInvoiceId="testInvoiceId" onChange={() => {}} />);
+    render(<InvoiceItemList list={[]} currentInvoiceId="testInvoiceId" handleChange={() => {}} />);
 
     const toggle = screen.getByRole("button", { name: /\+ add new item/i });
 
@@ -80,7 +84,9 @@ describe("InvoiceItemList.tsx", () => {
   it("should update list when typing in the inputs", async () => {
     const changeFunc = jest.fn();
 
-    render(<InvoiceItemList list={[]} currentInvoiceId="testInvoiceId" onChange={changeFunc} />);
+    render(
+      <InvoiceItemList list={[]} currentInvoiceId="testInvoiceId" handleChange={changeFunc} />,
+    );
 
     const addNewItemBtn = screen.getByRole("button", { name: /\+ add new item/i });
 

@@ -12,7 +12,7 @@ describe("SelectGroup.tsx", () => {
         id="test"
         label="label"
         options={["item1", "item2"]}
-        onChange={(option) => option}
+        handleChange={(option) => option}
       />,
     );
 
@@ -25,10 +25,10 @@ describe("SelectGroup.tsx", () => {
     render(
       <SelectGroup
         id="test"
-        value="value"
+        option="value"
         label="label"
         options={["item1", "item2"]}
-        onChange={(option) => option}
+        handleChange={(option) => option}
       />,
     );
 
@@ -43,7 +43,7 @@ describe("SelectGroup.tsx", () => {
         id="test"
         label="label"
         options={["item1", "item2"]}
-        onChange={(option) => option}
+        handleChange={(option) => option}
       />,
     );
 
@@ -68,7 +68,7 @@ describe("SelectGroup.tsx", () => {
         id="test"
         label="label"
         options={["item1", testOption]}
-        onChange={onChangeMock}
+        handleChange={onChangeMock}
       />,
     );
 
@@ -90,7 +90,9 @@ describe("SelectGroup.tsx", () => {
   it("should display all options passed correctly", async () => {
     const options = ["item1", "item2", "item3"];
 
-    render(<SelectGroup id="test" label="label" options={options} onChange={(option) => option} />);
+    render(
+      <SelectGroup id="test" label="label" options={options} handleChange={(option) => option} />,
+    );
 
     const toggleBtn = screen.getByRole("button");
 
@@ -113,7 +115,7 @@ describe("SelectGroup.tsx", () => {
         id="test"
         label="label"
         options={["item1", "item2"]}
-        onChange={(option) => option}
+        handleChange={(option) => option}
       />,
     );
 
@@ -136,7 +138,7 @@ describe("SelectGroup.tsx", () => {
         id="test"
         label="label"
         options={["item1", "item2"]}
-        onChange={(option) => option}
+        handleChange={(option) => option}
       />,
     );
 
@@ -159,7 +161,7 @@ describe("SelectGroup.tsx", () => {
         label="label"
         id="test"
         options={["item1", "item2"]}
-        onChange={(option) => option}
+        handleChange={(option) => option}
       />,
     );
 
@@ -180,7 +182,7 @@ describe("SelectGroup.tsx", () => {
         label="label"
         id="test"
         options={["item1", "item2"]}
-        onChange={(option) => option}
+        handleChange={(option) => option}
       />,
     );
 
@@ -197,7 +199,7 @@ describe("SelectGroup.tsx", () => {
         id="test"
         label="label"
         options={["item1", "item2"]}
-        onChange={(option) => option}
+        handleChange={(option) => option}
       />,
     );
 
@@ -226,7 +228,7 @@ describe("SelectGroup.tsx", () => {
         id="test"
         label={labelValue}
         options={["item1", "item2"]}
-        onChange={(option) => option}
+        handleChange={(option) => option}
       />,
     );
 
@@ -244,7 +246,7 @@ describe("SelectGroup.tsx", () => {
         label="label"
         error={errorValue}
         options={["item1", "item2"]}
-        onChange={(option) => option}
+        handleChange={(option) => option}
       />,
     );
 

@@ -3,12 +3,13 @@ import "@testing-library/jest-dom";
 import { act, renderHook, waitFor } from "@testing-library/react";
 import useForm from "./useForm";
 import { z } from "zod";
+import { InvoiceItemType } from "../entities/InvoiceItem";
 
 const testStateSchema = z.object({
   username: z.string().min(1, "not blank"),
   password: z.string().min(1, "not blank"),
-  createdAt: z.date({ message: "invalid date" }).max(new Date(2020, 1, 1)),
-  option: z.enum(["test1", "test2"], { message: "invalid option" }),
+  createdAt: z.string().min(1, "not blank"),
+  selectOption: z.enum(["test1", "test2"], { message: "invalid option" }),
   list: z.array(z.object({ test: z.string().min(1) })).min(1, "at least one"),
 });
 
@@ -16,16 +17,16 @@ describe("useForm.ts", () => {
   const invalidTestState = {
     username: "",
     password: "",
-    createdAt: new Date(Date.now()),
-    option: "test3",
+    createdAt: "",
+    selectOption: "test3",
     list: [],
   };
 
   const validTestState = {
     username: "test",
     password: "test",
-    createdAt: new Date(2020, 1, 1),
-    option: "test1",
+    createdAt: new Date(2020, 1, 1).toUTCString(),
+    selectOption: "test1",
     list: [{ test: "test" }],
   };
 
@@ -41,15 +42,11 @@ describe("useForm.ts", () => {
     act(() => {
       const registerTextProps = result.current.registerTextInput("username");
 
-      expect(registerTextProps).toHaveProperty("id", "username");
-
-      expect(registerTextProps).toHaveProperty("name", "username");
-
-      expect(registerTextProps).toHaveProperty("value", validTestState.username);
+      expect(registerTextProps).toHaveProperty("text", validTestState.username);
 
       expect(registerTextProps).toHaveProperty("error", undefined);
 
-      expect(registerTextProps).toHaveProperty("onChange");
+      expect(registerTextProps).toHaveProperty("handleChange");
     });
   });
 
@@ -57,13 +54,13 @@ describe("useForm.ts", () => {
     const { result } = renderHook(() => useForm(validTestState, testStateSchema));
 
     act(() => {
-      const registerSelectInput = result.current.registerSelectInput("option");
+      const registerSelectInput = result.current.registerSelectInput("selectOption");
 
-      expect(registerSelectInput).toHaveProperty("value", validTestState.option);
+      expect(registerSelectInput).toHaveProperty("option", validTestState.selectOption);
 
       expect(registerSelectInput).toHaveProperty("error", undefined);
 
-      expect(registerSelectInput).toHaveProperty("onChange");
+      expect(registerSelectInput).toHaveProperty("handleChange");
     });
   });
 
@@ -73,11 +70,11 @@ describe("useForm.ts", () => {
     act(() => {
       const registerDateInput = result.current.registerDateInput("createdAt");
 
-      expect(registerDateInput).toHaveProperty("date", validTestState.createdAt);
+      expect(registerDateInput).toHaveProperty("utcDate", validTestState.createdAt);
 
       expect(registerDateInput).toHaveProperty("error", undefined);
 
-      expect(registerDateInput).toHaveProperty("onChange");
+      expect(registerDateInput).toHaveProperty("handleChange");
     });
   });
 
@@ -91,49 +88,53 @@ describe("useForm.ts", () => {
 
       expect(registerListOfObjects).toHaveProperty("error", undefined);
 
-      expect(registerListOfObjects).toHaveProperty("onChange");
+      expect(registerListOfObjects).toHaveProperty("handleChange");
     });
   });
 
-  it("should update correct state property when 'onChange' is called from 'registerTextInput' function", async () => {
+  it("should update correct state property when 'handleChange' is called from 'registerTextInput' function", async () => {
     const { result } = renderHook(() => useForm(validTestState, testStateSchema));
 
     act(() => {
-      result.current.registerTextInput("username").onChange({ target: { value: "hello" } } as any);
+      result.current
+        .registerTextInput("username")
+        .handleChange({ target: { value: "hello" } } as any);
     });
 
     await waitFor(() => expect(result.current.formState.state.username).toEqual("hello"));
   });
 
-  it("should update correct state property when 'onChange' is called from 'registerSelectInput' function", async () => {
+  it("should update correct state property when 'handleChange' is called from 'registerSelectInput' function", async () => {
     const { result } = renderHook(() => useForm(validTestState, testStateSchema));
 
     act(() => {
-      result.current.registerSelectInput("option").onChange("item2");
+      result.current.registerSelectInput("selectOption").handleChange("item2");
     });
 
-    await waitFor(() => expect(result.current.formState.state.option).toEqual("item2"));
+    await waitFor(() => expect(result.current.formState.state.selectOption).toEqual("item2"));
   });
 
-  it("should update correct state property when 'onChange' is called from 'registerDateInput' function", async () => {
+  it("should update correct state property when 'handleChange' is called from 'registerDateInput' function", async () => {
     const { result } = renderHook(() => useForm(validTestState, testStateSchema));
 
     const testDate = new Date(2000, 4, 20).toUTCString();
 
     act(() => {
-      result.current.registerDateInput("createdAt").onChange(testDate);
+      result.current.registerDateInput("createdAt").handleChange(testDate);
     });
 
     await waitFor(() => expect(result.current.formState.state.createdAt).toEqual(testDate));
   });
 
-  it("should update correct state property when 'onChange' is called from 'registerListOfObjectsInput' function", async () => {
+  it("should update correct state property when 'handleChange' is called from 'registerListOfObjectsInput' function", async () => {
     const { result } = renderHook(() => useForm(validTestState, testStateSchema));
 
-    const testListOfObjects = [{ item: "item", text: "text" }];
+    const testListOfObjects: InvoiceItemType[] = [
+      { id: "test", invoiceId: "test", name: "test", price: 0, quantity: 0 },
+    ];
 
     act(() => {
-      result.current.registerListOfObjects("list").onChange(testListOfObjects);
+      result.current.registerListOfObjects("list").handleChange(testListOfObjects);
     });
 
     await waitFor(() => expect(result.current.formState.state.list).toEqual(testListOfObjects));
@@ -156,7 +157,7 @@ describe("useForm.ts", () => {
     expect(result.current.formState.fieldErrors).toEqual(errors);
   });
 
-  it("after calling handleSubmit with a valid form, the callback function should be called with the correct result and an error as an empty string", async () => {
+  it("after calling 'handleSubmit' with a valid form, the callback function should be called with the correct result and an error as an empty string", async () => {
     const { result } = renderHook(() => useForm(validTestState, testStateSchema));
 
     const callbackFunc = jest.fn();
@@ -234,7 +235,7 @@ describe("useForm.ts", () => {
 
       expect(fieldErrors.password).not.toBeUndefined();
 
-      expect(fieldErrors.option).not.toBeUndefined();
+      expect(fieldErrors.selectOption).not.toBeUndefined();
 
       expect(fieldErrors.createdAt).not.toBeUndefined();
 

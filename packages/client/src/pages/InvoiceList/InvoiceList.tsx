@@ -1,5 +1,6 @@
 interface Props {
   invoices: unknown[];
+  isLoading?: boolean;
 }
 
 function InvoiceList({ invoices }: Props) {

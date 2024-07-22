@@ -9,6 +9,7 @@ import useForm from "../../hooks/useForm";
 import { InvoiceType, invoiceSchema } from "../../entities/Invoice";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { CreateInvoiceRequestType } from "../../endpoints/useInvoiceEndpoint";
+import { InvoiceItemType } from "../../entities/InvoiceItem";
 
 export interface CreateInvoiceSideModalProps {
   handleCloseModal: () => void;
@@ -169,7 +170,7 @@ function CreateInvoiceSideModal({
         <FormSection title="Item List">
           <InvoiceItemList
             currentInvoiceId={invoiceId.current}
-            {...registerListOfObjects("invoiceItemList")}
+            {...registerListOfObjects<InvoiceItemType[]>("invoiceItemList")}
           />
         </FormSection>
         {formMessage?.message && (

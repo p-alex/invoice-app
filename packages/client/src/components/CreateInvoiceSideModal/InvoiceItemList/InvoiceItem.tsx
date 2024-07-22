@@ -23,8 +23,10 @@ function InvoiceItem({
         <InputGroup
           id={`itemName${invoiceItemIndex}`}
           label="Item name"
-          value={invoiceItem.name}
-          onChange={(event) => handleChangeInvoiceItem(event.target.value, invoiceItem.id, "name")}
+          text={invoiceItem.name}
+          handleChange={(event) =>
+            handleChangeInvoiceItem(event.target.value, invoiceItem.id, "name")
+          }
         />
       </div>
       <div style={{ gridArea: "quantity" }}>
@@ -32,8 +34,8 @@ function InvoiceItem({
           id={`itemQuantity${invoiceItemIndex}`}
           label="Qty"
           type="number"
-          value={invoiceItem.quantity}
-          onChange={(event) =>
+          text={invoiceItem.quantity.toString()}
+          handleChange={(event) =>
             handleChangeInvoiceItem(Number(event.target.value), invoiceItem.id, "quantity")
           }
           onFocus={(event) => event.target.select()}
@@ -44,8 +46,8 @@ function InvoiceItem({
           id={`itemPrice${invoiceItemIndex}`}
           label="Price"
           type="number"
-          value={invoiceItem.price}
-          onChange={(event) =>
+          text={invoiceItem.price.toString()}
+          handleChange={(event) =>
             handleChangeInvoiceItem(Number(event.target.value), invoiceItem.id, "price")
           }
           onFocus={(event) => event.target.select()}
