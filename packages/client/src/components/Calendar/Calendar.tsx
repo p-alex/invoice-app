@@ -2,6 +2,7 @@ import CalendarMonthList from "./CalendarMonthList";
 import CalendarDayList from "./CalendarDayList";
 import CalendayYearList from "./CalendayYearList";
 import useCalendar, { CalendarSteps } from "./useCalendar";
+import getPrettyDate from "../../utils/getPrettyDate";
 
 export interface CalendarProps {
   date?: Date;
@@ -20,12 +21,6 @@ function Calendar({ date, handleChange }: CalendarProps) {
     handleResetSteps,
   } = useCalendar({ date, handleChange });
 
-  const prettyDate = new Date(
-    currentDate.year,
-    currentDate.month - 1,
-    currentDate.day,
-  ).toLocaleDateString("en-UK", { year: "numeric", month: "short", day: "numeric" });
-
   return (
     <div className="relative flex max-h-[260px] w-[240px] flex-col rounded-[8px] bg-uiBgLT px-4 py-6 font-bold text-textLT shadow-lg dark:bg-uiBgDT dark:text-textDT">
       <div className="mx-auto mb-8 flex items-center gap-8 text-center">
@@ -42,7 +37,7 @@ function Calendar({ date, handleChange }: CalendarProps) {
         )}
 
         <button type="button" data-testid="fullDateBtn" onClick={handleResetSteps}>
-          {prettyDate}
+          {getPrettyDate(currentDate.year, currentDate.month, currentDate.day)}
         </button>
 
         {step === CalendarSteps["ChooseDay"] && (
