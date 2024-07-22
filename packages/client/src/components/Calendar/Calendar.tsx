@@ -4,12 +4,12 @@ import CalendarDayList from "./CalendarDayList";
 import CalendayYearList from "./CalendayYearList";
 import useCalendar, { CalendarSteps } from "./useCalendar";
 
-interface Props {
+export interface CalendarProps {
   date?: Date;
-  onChange: (date: Date) => void;
+  handleChange: (date: Date) => void;
 }
 
-function Calendar({ date, onChange }: Props) {
+function Calendar({ date, handleChange }: CalendarProps) {
   const {
     step,
     currentDate,
@@ -19,7 +19,7 @@ function Calendar({ date, onChange }: Props) {
     handleChooseMonthStep,
     handleChooseDayStep,
     handleResetSteps,
-  } = useCalendar({ date, onChange });
+  } = useCalendar({ date, handleChange });
 
   return (
     <div className="relative flex max-h-[260px] w-[240px] flex-col rounded-[8px] bg-uiBgLT px-4 py-6 font-bold text-textLT shadow-lg dark:bg-uiBgDT dark:text-textDT">

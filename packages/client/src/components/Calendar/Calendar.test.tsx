@@ -13,7 +13,7 @@ const NEXT_MONTH_BTN_TEST_ID = "nextMonthBtn";
 
 describe("Calendar.tsx", () => {
   it("should display current date in the following format: 1 Jan 2024", () => {
-    render(<Calendar date={new Date(2024, 0, 1)} onChange={(date) => date} />);
+    render(<Calendar date={new Date(2024, 0, 1)} handleChange={(date) => date} />);
 
     const fullDateBtn = screen.getByTestId(FULL_DATE_BTN_TEST_ID);
 
@@ -21,7 +21,7 @@ describe("Calendar.tsx", () => {
   });
 
   it("should automatically set to current date, if no date is provided", () => {
-    render(<Calendar onChange={() => {}} />);
+    render(<Calendar handleChange={() => {}} />);
 
     const currentDate = new Date(Date.now());
 
@@ -39,7 +39,7 @@ describe("Calendar.tsx", () => {
   });
 
   it("should start at 'chooseYear' step if no date is provided", () => {
-    render(<Calendar onChange={() => {}} />);
+    render(<Calendar handleChange={() => {}} />);
 
     const yearList = screen.getByTestId(YEAR_LIST_TEST_ID);
 
@@ -47,7 +47,7 @@ describe("Calendar.tsx", () => {
   });
 
   it("should start at 'chooseDay' step if date is provided", () => {
-    render(<Calendar date={new Date(Date.now())} onChange={() => {}} />);
+    render(<Calendar date={new Date(Date.now())} handleChange={() => {}} />);
 
     const dayList = screen.getByTestId(DAY_LIST_TEST_ID);
 
@@ -55,7 +55,7 @@ describe("Calendar.tsx", () => {
   });
 
   it("should set step to 'chooseYear' step if full date button is clicked", async () => {
-    render(<Calendar onChange={() => {}} />);
+    render(<Calendar handleChange={() => {}} />);
 
     const fullDateBtn = screen.getByTestId(FULL_DATE_BTN_TEST_ID);
 
@@ -67,7 +67,7 @@ describe("Calendar.tsx", () => {
   });
 
   it("should set date to previous month after clicking on the previous month button", async () => {
-    render(<Calendar date={new Date(2024, 1, 1, 0, 0, 0)} onChange={() => {}} />);
+    render(<Calendar date={new Date(2024, 1, 1, 0, 0, 0)} handleChange={() => {}} />);
 
     const prevMonthBtn = screen.getByTestId(PREV_MONTH_BTN_TEST_ID);
 
@@ -79,7 +79,7 @@ describe("Calendar.tsx", () => {
   });
 
   it("should set date to next month after clicking on the next month button", async () => {
-    render(<Calendar date={new Date(2024, 1, 1, 0, 0, 0)} onChange={() => {}} />);
+    render(<Calendar date={new Date(2024, 1, 1, 0, 0, 0)} handleChange={() => {}} />);
 
     const nextMonthBtn = screen.getByTestId(NEXT_MONTH_BTN_TEST_ID);
 
@@ -91,7 +91,7 @@ describe("Calendar.tsx", () => {
   });
 
   it("should change month to December and year to current year - 1 if current month is January and previous month button was clicked", async () => {
-    render(<Calendar date={new Date(2024, 0, 1, 0, 0, 0)} onChange={() => {}} />);
+    render(<Calendar date={new Date(2024, 0, 1, 0, 0, 0)} handleChange={() => {}} />);
 
     const prevMonthBtn = screen.getByTestId(PREV_MONTH_BTN_TEST_ID);
 
@@ -103,7 +103,7 @@ describe("Calendar.tsx", () => {
   });
 
   it("should change month to January and year to current year + 1 if current month is December and next month button was clicked", async () => {
-    render(<Calendar date={new Date(2024, 11, 1, 0, 0, 0)} onChange={() => {}} />);
+    render(<Calendar date={new Date(2024, 11, 1, 0, 0, 0)} handleChange={() => {}} />);
 
     const nextMonthBtn = screen.getByTestId(NEXT_MONTH_BTN_TEST_ID);
 
@@ -115,7 +115,7 @@ describe("Calendar.tsx", () => {
   });
 
   it("should set current day to last day of the month if current day does not exist in the current month, after pressing next month button", async () => {
-    render(<Calendar date={new Date(2024, 0, 31)} onChange={() => {}} />);
+    render(<Calendar date={new Date(2024, 0, 31)} handleChange={() => {}} />);
 
     const nextMonthBtn = screen.getByTestId(NEXT_MONTH_BTN_TEST_ID);
 
@@ -127,7 +127,7 @@ describe("Calendar.tsx", () => {
   });
 
   it("should set current day to last day of the month if current day does not exist in the current month, after pressing previous month button", async () => {
-    render(<Calendar date={new Date(2024, 0, 31)} onChange={() => {}} />);
+    render(<Calendar date={new Date(2024, 0, 31)} handleChange={() => {}} />);
 
     const prevMonthBtn = screen.getByTestId(PREV_MONTH_BTN_TEST_ID);
 
@@ -139,7 +139,7 @@ describe("Calendar.tsx", () => {
   });
 
   it("if year changes from leap year to non leap year and date was Febuary 29, it should change date to Febuary 28", async () => {
-    render(<Calendar date={new Date(2024, 1, 29)} onChange={(date) => date} />);
+    render(<Calendar date={new Date(2024, 1, 29)} handleChange={(date) => date} />);
 
     const fullDateBtn = screen.getByTestId(FULL_DATE_BTN_TEST_ID);
 
@@ -153,7 +153,7 @@ describe("Calendar.tsx", () => {
   });
 
   it("should cycle steps correctly", async () => {
-    render(<Calendar date={new Date(Date.now())} onChange={() => {}} />);
+    render(<Calendar date={new Date(Date.now())} handleChange={() => {}} />);
 
     const fullDateBtn = screen.getByTestId(FULL_DATE_BTN_TEST_ID);
 
@@ -179,7 +179,7 @@ describe("Calendar.tsx", () => {
   it("should move focus to current year in the list when step is changed to 'chooseYear'", () => {
     const currentYear = new Date(Date.now()).getFullYear();
 
-    render(<Calendar onChange={() => {}} />);
+    render(<Calendar handleChange={() => {}} />);
 
     const currentYearBtn = screen.getByTestId("yearBtn-" + currentYear);
 
@@ -189,7 +189,7 @@ describe("Calendar.tsx", () => {
   it("should move focus to current month in the list when step is changed to 'chooseMonth'", async () => {
     const testDate = new Date(Date.now());
 
-    render(<Calendar date={testDate} onChange={() => {}} />);
+    render(<Calendar date={testDate} handleChange={() => {}} />);
 
     const fullDateBtn = screen.getByTestId(FULL_DATE_BTN_TEST_ID);
 
@@ -205,24 +205,24 @@ describe("Calendar.tsx", () => {
   it("should move focus to current day in the list when step is changed to 'chooseDay'", () => {
     const testDate = new Date(Date.now());
 
-    render(<Calendar date={testDate} onChange={() => {}} />);
+    render(<Calendar date={testDate} handleChange={() => {}} />);
 
     const currentDayBtn = screen.getByTestId("dayBtn-" + testDate.getDate());
 
     expect(currentDayBtn).toHaveFocus();
   });
 
-  it("should execute 'onChange' function after selecting a day with the correct params", async () => {
-    const onChangeTestFn = jest.fn();
+  it("should execute 'handleChange' function after selecting a day with the correct params", async () => {
+    const handleChangeTestFn = jest.fn();
 
     const testDate = new Date(2024, 0, 4, 0, 0, 0);
 
-    render(<Calendar date={testDate} onChange={onChangeTestFn} />);
+    render(<Calendar date={testDate} handleChange={handleChangeTestFn} />);
 
     await user.click(screen.getByTestId("dayBtn-4"));
 
-    expect(onChangeTestFn).toHaveBeenCalled();
+    expect(handleChangeTestFn).toHaveBeenCalled();
 
-    expect(onChangeTestFn).toHaveBeenCalledWith(testDate);
+    expect(handleChangeTestFn).toHaveBeenCalledWith(testDate);
   });
 });

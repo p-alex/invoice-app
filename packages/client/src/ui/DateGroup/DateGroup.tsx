@@ -60,7 +60,7 @@ function DateGroup(props: Props) {
           )}
           content={() => (
             <div className="absolute top-24" data-testid="calendarContainer">
-              <Calendar date={date} onChange={handleSetDate} />
+              <Calendar date={date} handleChange={handleSetDate} />
             </div>
           )}
           hideWithEsc

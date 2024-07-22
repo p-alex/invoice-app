@@ -1,15 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import getMonthTotalDays from "../../utils/getMonthTotalDays";
+import { CalendarProps } from "./Calendar";
 
 export enum CalendarSteps {
   "ChooseYear" = 1,
   "ChooseMonth" = 2,
   "ChooseDay" = 3,
-}
-
-interface Props {
-  date?: Date;
-  onChange: (date: Date) => void;
 }
 
 type CalendarDateState = {
@@ -18,17 +14,17 @@ type CalendarDateState = {
   year: number;
 };
 
-const todayDate = new Date(Date.now());
-
-function useCalendar({ date, onChange }: Props) {
+function useCalendar({ date, handleChange }: CalendarProps) {
   const [step, setStep] = useState<CalendarSteps>(
     !date ? CalendarSteps["ChooseYear"] : CalendarSteps["ChooseDay"],
   );
 
+  const todayDate = useRef<Date>(new Date(Date.now()));
+
   const [currentDate, setCurrentDate] = useState<CalendarDateState>({
-    day: date ? date.getDate() : todayDate.getDate(),
-    month: date ? date.getMonth() + 1 : todayDate.getMonth() + 1,
-    year: date ? date.getFullYear() : todayDate.getFullYear(),
+    day: date ? date.getDate() : todayDate.current.getDate(),
+    month: date ? date.getMonth() + 1 : todayDate.current.getMonth() + 1,
+    year: date ? date.getFullYear() : todayDate.current.getFullYear(),
   });
 
   const handlePrevMonth = () => {
@@ -74,7 +70,7 @@ function useCalendar({ date, onChange }: Props) {
   }, [currentDate.month, currentDate.year]);
 
   useEffect(() => {
-    onChange(new Date(currentDate.year, currentDate.month - 1, currentDate.day));
+    handleChange(new Date(currentDate.year, currentDate.month - 1, currentDate.day));
   }, [currentDate.day]);
 
   return {
