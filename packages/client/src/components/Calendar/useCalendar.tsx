@@ -8,7 +8,7 @@ export enum CalendarSteps {
   "ChooseDay" = 3,
 }
 
-type CalendarDateState = {
+export type CalendarDateState = {
   day: number;
   month: number;
   year: number;

@@ -20,7 +20,11 @@ export function getPrettyMonth(month: number) {
 }
 
 function getPrettyDate(year: number, month: number, day: number) {
-  return `${day} ${getPrettyMonth(month)} ${year}`;
+  return new Date(year, month - 1, day).toLocaleDateString("en-UK", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
 }
 
 export default getPrettyDate;

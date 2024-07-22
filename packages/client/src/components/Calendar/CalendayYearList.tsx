@@ -1,9 +1,11 @@
+import { CalendarDateState } from "./useCalendar";
+
 interface Props {
-  currentYear: number;
-  onChange: (year: number) => void;
+  currentDate: CalendarDateState;
+  handleChange: (year: number) => void;
 }
 
-function CalendayYearList({ currentYear, onChange }: Props) {
+function CalendayYearList({ currentDate, handleChange }: Props) {
   const minYear = new Date(Date.now()).getFullYear() - 100;
   const maxYear = new Date(Date.now()).getFullYear() + 101;
 
@@ -18,9 +20,9 @@ function CalendayYearList({ currentYear, onChange }: Props) {
             <button
               type="button"
               data-testid={`yearBtn-${minYear + index}`}
-              className={`${currentYear === minYear + index ? "text-primary" : ""} flex w-full items-center justify-center`}
-              onClick={() => onChange(minYear + index)}
-              autoFocus={minYear + index === currentYear}
+              className={`${currentDate.year === minYear + index ? "text-primary" : ""} flex w-full items-center justify-center`}
+              onClick={() => handleChange(minYear + index)}
+              autoFocus={minYear + index === currentDate.year}
               aria-label={`Set year to ${minYear + index}`}
             >
               {minYear + index}

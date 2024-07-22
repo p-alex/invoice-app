@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import Calendar from "../../components/Calendar";
-import getPrettyDate from "../../utils/getPrettyDate";
 import VisibiltyToggleProvider from "../../components/VisibilityToggleProvider";
 
 interface Props extends DateGroupFormProps {
@@ -52,7 +51,16 @@ function DateGroup(props: Props) {
                 data-testid="dateGroupToggle"
                 ref={toggleRef}
               >
-                <div>{getPrettyDate(date.getFullYear(), date.getMonth() + 1, date.getDate())}</div>
+                <div>
+                  {new Date(date.getFullYear(), date.getMonth(), date.getDate()).toLocaleDateString(
+                    "en-UK",
+                    {
+                      year: "numeric",
+                      month: "short",
+                      day: "numeric",
+                    },
+                  )}
+                </div>
                 <img src="./images/icon-calendar.svg" width={16} height={16} alt="" />
               </button>
               {props.error && <p className="text-medium text-sm text-danger">{props.error}</p>}
