@@ -121,10 +121,10 @@ function useForm<TState extends object>(state: TState, zodSchema: ZodSchema) {
   });
 
   const registerListOfObjects = <TArray>(name: keyof TState): ArrayOfObjectFormProps => ({
-    // @ts-expect-error will error out if the name paramater is not correctly assigned
+    // @ts-expect-error will error out if the name parameter is not correctly assigned
     list: formState[name] as TArray,
     error: fieldErrors[name],
-    // @ts-expect-error will error out if the list paramater is not correctly assigned
+    // @ts-expect-error will error out if the list parameter is not correctly assigned
     handleChange: (list: TArray) => handleArrayOfObjectsChange(list, name),
   });
 
