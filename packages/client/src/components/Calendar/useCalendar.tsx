@@ -10,7 +10,7 @@ export enum CalendarSteps {
 
 export type CalendarDateState = {
   day: number;
-  month: number;
+  zeroBasedMonth: number;
   year: number;
 };
 
@@ -23,23 +23,37 @@ function useCalendar({ date, handleChange }: CalendarProps) {
 
   const [currentDate, setCurrentDate] = useState<CalendarDateState>({
     day: date ? date.getDate() : todayDate.current.getDate(),
-    month: date ? date.getMonth() + 1 : todayDate.current.getMonth() + 1,
+    zeroBasedMonth: date ? date.getMonth() : todayDate.current.getMonth(),
     year: date ? date.getFullYear() : todayDate.current.getFullYear(),
   });
 
   const handlePrevMonth = () => {
-    if (currentDate.month - 1 >= 1) {
-      setCurrentDate((prevState) => ({ ...prevState, month: prevState.month - 1 }));
+    if (currentDate.zeroBasedMonth > 0) {
+      setCurrentDate((prevState) => ({
+        ...prevState,
+        zeroBasedMonth: prevState.zeroBasedMonth - 1,
+      }));
     } else {
-      setCurrentDate((prevState) => ({ ...prevState, month: 12, year: prevState.year - 1 }));
+      setCurrentDate((prevState) => ({
+        ...prevState,
+        zeroBasedMonth: 11,
+        year: prevState.year - 1,
+      }));
     }
   };
 
   const handleNextMonth = () => {
-    if (currentDate.month + 1 <= 12) {
-      setCurrentDate((prevState) => ({ ...prevState, month: prevState.month + 1 }));
+    if (currentDate.zeroBasedMonth < 11) {
+      setCurrentDate((prevState) => ({
+        ...prevState,
+        zeroBasedMonth: prevState.zeroBasedMonth + 1,
+      }));
     } else {
-      setCurrentDate((prevState) => ({ ...prevState, month: 1, year: prevState.year + 1 }));
+      setCurrentDate((prevState) => ({
+        ...prevState,
+        zeroBasedMonth: 0,
+        year: prevState.year + 1,
+      }));
     }
   };
 
@@ -48,8 +62,8 @@ function useCalendar({ date, handleChange }: CalendarProps) {
     setStep(CalendarSteps["ChooseMonth"]);
   };
 
-  const handleChooseMonthStep = (month: number) => {
-    setCurrentDate((prevState) => ({ ...prevState, month }));
+  const handleChooseMonthStep = (zeroBasedMonth: number) => {
+    setCurrentDate((prevState) => ({ ...prevState, zeroBasedMonth }));
     setStep(CalendarSteps["ChooseDay"]);
   };
 
@@ -61,16 +75,16 @@ function useCalendar({ date, handleChange }: CalendarProps) {
   useEffect(() => {
     const currentNumOfDaysInMonth = getMonthTotalDays({
       year: currentDate.year,
-      month: currentDate.month,
+      zeroBasedMonth: currentDate.zeroBasedMonth,
     });
 
     if (currentDate.day > currentNumOfDaysInMonth) {
       setCurrentDate((prevState) => ({ ...prevState, day: currentNumOfDaysInMonth }));
     }
-  }, [currentDate.month, currentDate.year]);
+  }, [currentDate.zeroBasedMonth, currentDate.year]);
 
   useEffect(() => {
-    handleChange(new Date(currentDate.year, currentDate.month - 1, currentDate.day));
+    handleChange(new Date(currentDate.year, currentDate.zeroBasedMonth, currentDate.day));
   }, [currentDate.day]);
 
   return {

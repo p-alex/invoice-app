@@ -1,72 +1,37 @@
 import { TrashIcon } from "../../../svgs";
-import { InputGroup } from "../../../ui";
-import { HandleChangeInvoiceItem } from "./useInvoiceItemList";
 import "./InvoiceItem.css";
-import { InvoiceItemType } from "../../../entities/InvoiceItem";
 
 interface Props {
   invoiceItemIndex: number;
-  invoiceItem: InvoiceItemType;
-  handleDeleteInvoiceItem: (id: string) => void;
-  handleChangeInvoiceItem: HandleChangeInvoiceItem;
+  handleRemoveInvoiceItem: (index: number) => void;
+  nameField: React.ReactNode;
+  quantityField: React.ReactNode;
+  priceField: React.ReactNode;
+  totalPrice: string;
 }
 
-function InvoiceItem({
-  invoiceItemIndex,
-  invoiceItem,
-  handleDeleteInvoiceItem,
-  handleChangeInvoiceItem,
-}: Props) {
+function InvoiceItem(props: Props) {
   return (
-    <li className="invoiceItemGrid">
+    <li className="invoiceItemGrid align-top">
       <div style={{ gridArea: "itemName" }} className="min-w-[214px]">
-        <InputGroup
-          id={`itemName${invoiceItemIndex}`}
-          label="Item name"
-          text={invoiceItem.name}
-          handleChange={(event) =>
-            handleChangeInvoiceItem(event.target.value, invoiceItem.id, "name")
-          }
-        />
+        {props.nameField}
       </div>
-      <div style={{ gridArea: "quantity" }}>
-        <InputGroup
-          id={`itemQuantity${invoiceItemIndex}`}
-          label="Qty"
-          type="number"
-          text={invoiceItem.quantity.toString()}
-          handleChange={(event) =>
-            handleChangeInvoiceItem(Number(event.target.value), invoiceItem.id, "quantity")
-          }
-          onFocus={(event) => event.target.select()}
-        />
-      </div>
-      <div style={{ gridArea: "price" }}>
-        <InputGroup
-          id={`itemPrice${invoiceItemIndex}`}
-          label="Price"
-          type="number"
-          text={invoiceItem.price.toString()}
-          handleChange={(event) =>
-            handleChangeInvoiceItem(Number(event.target.value), invoiceItem.id, "price")
-          }
-          onFocus={(event) => event.target.select()}
-        />
-      </div>
+      <div style={{ gridArea: "quantity" }}>{props.quantityField}</div>
+      <div style={{ gridArea: "price" }}>{props.priceField}</div>
       <div style={{ gridArea: "total" }} className="flex w-full flex-col gap-2">
         {<p className="text-sm font-medium text-muted">Total</p>}
         <div className="flex h-fieldHeight items-center font-bold">
-          <p className="text-muted">{(invoiceItem.price * invoiceItem.quantity).toFixed(2)}</p>
+          <p className="text-muted">{props.totalPrice}</p>
         </div>
       </div>
       <div
         style={{ gridArea: "delete" }}
-        className="items-ceneter flex h-fieldHeight justify-center"
+        className="mt-7 flex h-fieldHeight items-center justify-center"
       >
         <button
           type="button"
           className="flex w-full items-center justify-center text-muted transition-colors hover:text-danger"
-          onClick={() => handleDeleteInvoiceItem(invoiceItem.id)}
+          onClick={() => props.handleRemoveInvoiceItem(props.invoiceItemIndex)}
           aria-label="delete invoice item"
         >
           <TrashIcon />

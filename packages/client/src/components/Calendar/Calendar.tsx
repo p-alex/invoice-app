@@ -37,7 +37,7 @@ function Calendar({ date, handleChange }: CalendarProps) {
         )}
 
         <button type="button" data-testid="fullDateBtn" onClick={handleResetSteps}>
-          {getPrettyDate(currentDate.year, currentDate.month, currentDate.day)}
+          {getPrettyDate(currentDate.year, currentDate.zeroBasedMonth, currentDate.day)}
         </button>
 
         {step === CalendarSteps["ChooseDay"] && (

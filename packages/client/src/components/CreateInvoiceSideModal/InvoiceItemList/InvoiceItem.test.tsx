@@ -2,38 +2,35 @@ import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import user from "@testing-library/user-event";
 import InvoiceItem from "./InvoiceItem";
-import { InvoiceItemType } from "../../../entities/InvoiceItem";
-
-const testInvoiceItem: InvoiceItemType = {
-  id: "testId",
-  invoiceId: "testInvoiceId",
-  name: "",
-  price: 10,
-  quantity: 10,
-};
 
 describe("InvoiceItemList.tsx", () => {
-  it("should display 'Item Name', 'Quantity' and 'Price' fields", () => {
+  it("should display correctly", () => {
     render(
       <InvoiceItem
-        invoiceItem={testInvoiceItem}
-        handleChangeInvoiceItem={() => {}}
-        handleDeleteInvoiceItem={() => {}}
+        handleRemoveInvoiceItem={() => {}}
         invoiceItemIndex={0}
+        nameField={<p>name</p>}
+        quantityField={<p>quantity</p>}
+        priceField={<p>price</p>}
+        totalPrice="100"
       />,
     );
 
-    const itemNameField = screen.getByLabelText(/item name/i);
+    const itemNameField = screen.getByText("name");
 
-    const quanitityField = screen.getByLabelText(/qty/i);
+    const quanitityField = screen.getByText("quantity");
 
-    const priceField = screen.getByLabelText(/price/i);
+    const priceField = screen.getByText("price");
+
+    const totalPrice = screen.getByText("100");
 
     expect(itemNameField).toBeInTheDocument();
 
     expect(quanitityField).toBeInTheDocument();
 
     expect(priceField).toBeInTheDocument();
+
+    expect(totalPrice).toBeInTheDocument();
   });
 
   it("delete button should call 'handleDeleteInvoiceItem' and delete the item", async () => {
@@ -41,10 +38,12 @@ describe("InvoiceItemList.tsx", () => {
 
     render(
       <InvoiceItem
-        invoiceItem={testInvoiceItem}
-        handleChangeInvoiceItem={() => {}}
-        handleDeleteInvoiceItem={deleteFunc}
+        handleRemoveInvoiceItem={deleteFunc}
         invoiceItemIndex={0}
+        nameField={<p>name</p>}
+        quantityField={<p>quantity</p>}
+        priceField={<p>price</p>}
+        totalPrice="100"
       />,
     );
 
@@ -53,36 +52,7 @@ describe("InvoiceItemList.tsx", () => {
     await user.click(deleteButton);
 
     expect(deleteFunc).toHaveBeenCalled();
-  });
 
-  it("should call 'handleChangeInvoiceItem' correctly for each of the fields after typing", async () => {
-    const changeFunc = jest.fn();
-
-    render(
-      <InvoiceItem
-        invoiceItem={testInvoiceItem}
-        handleChangeInvoiceItem={changeFunc}
-        handleDeleteInvoiceItem={() => {}}
-        invoiceItemIndex={0}
-      />,
-    );
-
-    const itemNameField = screen.getByLabelText(/item name/i);
-
-    await user.type(itemNameField, "n");
-
-    expect(changeFunc).toHaveBeenCalledWith("n", testInvoiceItem.id, "name");
-
-    const quantityField = screen.getByLabelText(/qty/i);
-
-    await user.type(quantityField, "2");
-
-    expect(changeFunc).toHaveBeenCalledWith(Number("2"), testInvoiceItem.id, "quantity");
-
-    const priceField = screen.getByLabelText(/price/i);
-
-    await user.type(priceField, "2");
-
-    expect(changeFunc).toHaveBeenCalledWith(Number("2"), testInvoiceItem.id, "price");
+    expect(deleteFunc).toHaveBeenCalledWith(0);
   });
 });

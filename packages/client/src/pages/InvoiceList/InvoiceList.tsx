@@ -1,5 +1,7 @@
+import { InvoiceType } from "../../entities/Invoice";
+
 interface Props {
-  invoices: unknown[];
+  invoices: InvoiceType[];
   isLoading?: boolean;
 }
 
@@ -8,8 +10,10 @@ function InvoiceList({ invoices }: Props) {
     <div className="mb-10">
       {invoices.length > 0 && (
         <ul>
-          {invoices.map((index) => (
-            <li key={"invoice-" + index}>invoice</li>
+          {invoices.map((invoice, index) => (
+            <li key={"invoice-" + index} className={"text-textLT dark:text-textDT"}>
+              <pre>{invoice.id}</pre>
+            </li>
           ))}
         </ul>
       )}

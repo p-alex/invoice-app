@@ -1,15 +1,15 @@
 interface Props {
   year: number;
-  month: number;
+  zeroBasedMonth: number;
 }
 
-/** Month should not be zero based (eg: 1 is January, 12 is December) */
-function getMonthTotalDays({ year, month }: Props) {
-  if (month < 1 || month > 12) throw new Error("Invalid month");
+/** Month should be zero based (eg: 0 is January, 11 is December) */
+function getMonthTotalDays({ year, zeroBasedMonth }: Props) {
+  if (zeroBasedMonth < 0 || zeroBasedMonth > 11) throw new Error("Invalid month");
 
-  const isMonthEven = month % 2 === 0;
+  const isMonthEven = (zeroBasedMonth + 1) % 2 === 0;
 
-  const isMonthFeb = month === 2;
+  const isMonthFeb = zeroBasedMonth === 1;
 
   if (!isMonthEven) {
     return 31;

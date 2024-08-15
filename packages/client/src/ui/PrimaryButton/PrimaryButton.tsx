@@ -18,7 +18,7 @@ const PrimaryButton = forwardRef(
         {...btnProps}
         className={twMerge(
           [
-            `flex h-12 w-max items-center justify-center gap-4 font-bold transition-colors ${paddingX} dark:text-buttonTextDarkTheme dark:hover:text-btnTextDT rounded-[500px] bg-primary py-[18px] text-white hover:bg-primaryLight`,
+            `flex h-12 w-max items-center justify-center gap-4 font-bold transition-colors ${paddingX} dark:text-buttonTextDarkTheme dark:hover:text-btnTextDT rounded-[500px] bg-primary py-[18px] text-white hover:bg-primaryLight disabled:cursor-not-allowed disabled:opacity-75`,
           ],
           btnProps.className,
         )}

@@ -1,24 +1,21 @@
 import VisibiltyToggleProvider from "../../components/VisibilityToggleProvider";
 import { useState } from "react";
 
-interface Props extends SelectGroupFormProps {
+interface Props<T> {
   id: string;
   label: string;
-  options: string[];
-}
-
-export interface SelectGroupFormProps {
-  option?: string;
+  option?: T;
+  options: T[];
+  handleChange: (option: T) => void;
   error?: string;
-  handleChange: (option: string) => void;
 }
 
-function SelectGroup(props: Props) {
-  const [selectedOption, setSelectedOption] = useState(
+function SelectGroup<TOption extends React.ReactNode>(props: Props<TOption>) {
+  const [selectedOption, setSelectedOption] = useState<TOption>(
     props.option ? props.option : props.options[0],
   );
 
-  const handleChange = (option: string) => {
+  const handleChange = (option: TOption) => {
     props.handleChange(option);
     setSelectedOption(option);
   };

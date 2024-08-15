@@ -103,14 +103,14 @@ const VisibiltyToggleProvider = (props: VisibilityProviderProps) => {
   return (
     <div id={"visibilityToggleContainer-" + visibilityToggleContainerId}>
       {props.toggle({ isVisible, toggleRef, handleToggleVisibilty })}
-      {props.trapFocus && isVisible && <FocusTrap element={lastFocusableButtonRef} />}
+      {props.trapFocus && isVisible && <FocusTrap redirectTo={lastFocusableButtonRef} />}
       {isVisible &&
         props.content({
           handleToggleOffVisibilty,
           firstFocusableButtonRef,
           lastFocusableButtonRef,
         })}
-      {props.trapFocus && isVisible && <FocusTrap element={firstFocusableButtonRef} />}
+      {props.trapFocus && isVisible && <FocusTrap redirectTo={firstFocusableButtonRef} />}
     </div>
   );
 };

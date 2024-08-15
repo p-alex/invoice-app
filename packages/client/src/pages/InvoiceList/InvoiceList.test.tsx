@@ -1,10 +1,15 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import InvoiceList from "./InvoiceList";
+import { validTestInvoice } from "../../testEntities/testInvoice";
 
 describe("InvoiceList.tsx", () => {
   it("should display invoices correctly", () => {
-    render(<InvoiceList invoices={[1, 2, 3, 4]} />);
+    render(
+      <InvoiceList
+        invoices={[validTestInvoice, validTestInvoice, validTestInvoice, validTestInvoice]}
+      />,
+    );
 
     const invoices = screen.getAllByRole("listitem");
 

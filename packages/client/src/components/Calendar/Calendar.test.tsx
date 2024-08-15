@@ -17,7 +17,7 @@ describe("Calendar.tsx", () => {
 
     const fullDateBtn = screen.getByTestId(FULL_DATE_BTN_TEST_ID);
 
-    expect(fullDateBtn).toHaveTextContent(getPrettyDate(2024, 1, 1));
+    expect(fullDateBtn).toHaveTextContent(getPrettyDate(2024, 0, 1));
   });
 
   it("should automatically set to current date, if no date is provided", () => {
@@ -27,7 +27,7 @@ describe("Calendar.tsx", () => {
 
     const prettifiedDate = getPrettyDate(
       currentDate.getFullYear(),
-      currentDate.getMonth() + 1,
+      currentDate.getMonth(),
       currentDate.getDate(),
     );
 
@@ -75,7 +75,7 @@ describe("Calendar.tsx", () => {
 
     const fullDateBtn = screen.getByTestId(FULL_DATE_BTN_TEST_ID);
 
-    expect(fullDateBtn).toHaveTextContent(getPrettyDate(2024, 1, 1));
+    expect(fullDateBtn).toHaveTextContent(getPrettyDate(2024, 0, 1));
   });
 
   it("should set date to next month after clicking on the next month button", async () => {
@@ -87,7 +87,7 @@ describe("Calendar.tsx", () => {
 
     const fullDateBtn = screen.getByTestId(FULL_DATE_BTN_TEST_ID);
 
-    expect(fullDateBtn).toHaveTextContent(getPrettyDate(2024, 3, 1));
+    expect(fullDateBtn).toHaveTextContent(getPrettyDate(2024, 2, 1));
   });
 
   it("should change month to December and year to current year - 1 if current month is January and previous month button was clicked", async () => {
@@ -99,7 +99,7 @@ describe("Calendar.tsx", () => {
 
     const fullDateBtn = screen.getByTestId(FULL_DATE_BTN_TEST_ID);
 
-    expect(fullDateBtn).toHaveTextContent(getPrettyDate(2023, 12, 1));
+    expect(fullDateBtn).toHaveTextContent(getPrettyDate(2023, 11, 1));
   });
 
   it("should change month to January and year to current year + 1 if current month is December and next month button was clicked", async () => {
@@ -111,7 +111,7 @@ describe("Calendar.tsx", () => {
 
     const fullDateBtn = screen.getByTestId(FULL_DATE_BTN_TEST_ID);
 
-    expect(fullDateBtn).toHaveTextContent(getPrettyDate(2025, 1, 1));
+    expect(fullDateBtn).toHaveTextContent(getPrettyDate(2025, 0, 1));
   });
 
   it("should set current day to last day of the month if current day does not exist in the current month, after pressing next month button", async () => {
@@ -123,7 +123,7 @@ describe("Calendar.tsx", () => {
 
     const fullDateBtn = screen.getByTestId(FULL_DATE_BTN_TEST_ID);
 
-    expect(fullDateBtn).toHaveTextContent(getPrettyDate(2024, 2, 29));
+    expect(fullDateBtn).toHaveTextContent(getPrettyDate(2024, 1, 29));
   });
 
   it("should set current day to last day of the month if current day does not exist in the current month, after pressing previous month button", async () => {
@@ -135,7 +135,7 @@ describe("Calendar.tsx", () => {
 
     const fullDateBtn = screen.getByTestId(FULL_DATE_BTN_TEST_ID);
 
-    expect(fullDateBtn).toHaveTextContent(getPrettyDate(2023, 12, 30));
+    expect(fullDateBtn).toHaveTextContent(getPrettyDate(2023, 11, 30));
   });
 
   it("if year changes from leap year to non leap year and date was Febuary 29, it should change date to Febuary 28", async () => {
@@ -147,9 +147,9 @@ describe("Calendar.tsx", () => {
 
     await user.click(screen.getByTestId("yearBtn-2023"));
 
-    await user.click(screen.getByTestId("monthBtn-2"));
+    await user.click(screen.getByTestId("monthBtn-5"));
 
-    expect(fullDateBtn).toHaveTextContent("28 Feb 2023");
+    expect(fullDateBtn).toHaveTextContent(getPrettyDate(2023, 5, 28));
   });
 
   it("should cycle steps correctly", async () => {
@@ -197,7 +197,7 @@ describe("Calendar.tsx", () => {
 
     await user.click(screen.getByTestId("yearBtn-" + testDate.getFullYear()));
 
-    const currentMonthBtn = screen.getByTestId("monthBtn-" + (testDate.getMonth() + 1));
+    const currentMonthBtn = screen.getByTestId("monthBtn-" + testDate.getMonth());
 
     expect(currentMonthBtn).toHaveFocus();
   });
