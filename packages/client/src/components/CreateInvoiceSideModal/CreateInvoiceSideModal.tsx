@@ -38,7 +38,7 @@ function CreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
               {...form.register("invoice.sender_address.street")}
               error={
                 form.formState.errors.invoice?.sender_address?.street &&
-                form.formState.errors.invoice?.sender_address?.street.message
+                form.formState.errors.invoice?.sender_address?.street?.message
               }
             />
             <div className="flex gap-6">
@@ -49,7 +49,7 @@ function CreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
                   {...form.register("invoice.sender_address.city")}
                   error={
                     form.formState.errors.invoice?.sender_address?.city &&
-                    form.formState.errors.invoice?.sender_address?.city.message
+                    form.formState.errors.invoice?.sender_address?.city?.message
                   }
                 />
                 <InputGroup
@@ -58,7 +58,7 @@ function CreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
                   {...form.register("invoice.sender_address.post_code")}
                   error={
                     form.formState.errors.invoice?.sender_address?.post_code &&
-                    form.formState.errors.invoice?.sender_address?.post_code.message
+                    form.formState.errors.invoice?.sender_address?.post_code?.message
                   }
                 />
                 <InputGroup
@@ -68,7 +68,7 @@ function CreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
                   {...form.register("invoice.sender_address.country")}
                   error={
                     form.formState.errors.invoice?.sender_address?.country &&
-                    form.formState.errors.invoice?.sender_address?.country.message
+                    form.formState.errors.invoice?.sender_address?.country?.message
                   }
                 />
               </FormThreeColGrid>
@@ -80,7 +80,7 @@ function CreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
               {...form.register("invoice.client_name")}
               error={
                 form.formState.errors.invoice?.client_name &&
-                form.formState.errors.invoice?.client_name.message
+                form.formState.errors.invoice?.client_name?.message
               }
             />
             <InputGroup
@@ -89,7 +89,7 @@ function CreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
               {...form.register("invoice.client_email")}
               error={
                 form.formState.errors.invoice?.client_email &&
-                form.formState.errors.invoice?.client_email.message
+                form.formState.errors.invoice?.client_email?.message
               }
             />
             <InputGroup
@@ -98,7 +98,7 @@ function CreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
               {...form.register("invoice.receiver_address.street")}
               error={
                 form.formState.errors.invoice?.receiver_address?.street &&
-                form.formState.errors.invoice?.receiver_address.street.message
+                form.formState.errors.invoice?.receiver_address?.street?.message
               }
             />
             <div className="flex gap-6">
@@ -109,7 +109,7 @@ function CreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
                   {...form.register("invoice.receiver_address.city")}
                   error={
                     form.formState.errors.invoice?.receiver_address?.city &&
-                    form.formState.errors.invoice?.receiver_address.city.message
+                    form.formState.errors.invoice?.receiver_address?.city?.message
                   }
                 />
                 <InputGroup
@@ -119,7 +119,7 @@ function CreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
                   {...form.register("invoice.receiver_address.post_code")}
                   error={
                     form.formState.errors.invoice?.receiver_address?.post_code &&
-                    form.formState.errors.invoice?.receiver_address.post_code.message
+                    form.formState.errors.invoice?.receiver_address?.post_code?.message
                   }
                 />
                 <InputGroup
@@ -129,7 +129,7 @@ function CreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
                   {...form.register("invoice.receiver_address.country")}
                   error={
                     form.formState.errors.invoice?.receiver_address?.country &&
-                    form.formState.errors.invoice?.receiver_address.country.message
+                    form.formState.errors.invoice?.receiver_address?.country?.message
                   }
                 />
               </FormThreeColGrid>
@@ -142,7 +142,7 @@ function CreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
                 handleChange={(date) => handleSetInvoiceDate(new Date(date))}
                 error={
                   form.formState.errors.invoice?.created_at &&
-                  form.formState.errors.invoice?.created_at.message
+                  form.formState.errors.invoice?.created_at?.message
                 }
               />
               <SelectGroup
@@ -154,7 +154,7 @@ function CreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
                 }}
                 error={
                   form.formState.errors.invoice?.payment_terms &&
-                  form.formState.errors.invoice?.payment_terms.message
+                  form.formState.errors.invoice?.payment_terms?.message
                 }
               />
             </div>
@@ -163,15 +163,15 @@ function CreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
               {...form.register("invoice.project_description")}
               error={
                 form.formState.errors.invoice?.project_description &&
-                form.formState.errors.invoice?.project_description.message
+                form.formState.errors.invoice?.project_description?.message
               }
             />
           </FormSection>
           <FormSection title="Item List">
             <InvoiceItemList
               error={
-                form.formState.errors.invoice_item_list &&
-                form.formState.errors.invoice_item_list.message
+                form.formState.errors?.invoice_item_list &&
+                form.formState.errors?.invoice_item_list?.message
               }
             >
               {form.invoiceItemFields.map((field, index) => {
@@ -186,9 +186,9 @@ function CreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
                         label="Item name"
                         {...form.register(`invoice_item_list.${index}.name` as const)}
                         error={
-                          form.formState.errors.invoice_item_list &&
-                          form.formState.errors.invoice_item_list[index] &&
-                          form.formState.errors.invoice_item_list[index].name?.message
+                          form.formState.errors?.invoice_item_list &&
+                          form.formState.errors?.invoice_item_list[index] &&
+                          form.formState.errors?.invoice_item_list[index]?.name?.message
                         }
                       />
                     }
@@ -201,9 +201,9 @@ function CreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
                           valueAsNumber: true,
                         })}
                         error={
-                          form.formState.errors.invoice_item_list &&
-                          form.formState.errors.invoice_item_list[index] &&
-                          form.formState.errors.invoice_item_list[index].quantity?.message
+                          form.formState.errors?.invoice_item_list &&
+                          form.formState.errors?.invoice_item_list[index] &&
+                          form.formState.errors?.invoice_item_list[index]?.quantity?.message
                         }
                       />
                     }
@@ -216,9 +216,9 @@ function CreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
                           valueAsNumber: true,
                         })}
                         error={
-                          form.formState.errors.invoice_item_list &&
-                          form.formState.errors.invoice_item_list[index] &&
-                          form.formState.errors.invoice_item_list[index].price?.message
+                          form.formState.errors?.invoice_item_list &&
+                          form.formState.errors?.invoice_item_list[index] &&
+                          form.formState.errors?.invoice_item_list[index]?.price?.message
                         }
                       />
                     }
