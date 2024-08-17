@@ -1,5 +1,5 @@
+import InvoiceManager from "../components/InvoiceManager";
 import Layout from "../components/Layout";
-import InvoiceManager from "../components/InvoiceManager/InvoiceManager";
 
 export interface IInvoiceFilters {
   draft: boolean;

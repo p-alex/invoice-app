@@ -3,44 +3,29 @@ import createRandomId from "../../utils/createRandomId";
 import { createInvoiceSchema, CreateInvoiceType } from "../../entities/Invoice";
 import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { invoiceController } from "../../api";
 import { CreateInvoiceSideModalProps } from "./CreateInvoiceSideModal";
+import getInvoiceDueDate from "../../utils/getInvoiceDueDate";
+
+export const createInvoiceSideModal_pendingSuccessMessage =
+  "Invoice was saved and sent successfully!";
+export const createInvoiceSideModal_draftSuccessMessage = "Draft invoice saved!";
 
 function useCreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const invoiceId = useRef(createRandomId());
 
-  const handleGetInvoiceDueDate = (invoiceDate: Date, paymentTerms: string) => {
-    const dueDate = new Date(invoiceDate.getTime());
-    switch (paymentTerms) {
-      case "Net 1 Day":
-        dueDate.setDate(invoiceDate.getDate() + 1);
-        break;
-      case "Net 7 Days":
-        dueDate.setDate(invoiceDate.getDate() + 7);
-        break;
-      case "Net 14 Days":
-        dueDate.setDate(invoiceDate.getDate() + 14);
-        break;
-      case "Net 30 Days":
-        dueDate.setDate(invoiceDate.getDate() + 30);
-        break;
-    }
-    return dueDate;
-  };
-
   const { formState, control, getValues, setValue, watch, register, handleSubmit, reset } =
     useForm<CreateInvoiceType>({
       defaultValues: {
         invoice: {
-          id: createRandomId(),
+          id: invoiceId.current,
           client_name: "",
           client_email: "",
           sender_address: { street: "", city: "", post_code: "", country: "" },
           receiver_address: { street: "", city: "", post_code: "", country: "" },
           payment_terms: "Net 1 Day",
           created_at: new Date(),
-          due_at: handleGetInvoiceDueDate(new Date(), "Net 1 Day"),
+          due_at: getInvoiceDueDate(new Date(), "Net 1 Day"),
           status: "pending",
           project_description: "",
         },
@@ -56,14 +41,18 @@ function useCreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
 
   const submit = async (invoiceData: CreateInvoiceType) => {
     try {
-      const response = await invoiceController.createOne(
+      const response = await props.handleSaveAndSend(
         invoiceData.invoice,
         invoiceData.invoice_item_list,
       );
       if (response.success) {
         props.handleCloseModal();
+        props.displayPopup(createInvoiceSideModal_pendingSuccessMessage);
+        props.handleAddInvoiceToState(response.result);
         reset();
+        return;
       }
+      props.displayPopup(response.error);
     } catch (error) {
       console.error(error);
     }
@@ -72,14 +61,18 @@ function useCreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
   const submitAsDraft = async (invoiceData: CreateInvoiceType) => {
     invoiceData.invoice.status = "draft";
     try {
-      const response = await invoiceController.createOne(
+      const response = await props.handleSaveAsDraft(
         invoiceData.invoice,
         invoiceData.invoice_item_list,
       );
       if (response.success) {
         props.handleCloseModal();
+        props.displayPopup(createInvoiceSideModal_draftSuccessMessage);
+        props.handleAddInvoiceToState(response.result);
         reset();
+        return;
       }
+      props.displayPopup(response.error);
     } catch (error) {
       console.error(error);
     }
@@ -101,14 +94,14 @@ function useCreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
 
   const handleSetInvoiceDate = (date: Date) => {
     setValue("invoice.created_at", date);
-    const dueDate = handleGetInvoiceDueDate(date, getValues("invoice.payment_terms"));
+    const dueDate = getInvoiceDueDate(date, getValues("invoice.payment_terms"));
     setValue("invoice.due_at", dueDate);
   };
 
   const paymentTerms = watch("invoice.payment_terms");
 
   useEffect(() => {
-    const dueDate = handleGetInvoiceDueDate(
+    const dueDate = getInvoiceDueDate(
       getValues("invoice.created_at"),
       getValues("invoice.payment_terms"),
     );

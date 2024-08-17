@@ -22,4 +22,6 @@ export const createInvoiceSchema = z.object({
 
 export type InvoiceType = z.TypeOf<typeof invoiceSchema>;
 
+export type PaymentTermsType = InvoiceType["payment_terms"];
+
 export type CreateInvoiceType = z.TypeOf<typeof createInvoiceSchema>;

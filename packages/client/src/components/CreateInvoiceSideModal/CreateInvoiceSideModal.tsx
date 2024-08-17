@@ -5,9 +5,16 @@ import InvoiceItemList from "./InvoiceItemList";
 import { Form, FormSection, FormThreeColGrid } from "../Form";
 import InvoiceItem from "./InvoiceItemList/InvoiceItem";
 import useCreateInvoiceSideModal from "./useCreateInvoiceSideModal";
+import { SaveAndSendInvoiceType, SaveInvoiceAsDraftType } from "../../api/invoice";
+import { DisplayPopupType } from "../../utils/FeedbackPopupManager";
+import { InvoiceType } from "../../entities/Invoice";
 
 export interface CreateInvoiceSideModalProps {
   handleCloseModal: () => void;
+  handleAddInvoiceToState: (invoice: InvoiceType) => void;
+  displayPopup: DisplayPopupType;
+  handleSaveAndSend: SaveAndSendInvoiceType;
+  handleSaveAsDraft: SaveInvoiceAsDraftType;
   firstFocusableButtonRef: React.RefObject<HTMLButtonElement>;
   lastFocusableButtonRef: React.RefObject<HTMLButtonElement>;
 }
@@ -115,7 +122,6 @@ function CreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
                 <InputGroup
                   label="Post Code"
                   autoComplete="billing postal-code"
-                  inputMode="numeric"
                   {...form.register("invoice.receiver_address.post_code")}
                   error={
                     form.formState.errors.invoice?.receiver_address?.post_code &&
@@ -238,7 +244,7 @@ function CreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
                 onClick={() => submitAsDraft(form.getValues())}
                 disabled={!form.formState.isValid || form.formState.isLoading}
               >
-                Save Draft
+                Save as Draft
               </Button>
               <PrimaryButton
                 type="submit"

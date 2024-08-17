@@ -1,44 +1,21 @@
-import { useEffect, useState } from "react";
-import { InvoiceType } from "../../entities/Invoice";
 import InvoiceFilter from "../../pages/InvoiceFilter";
-import { IInvoiceFilters, InvoiceFilterType } from "../../pages/InvoicesPage";
-import useIsWindowSizeLowerThan from "../../hooks/useIsWindowSizeLowerThan";
 import VisibiltyToggleProvider from "../VisibilityToggleProvider";
 import { PrimaryButton } from "../../ui";
 import { PlusIcon } from "../../svgs";
 import CreateInvoiceSideModal from "../CreateInvoiceSideModal";
 import InvoiceList from "../../pages/InvoiceList";
 import { invoiceController } from "../../api";
+import feebackPopupManager from "../../utils/FeedbackPopupManager";
+import useInvoiceManager from "./useInvoiceManager";
 
 function InvoiceManager() {
-  const [invoices, setInvoices] = useState<InvoiceType[]>([]);
-
-  const [invoiceFilters, setInvoiceFilters] = useState<IInvoiceFilters>({
-    draft: false,
-    pending: false,
-    paid: false,
-  });
-
-  const handleSetInvoiceFilter = (filter: InvoiceFilterType, isChecked: boolean) => {
-    setInvoiceFilters((prevState) => ({ ...prevState, [filter]: isChecked }));
-  };
-
-  const isMobileSize = useIsWindowSizeLowerThan(640);
-
-  const handleGetInvoices = async () => {
-    try {
-      const response = await invoiceController.findAll();
-      if (response.success) {
-        setInvoices(response.result);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    handleGetInvoices();
-  }, []);
+  const {
+    invoices,
+    invoiceFilters,
+    isMobileSize,
+    handleAddInvoiceToState,
+    handleSetInvoiceFilter,
+  } = useInvoiceManager();
 
   return (
     <div>
@@ -69,6 +46,10 @@ function InvoiceManager() {
             content={(props) => (
               <CreateInvoiceSideModal
                 handleCloseModal={props.handleToggleOffVisibilty}
+                displayPopup={feebackPopupManager.displayPopup}
+                handleAddInvoiceToState={handleAddInvoiceToState}
+                handleSaveAndSend={invoiceController.saveAndSend}
+                handleSaveAsDraft={invoiceController.saveAsDraft}
                 firstFocusableButtonRef={props.firstFocusableButtonRef}
                 lastFocusableButtonRef={props.lastFocusableButtonRef}
               />
