@@ -21,9 +21,9 @@ function useInvoiceManager() {
 
   const handleGetInvoices = async () => {
     try {
-      const response = await invoiceController.findAll();
+      const response = await invoiceController.getAll();
       if (response.success) {
-        setInvoices(response.result);
+        setInvoices(response.result.invoices);
       }
     } catch (error) {
       console.error(error);

@@ -8,7 +8,7 @@ class InvoiceRepository {
     this._key = "invoices";
   }
 
-  findAll() {
+  getAll() {
     const invoices = this._storage.getItem<InvoiceType[]>(this._key);
     if (!invoices) {
       this._storage.setItem(this._key, []);
@@ -17,16 +17,16 @@ class InvoiceRepository {
     return invoices;
   }
 
-  findOneById(id: string) {
-    const invoices = this.findAll();
+  getById(id: string) {
+    const invoices = this.getAll();
     for (let i = 0; i < invoices?.length; i++) {
       if (invoices[i].id === id) return invoices[i];
     }
     return null;
   }
 
-  createOne = (invoice: InvoiceType) => {
-    let invoices = this.findAll();
+  save = (invoice: InvoiceType) => {
+    let invoices = this.getAll();
     if (invoices === null) {
       this._storage.setItem(this._key, []);
       invoices = [];

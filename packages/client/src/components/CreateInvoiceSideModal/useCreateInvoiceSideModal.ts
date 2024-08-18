@@ -48,7 +48,7 @@ function useCreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
       if (response.success) {
         props.handleCloseModal();
         props.displayPopup(createInvoiceSideModal_pendingSuccessMessage);
-        props.handleAddInvoiceToState(response.result);
+        props.handleAddInvoiceToState(response.result.invoice);
         reset();
         return;
       }
@@ -68,7 +68,7 @@ function useCreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
       if (response.success) {
         props.handleCloseModal();
         props.displayPopup(createInvoiceSideModal_draftSuccessMessage);
-        props.handleAddInvoiceToState(response.result);
+        props.handleAddInvoiceToState(response.result.invoice);
         reset();
         return;
       }

@@ -1,42 +1,47 @@
 import { DefaultResponse } from "../../entities/DefaultResponse";
 import { InvoiceType } from "../../entities/Invoice";
 import { InvoiceItemType } from "../../entities/InvoiceItem";
-import UnitOfWork from "../UnitOfWork/UnitOfWork";
+import HTTPResponse from "../HTTPResponse";
+import InvoiceItemService from "../invoiceItem/invoiceItem.service";
+import InvoiceService from "./invoice.service";
 
 class InvoiceController {
-  constructor(private readonly _unitOfWork: UnitOfWork) {
-    this.findAll = this.findAll.bind(this);
+  constructor(
+    private readonly _invoiceService: InvoiceService,
+    private readonly _invoiceItemService: InvoiceItemService,
+  ) {
+    this.getAll = this.getAll.bind(this);
     this.saveAndSend = this.saveAndSend.bind(this);
     this.saveAsDraft = this.saveAsDraft.bind(this);
   }
 
-  async findAll(): Promise<DefaultResponse<InvoiceType[]>> {
+  async getAll(): Promise<DefaultResponse<{ invoices: InvoiceType[] }>> {
     return new Promise((resolve) => {
-      const invoices = this._unitOfWork.invoice.findAll();
-      resolve({ success: true, result: invoices, error: "" });
+      const invoices = this._invoiceService.getAll();
+      resolve(HTTPResponse.success({ invoices }));
     });
   }
 
   async saveAndSend(
     invoice: InvoiceType,
-    invoiceItemList: InvoiceItemType[],
-  ): Promise<DefaultResponse<InvoiceType>> {
+    invoiceItems: InvoiceItemType[],
+  ): Promise<DefaultResponse<{ invoice: InvoiceType }>> {
     return new Promise((resolve) => {
-      const createdInvoice = this._unitOfWork.invoice.createOne(invoice);
-      this._unitOfWork.invoiceItem.createMany(invoiceItemList);
-      // Send invoice
-      resolve({ success: true, result: createdInvoice, error: "" });
+      const createdInvoice = this._invoiceService.save(invoice);
+      this._invoiceItemService.saveMany(invoiceItems);
+      this._invoiceService.send(createdInvoice);
+      resolve(HTTPResponse.success({ invoice: createdInvoice }));
     });
   }
 
   async saveAsDraft(
     invoice: InvoiceType,
-    invoiceItemList: InvoiceItemType[],
-  ): Promise<DefaultResponse<InvoiceType>> {
+    invoiceItems: InvoiceItemType[],
+  ): Promise<DefaultResponse<{ invoice: InvoiceType }>> {
     return new Promise((resolve) => {
-      const createdInvoice = this._unitOfWork.invoice.createOne(invoice);
-      this._unitOfWork.invoiceItem.createMany(invoiceItemList);
-      resolve({ success: true, result: createdInvoice, error: "" });
+      const createdInvoice = this._invoiceService.save(invoice);
+      this._invoiceItemService.saveMany(invoiceItems);
+      resolve(HTTPResponse.success({ invoice: createdInvoice }));
     });
   }
 }

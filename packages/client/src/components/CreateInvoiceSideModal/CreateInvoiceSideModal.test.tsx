@@ -2,6 +2,8 @@ import "@testing-library/jest-dom";
 import CreateInvoiceSideModal from "./CreateInvoiceSideModal";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import HTTPResponse from "../../api/HTTPResponse";
+import { validTestInvoice } from "../../testEntities/testInvoice";
 
 async function fillTextFields(fields: HTMLElement[]) {
   for (let i = 0; i < fields.length; i++) {
@@ -33,7 +35,7 @@ describe("CreateInvoiceSideModal.tsx", () => {
     const handleDisplayPopupMock = jest.fn();
     const handleAddInvoiceToStateMock = jest.fn();
 
-    handleSaveAndSendMock.mockReturnValue({ success: true });
+    handleSaveAndSendMock.mockReturnValue(HTTPResponse.success({ invoice: validTestInvoice }));
 
     render(
       <CreateInvoiceSideModal
@@ -64,7 +66,7 @@ describe("CreateInvoiceSideModal.tsx", () => {
     const handleDisplayPopupMock = jest.fn();
     const handleAddInvoiceToStateMock = jest.fn();
 
-    handleSaveAsDraftMock.mockReturnValue({ success: true });
+    handleSaveAsDraftMock.mockReturnValue(HTTPResponse.success({ invoice: validTestInvoice }));
 
     render(
       <CreateInvoiceSideModal
@@ -95,7 +97,7 @@ describe("CreateInvoiceSideModal.tsx", () => {
     const handleDisplayPopupMock = jest.fn();
     const handleAddInvoiceToStateMock = jest.fn();
 
-    handleSaveAndSendMock.mockReturnValue({ success: false });
+    handleSaveAndSendMock.mockReturnValue(HTTPResponse.error("error"));
 
     render(
       <CreateInvoiceSideModal
@@ -126,7 +128,7 @@ describe("CreateInvoiceSideModal.tsx", () => {
     const handleDisplayPopupMock = jest.fn();
     const handleAddInvoiceToStateMock = jest.fn();
 
-    handleSaveAsDraftMock.mockReturnValue({ success: false });
+    handleSaveAsDraftMock.mockReturnValue(HTTPResponse.error("error"));
 
     render(
       <CreateInvoiceSideModal
