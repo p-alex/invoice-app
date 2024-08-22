@@ -17,7 +17,7 @@ class InvoiceItemRepository {
     return invoiceItems;
   }
 
-  createMany(invoiceItems: InvoiceItemType[]) {
+  saveMany(invoiceItems: InvoiceItemType[]) {
     const currentInvoiceItems = this.findAll();
     const newInvoiceItems = [...currentInvoiceItems, ...invoiceItems];
     this._storage.setItem(this._key, newInvoiceItems);

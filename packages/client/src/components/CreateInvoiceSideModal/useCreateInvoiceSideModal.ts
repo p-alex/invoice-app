@@ -11,26 +11,27 @@ export const createInvoiceSideModal_pendingSuccessMessage =
 export const createInvoiceSideModal_draftSuccessMessage = "Draft invoice saved!";
 
 function useCreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const invoiceId = useRef(createRandomId());
 
   const { formState, control, getValues, setValue, watch, register, handleSubmit, reset } =
     useForm<CreateInvoiceType>({
-      defaultValues: {
-        invoice: {
-          id: invoiceId.current,
-          client_name: "",
-          client_email: "",
-          sender_address: { street: "", city: "", post_code: "", country: "" },
-          receiver_address: { street: "", city: "", post_code: "", country: "" },
-          payment_terms: "Net 1 Day",
-          created_at: new Date(),
-          due_at: getInvoiceDueDate(new Date(), "Net 1 Day"),
-          status: "pending",
-          project_description: "",
-        },
-        invoice_item_list: [],
-      },
+      defaultValues: props.defaultValues
+        ? props.defaultValues
+        : {
+            invoice: {
+              id: invoiceId.current,
+              client_name: "",
+              client_email: "",
+              sender_address: { street: "", city: "", post_code: "", country: "" },
+              receiver_address: { street: "", city: "", post_code: "", country: "" },
+              payment_terms: "Net 1 Day",
+              created_at: new Date(),
+              due_at: getInvoiceDueDate(new Date(), "Net 1 Day"),
+              status: "pending",
+              project_description: "",
+            },
+            invoice_item_list: [],
+          },
       resolver: zodResolver(createInvoiceSchema),
     });
 
@@ -53,8 +54,8 @@ function useCreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
         return;
       }
       props.displayPopup(response.error);
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      props.displayPopup(error.message);
     }
   };
 
@@ -73,8 +74,8 @@ function useCreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
         return;
       }
       props.displayPopup(response.error);
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      props.displayPopup(error.message);
     }
   };
 

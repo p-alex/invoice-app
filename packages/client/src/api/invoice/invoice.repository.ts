@@ -25,7 +25,7 @@ class InvoiceRepository {
     return null;
   }
 
-  save = (invoice: InvoiceType) => {
+  saveOne(invoice: InvoiceType) {
     let invoices = this.getAll();
     if (invoices === null) {
       this._storage.setItem(this._key, []);
@@ -34,7 +34,7 @@ class InvoiceRepository {
     const newInvoices = [...invoices, invoice];
     this._storage.setItem(this._key, newInvoices);
     return invoice;
-  };
+  }
 }
 
 export default InvoiceRepository;

@@ -4,26 +4,13 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import HTTPResponse from "../../api/HTTPResponse";
 import { validTestInvoice } from "../../testEntities/testInvoice";
-
-async function fillTextFields(fields: HTMLElement[]) {
-  for (let i = 0; i < fields.length; i++) {
-    if (fields[i].getAttribute("type") === "email") {
-      await userEvent.type(fields[i], "test@test.com");
-      continue;
-    }
-    await userEvent.type(fields[i], "test");
-  }
-}
-
-async function initialFormSetup() {
-  const addNewInvoiceItemButton = screen.getByRole("button", { name: /\+ add new item/i });
-  await userEvent.click(addNewInvoiceItemButton);
-}
+import { validTestInvoiceItem } from "../../testEntities/testInvoiceItem";
+import {
+  createInvoiceSideModal_draftSuccessMessage,
+  createInvoiceSideModal_pendingSuccessMessage,
+} from "./useCreateInvoiceSideModal";
 
 async function submitForm(submitType: "save & send" | "save as draft") {
-  await initialFormSetup();
-  const fields = screen.getAllByRole("textbox");
-  await fillTextFields(fields);
   const submitButton = screen.getByRole("button", { name: new RegExp(submitType, "i") });
   await userEvent.click(submitButton);
 }
@@ -39,6 +26,7 @@ describe("CreateInvoiceSideModal.tsx", () => {
 
     render(
       <CreateInvoiceSideModal
+        defaultValues={{ invoice: validTestInvoice, invoice_item_list: [validTestInvoiceItem] }}
         handleCloseModal={handleCloseModalMock}
         handleAddInvoiceToState={handleAddInvoiceToStateMock}
         handleSaveAndSend={handleSaveAndSendMock}
@@ -55,7 +43,9 @@ describe("CreateInvoiceSideModal.tsx", () => {
 
     expect(handleCloseModalMock).toHaveBeenCalled();
 
-    expect(handleDisplayPopupMock).toHaveBeenCalled();
+    expect(handleDisplayPopupMock).toHaveBeenCalledWith(
+      createInvoiceSideModal_pendingSuccessMessage,
+    );
 
     expect(handleAddInvoiceToStateMock).toHaveBeenCalled();
   });
@@ -70,6 +60,7 @@ describe("CreateInvoiceSideModal.tsx", () => {
 
     render(
       <CreateInvoiceSideModal
+        defaultValues={{ invoice: validTestInvoice, invoice_item_list: [validTestInvoiceItem] }}
         handleCloseModal={handleCloseModalMock}
         handleAddInvoiceToState={handleAddInvoiceToStateMock}
         handleSaveAndSend={jest.fn()}
@@ -86,7 +77,7 @@ describe("CreateInvoiceSideModal.tsx", () => {
 
     expect(handleCloseModalMock).toHaveBeenCalled();
 
-    expect(handleDisplayPopupMock).toHaveBeenCalled();
+    expect(handleDisplayPopupMock).toHaveBeenCalledWith(createInvoiceSideModal_draftSuccessMessage);
 
     expect(handleAddInvoiceToStateMock).toHaveBeenCalled();
   });
@@ -97,10 +88,11 @@ describe("CreateInvoiceSideModal.tsx", () => {
     const handleDisplayPopupMock = jest.fn();
     const handleAddInvoiceToStateMock = jest.fn();
 
-    handleSaveAndSendMock.mockReturnValue(HTTPResponse.error("error"));
+    handleSaveAndSendMock.mockReturnValue(HTTPResponse.error("request error"));
 
     render(
       <CreateInvoiceSideModal
+        defaultValues={{ invoice: validTestInvoice, invoice_item_list: [validTestInvoiceItem] }}
         handleCloseModal={handleCloseModalMock}
         handleAddInvoiceToState={handleAddInvoiceToStateMock}
         handleSaveAndSend={handleSaveAndSendMock}
@@ -119,19 +111,22 @@ describe("CreateInvoiceSideModal.tsx", () => {
 
     expect(handleDisplayPopupMock).toHaveBeenCalled();
 
+    expect(handleDisplayPopupMock).toHaveBeenCalledWith("request error");
+
     expect(handleCloseModalMock).not.toHaveBeenCalled();
   });
 
-  it("should display error if the 'save as draft' form submittion fails", async () => {
+  it("should display error if the 'save as draft' form submittion request fails", async () => {
     const handleCloseModalMock = jest.fn();
     const handleSaveAsDraftMock = jest.fn();
     const handleDisplayPopupMock = jest.fn();
     const handleAddInvoiceToStateMock = jest.fn();
 
-    handleSaveAsDraftMock.mockReturnValue(HTTPResponse.error("error"));
+    handleSaveAsDraftMock.mockReturnValue(HTTPResponse.error("request error"));
 
     render(
       <CreateInvoiceSideModal
+        defaultValues={{ invoice: validTestInvoice, invoice_item_list: [validTestInvoiceItem] }}
         handleCloseModal={handleCloseModalMock}
         handleAddInvoiceToState={handleAddInvoiceToStateMock}
         handleSaveAndSend={jest.fn()}
@@ -149,6 +144,76 @@ describe("CreateInvoiceSideModal.tsx", () => {
     expect(handleCloseModalMock).not.toHaveBeenCalled();
 
     expect(handleDisplayPopupMock).toHaveBeenCalled();
+
+    expect(handleDisplayPopupMock).toHaveBeenCalledWith("request error");
+
+    expect(handleAddInvoiceToStateMock).not.toHaveBeenCalled();
+  });
+
+  it("should display a feedback popup if 'handleSaveAndSendInvoice' function throws an error", async () => {
+    const handleCloseModalMock = jest.fn();
+    const handleSaveAndSendMock = jest.fn(() => {
+      throw new Error("save and send error");
+    });
+    const handleDisplayPopupMock = jest.fn();
+    const handleAddInvoiceToStateMock = jest.fn();
+
+    render(
+      <CreateInvoiceSideModal
+        defaultValues={{ invoice: validTestInvoice, invoice_item_list: [validTestInvoiceItem] }}
+        handleCloseModal={handleCloseModalMock}
+        handleAddInvoiceToState={handleAddInvoiceToStateMock}
+        handleSaveAndSend={handleSaveAndSendMock}
+        handleSaveAsDraft={jest.fn()}
+        displayPopup={handleDisplayPopupMock}
+        firstFocusableButtonRef={{ current: null }}
+        lastFocusableButtonRef={{ current: null }}
+      />,
+    );
+
+    await submitForm("save & send");
+
+    expect(handleSaveAndSendMock).toThrow();
+
+    expect(handleCloseModalMock).not.toHaveBeenCalled();
+
+    expect(handleDisplayPopupMock).toHaveBeenCalled();
+
+    expect(handleDisplayPopupMock).toHaveBeenCalledWith("save and send error");
+
+    expect(handleAddInvoiceToStateMock).not.toHaveBeenCalled();
+  });
+
+  it("should display a feedback popup if 'handleSaveInvoiceAsDraft' function throws an error", async () => {
+    const handleCloseModalMock = jest.fn();
+    const handleSaveAsDraftMock = jest.fn(() => {
+      throw new Error("save as draft error");
+    });
+    const handleDisplayPopupMock = jest.fn();
+    const handleAddInvoiceToStateMock = jest.fn();
+
+    render(
+      <CreateInvoiceSideModal
+        defaultValues={{ invoice: validTestInvoice, invoice_item_list: [validTestInvoiceItem] }}
+        handleCloseModal={handleCloseModalMock}
+        handleAddInvoiceToState={handleAddInvoiceToStateMock}
+        handleSaveAndSend={jest.fn()}
+        handleSaveAsDraft={handleSaveAsDraftMock}
+        displayPopup={handleDisplayPopupMock}
+        firstFocusableButtonRef={{ current: null }}
+        lastFocusableButtonRef={{ current: null }}
+      />,
+    );
+
+    await submitForm("save as draft");
+
+    expect(handleSaveAsDraftMock).toThrow();
+
+    expect(handleCloseModalMock).not.toHaveBeenCalled();
+
+    expect(handleDisplayPopupMock).toHaveBeenCalled();
+
+    expect(handleDisplayPopupMock).toHaveBeenCalledWith("save as draft error");
 
     expect(handleAddInvoiceToStateMock).not.toHaveBeenCalled();
   });

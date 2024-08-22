@@ -7,9 +7,10 @@ import InvoiceItem from "./InvoiceItemList/InvoiceItem";
 import useCreateInvoiceSideModal from "./useCreateInvoiceSideModal";
 import { SaveAndSendInvoiceType, SaveInvoiceAsDraftType } from "../../api/invoice";
 import { DisplayPopupType } from "../../utils/FeedbackPopupManager";
-import { InvoiceType } from "../../entities/Invoice";
+import { CreateInvoiceType, InvoiceType } from "../../entities/Invoice";
 
 export interface CreateInvoiceSideModalProps {
+  defaultValues?: CreateInvoiceType;
   handleCloseModal: () => void;
   handleAddInvoiceToState: (invoice: InvoiceType) => void;
   displayPopup: DisplayPopupType;

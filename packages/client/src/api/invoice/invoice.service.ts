@@ -10,7 +10,7 @@ class InvoiceService {
   }
 
   save(invoice: InvoiceType) {
-    const savedInvoice = this._invoiceRepository.save(invoice);
+    const savedInvoice = this._invoiceRepository.saveOne(invoice);
     return savedInvoice;
   }
 

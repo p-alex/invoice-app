@@ -5,7 +5,7 @@ class InvoiceItemService {
   constructor(private readonly _invoiceItemRepository: InvoiceItemRepository) {}
 
   saveMany(invoiceItems: InvoiceItemType[]) {
-    this._invoiceItemRepository.createMany(invoiceItems);
+    this._invoiceItemRepository.saveMany(invoiceItems);
     return true;
   }
 }
