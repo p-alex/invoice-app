@@ -62,7 +62,7 @@ class FeedbackPopupManager {
       "dark:bg-uiBgDT",
       "text-textLT",
       "dark:text-textDT",
-      "shadow-lg",
+      "shadow-md",
     );
     listItem.innerText = message;
     return listItem;

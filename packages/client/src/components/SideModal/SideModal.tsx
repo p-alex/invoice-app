@@ -10,7 +10,7 @@ interface Props {
 
 const SideModal = ({ children, title, handleCloseModal, closeButtonRef }: Props) => {
   return (
-    <div className="fixed left-0 top-0">
+    <div className="fixed left-0 top-0 z-10">
       <div
         className="fixed left-0 top-0 z-0 h-full w-full bg-[rgba(0,0,0,0.7)]"
         onClick={handleCloseModal}

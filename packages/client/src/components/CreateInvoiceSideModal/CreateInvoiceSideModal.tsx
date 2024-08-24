@@ -177,8 +177,7 @@ function CreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
           <FormSection title="Item List">
             <InvoiceItemList
               error={
-                form.formState.errors?.invoice_item_list &&
-                form.formState.errors?.invoice_item_list?.message
+                form.formState.errors?.invoiceItems && form.formState.errors?.invoiceItems?.message
               }
             >
               {form.invoiceItemFields.map((field, index) => {
@@ -191,11 +190,11 @@ function CreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
                       <InputGroup
                         id={`itemName${index}`}
                         label="Item name"
-                        {...form.register(`invoice_item_list.${index}.name` as const)}
+                        {...form.register(`invoiceItems.${index}.name` as const)}
                         error={
-                          form.formState.errors?.invoice_item_list &&
-                          form.formState.errors?.invoice_item_list[index] &&
-                          form.formState.errors?.invoice_item_list[index]?.name?.message
+                          form.formState.errors?.invoiceItems &&
+                          form.formState.errors?.invoiceItems[index] &&
+                          form.formState.errors?.invoiceItems[index]?.name?.message
                         }
                       />
                     }
@@ -204,13 +203,13 @@ function CreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
                         id={`itemQuantity${index}`}
                         label="Qty"
                         type="number"
-                        {...form.register(`invoice_item_list.${index}.quantity` as const, {
+                        {...form.register(`invoiceItems.${index}.quantity` as const, {
                           valueAsNumber: true,
                         })}
                         error={
-                          form.formState.errors?.invoice_item_list &&
-                          form.formState.errors?.invoice_item_list[index] &&
-                          form.formState.errors?.invoice_item_list[index]?.quantity?.message
+                          form.formState.errors?.invoiceItems &&
+                          form.formState.errors?.invoiceItems[index] &&
+                          form.formState.errors?.invoiceItems[index]?.quantity?.message
                         }
                       />
                     }
@@ -219,19 +218,19 @@ function CreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
                         id={`itemPrice${index}`}
                         label="Price"
                         type="number"
-                        {...form.register(`invoice_item_list.${index}.price` as const, {
+                        {...form.register(`invoiceItems.${index}.price` as const, {
                           valueAsNumber: true,
                         })}
                         error={
-                          form.formState.errors?.invoice_item_list &&
-                          form.formState.errors?.invoice_item_list[index] &&
-                          form.formState.errors?.invoice_item_list[index]?.price?.message
+                          form.formState.errors?.invoiceItems &&
+                          form.formState.errors?.invoiceItems[index] &&
+                          form.formState.errors?.invoiceItems[index]?.price?.message
                         }
                       />
                     }
                     totalPrice={(
-                      form.watch(`invoice_item_list.${index}.price`) *
-                      form.watch(`invoice_item_list.${index}.quantity`)
+                      form.watch(`invoiceItems.${index}.price`) *
+                      form.watch(`invoiceItems.${index}.quantity`)
                     ).toFixed(2)}
                   />
                 );

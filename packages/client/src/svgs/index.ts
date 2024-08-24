@@ -1,4 +1,5 @@
 import ArrowDownIcon from "./ArrowDownIcon";
+import ArrowRightIcon from "./ArrowRightIcon";
 import CheckIcon from "./CheckIcon";
 import ChevronLeft from "./ChevronLeft";
 import CloseIcon from "./CloseIcon";
@@ -9,4 +10,14 @@ import TrashIcon from "./TrashIcon";
 
 export type SvgType = React.SVGAttributes<SVGElement>;
 
-export { MoonIcon, SunIcon, PlusIcon, ArrowDownIcon, CheckIcon, TrashIcon, ChevronLeft, CloseIcon };
+export {
+  MoonIcon,
+  SunIcon,
+  PlusIcon,
+  ArrowDownIcon,
+  CheckIcon,
+  TrashIcon,
+  ChevronLeft,
+  CloseIcon,
+  ArrowRightIcon,
+};

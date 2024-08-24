@@ -1,0 +1,66 @@
+.invoiceGrid {
+  position: relative;
+  display: grid;
+  width: 100%;
+  gap: 32px;
+  text-align: start;
+  align-items: center;
+  grid-template-columns: 75px 110px 1fr 60px 104px 4px;
+  grid-template-areas: "id date clientName price status arrow";
+}
+
+.invoiceGrid__id {
+  grid-area: id;
+}
+
+.invoiceGrid__date {
+  grid-area: date;
+}
+
+.invoiceGrid__clientName {
+  grid-area: clientName;
+}
+
+.invoiceGrid__price {
+  grid-area: price;
+  text-align: end;
+}
+
+.invoiceGrid__status {
+  grid-area: status;
+}
+
+.invoiceGrid__arrow {
+  grid-area: arrow;
+}
+
+@media screen and (max-width: 875px) {
+  .invoiceGrid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 60px 1fr 1fr;
+    grid-template-areas:
+      "id clientName"
+      "date status"
+      "price status";
+    gap: 0px;
+  }
+  .invoiceGrid__id {
+    align-self: flex-start;
+  }
+  .invoiceGrid__clientName {
+    align-self: flex-start;
+    justify-self: end;
+  }
+  .invoiceGrid__status {
+    justify-self: end;
+  }
+  .invoiceGrid__date {
+    margin-bottom: 0.5rem;
+  }
+  .invoiceGrid__arrow {
+    display: none;
+  }
+  .invoiceGrid__price {
+    text-align: start;
+  }
+}

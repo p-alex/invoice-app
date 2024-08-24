@@ -1,3 +1,4 @@
+import Invoice from "../../components/Invoice";
 import { InvoiceType } from "../../entities/Invoice";
 
 interface Props {
@@ -6,13 +7,18 @@ interface Props {
 }
 
 function InvoiceList({ invoices }: Props) {
+  const sortInvoicesByCreatedAtDesc = (invoices: InvoiceType[]) =>
+    invoices.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+
+  const sortedInvoices = invoices.length > 0 ? sortInvoicesByCreatedAtDesc(invoices) : invoices;
+
   return (
     <div className="mb-10">
       {invoices.length > 0 && (
-        <ul>
-          {invoices.map((invoice, index) => (
+        <ul className="flex flex-col gap-4">
+          {sortedInvoices.map((invoice, index) => (
             <li key={"invoice-" + index} className={"text-textLT dark:text-textDT"}>
-              <pre>{invoice.id}</pre>
+              <Invoice invoice={invoice} />
             </li>
           ))}
         </ul>

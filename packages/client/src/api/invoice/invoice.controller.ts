@@ -1,3 +1,4 @@
+import { ZodError } from "zod";
 import { DefaultResponse } from "../../entities/DefaultResponse";
 import { InvoiceType } from "../../entities/Invoice";
 import { InvoiceItemType } from "../../entities/InvoiceItem";
@@ -16,9 +17,16 @@ class InvoiceController {
   }
 
   async getAll(): Promise<DefaultResponse<{ invoices: InvoiceType[] }>> {
-    return new Promise((resolve) => {
-      const invoices = this._invoiceService.getAll();
-      resolve(HTTPResponse.success({ invoices }));
+    return new Promise((resolve, reject) => {
+      try {
+        const invoices = this._invoiceService.getAll();
+        resolve(HTTPResponse.success({ invoices }));
+      } catch (error: any) {
+        if (error instanceof ZodError) {
+          console.log(error.errors[0].message);
+          reject(HTTPResponse.error(error.message));
+        }
+      }
     });
   }
 

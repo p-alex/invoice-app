@@ -26,7 +26,7 @@ describe("CreateInvoiceSideModal.tsx", () => {
 
     render(
       <CreateInvoiceSideModal
-        defaultValues={{ invoice: validTestInvoice, invoice_item_list: [validTestInvoiceItem] }}
+        defaultValues={{ invoice: validTestInvoice, invoiceItems: [validTestInvoiceItem] }}
         handleCloseModal={handleCloseModalMock}
         handleAddInvoiceToState={handleAddInvoiceToStateMock}
         handleSaveAndSend={handleSaveAndSendMock}
@@ -60,7 +60,7 @@ describe("CreateInvoiceSideModal.tsx", () => {
 
     render(
       <CreateInvoiceSideModal
-        defaultValues={{ invoice: validTestInvoice, invoice_item_list: [validTestInvoiceItem] }}
+        defaultValues={{ invoice: validTestInvoice, invoiceItems: [validTestInvoiceItem] }}
         handleCloseModal={handleCloseModalMock}
         handleAddInvoiceToState={handleAddInvoiceToStateMock}
         handleSaveAndSend={jest.fn()}
@@ -92,7 +92,7 @@ describe("CreateInvoiceSideModal.tsx", () => {
 
     render(
       <CreateInvoiceSideModal
-        defaultValues={{ invoice: validTestInvoice, invoice_item_list: [validTestInvoiceItem] }}
+        defaultValues={{ invoice: validTestInvoice, invoiceItems: [validTestInvoiceItem] }}
         handleCloseModal={handleCloseModalMock}
         handleAddInvoiceToState={handleAddInvoiceToStateMock}
         handleSaveAndSend={handleSaveAndSendMock}
@@ -126,7 +126,7 @@ describe("CreateInvoiceSideModal.tsx", () => {
 
     render(
       <CreateInvoiceSideModal
-        defaultValues={{ invoice: validTestInvoice, invoice_item_list: [validTestInvoiceItem] }}
+        defaultValues={{ invoice: validTestInvoice, invoiceItems: [validTestInvoiceItem] }}
         handleCloseModal={handleCloseModalMock}
         handleAddInvoiceToState={handleAddInvoiceToStateMock}
         handleSaveAndSend={jest.fn()}
@@ -160,7 +160,7 @@ describe("CreateInvoiceSideModal.tsx", () => {
 
     render(
       <CreateInvoiceSideModal
-        defaultValues={{ invoice: validTestInvoice, invoice_item_list: [validTestInvoiceItem] }}
+        defaultValues={{ invoice: validTestInvoice, invoiceItems: [validTestInvoiceItem] }}
         handleCloseModal={handleCloseModalMock}
         handleAddInvoiceToState={handleAddInvoiceToStateMock}
         handleSaveAndSend={handleSaveAndSendMock}
@@ -194,7 +194,7 @@ describe("CreateInvoiceSideModal.tsx", () => {
 
     render(
       <CreateInvoiceSideModal
-        defaultValues={{ invoice: validTestInvoice, invoice_item_list: [validTestInvoiceItem] }}
+        defaultValues={{ invoice: validTestInvoice, invoiceItems: [validTestInvoiceItem] }}
         handleCloseModal={handleCloseModalMock}
         handleAddInvoiceToState={handleAddInvoiceToStateMock}
         handleSaveAndSend={jest.fn()}

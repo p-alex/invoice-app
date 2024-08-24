@@ -5,6 +5,7 @@ import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CreateInvoiceSideModalProps } from "./CreateInvoiceSideModal";
 import getInvoiceDueDate from "../../utils/getInvoiceDueDate";
+import { InvoiceItemType } from "../../entities/InvoiceItem";
 
 export const createInvoiceSideModal_pendingSuccessMessage =
   "Invoice was saved and sent successfully!";
@@ -25,27 +26,28 @@ function useCreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
               sender_address: { street: "", city: "", post_code: "", country: "" },
               receiver_address: { street: "", city: "", post_code: "", country: "" },
               payment_terms: "Net 1 Day",
-              created_at: new Date(),
-              due_at: getInvoiceDueDate(new Date(), "Net 1 Day"),
+              created_at: new Date().toISOString(),
+              due_at: getInvoiceDueDate(new Date(), "Net 1 Day").toISOString(),
               status: "pending",
               project_description: "",
+              total_price: 0,
             },
-            invoice_item_list: [],
+            invoiceItems: [],
           },
       resolver: zodResolver(createInvoiceSchema),
     });
 
   const { fields, append, remove } = useFieldArray({
-    name: "invoice_item_list",
+    name: "invoiceItems",
     control,
   });
 
   const submit = async (invoiceData: CreateInvoiceType) => {
+    const totalPrice = calculateTotalPrice(invoiceData.invoiceItems);
+    invoiceData.invoice.total_price = totalPrice;
+
     try {
-      const response = await props.handleSaveAndSend(
-        invoiceData.invoice,
-        invoiceData.invoice_item_list,
-      );
+      const response = await props.handleSaveAndSend(invoiceData.invoice, invoiceData.invoiceItems);
       if (response.success) {
         props.handleCloseModal();
         props.displayPopup(createInvoiceSideModal_pendingSuccessMessage);
@@ -61,11 +63,12 @@ function useCreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
 
   const submitAsDraft = async (invoiceData: CreateInvoiceType) => {
     invoiceData.invoice.status = "draft";
+
+    const totalPrice = calculateTotalPrice(invoiceData.invoiceItems);
+    invoiceData.invoice.total_price = totalPrice;
+
     try {
-      const response = await props.handleSaveAsDraft(
-        invoiceData.invoice,
-        invoiceData.invoice_item_list,
-      );
+      const response = await props.handleSaveAsDraft(invoiceData.invoice, invoiceData.invoiceItems);
       if (response.success) {
         props.handleCloseModal();
         props.displayPopup(createInvoiceSideModal_draftSuccessMessage);
@@ -94,18 +97,28 @@ function useCreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
   };
 
   const handleSetInvoiceDate = (date: Date) => {
-    setValue("invoice.created_at", date);
+    setValue("invoice.created_at", date.toISOString());
     const dueDate = getInvoiceDueDate(date, getValues("invoice.payment_terms"));
-    setValue("invoice.due_at", dueDate);
+    setValue("invoice.due_at", dueDate.toISOString());
+  };
+
+  const calculateTotalPrice = (invoiceItems: InvoiceItemType[]) => {
+    let totalPrice = 0;
+    for (let i = 0; i < invoiceItems.length; i++) {
+      const price = invoiceItems[i].price;
+      const quantity = invoiceItems[i].quantity;
+      totalPrice = totalPrice + price * quantity;
+    }
+    return totalPrice;
   };
 
   const paymentTerms = watch("invoice.payment_terms");
 
   useEffect(() => {
     const dueDate = getInvoiceDueDate(
-      getValues("invoice.created_at"),
+      new Date(getValues("invoice.created_at")),
       getValues("invoice.payment_terms"),
-    );
+    ).toISOString();
     setValue("invoice.due_at", dueDate);
   }, [paymentTerms, getValues, setValue]);
 

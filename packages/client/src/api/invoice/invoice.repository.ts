@@ -10,10 +10,12 @@ class InvoiceRepository {
 
   getAll() {
     const invoices = this._storage.getItem<InvoiceType[]>(this._key);
+
     if (!invoices) {
       this._storage.setItem(this._key, []);
       return [] as InvoiceType[];
     }
+
     return invoices;
   }
 
