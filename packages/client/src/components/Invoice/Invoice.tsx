@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { InvoiceType } from "../../entities/Invoice";
 import { ArrowRightIcon } from "../../svgs";
 import getPrettyDate from "../../utils/getPrettyDate";
@@ -12,8 +13,8 @@ function Invoice({ invoice }: Props) {
   const dueAt = new Date(invoice.due_at);
 
   return (
-    <a
-      href="#"
+    <Link
+      to={"/invoices/" + invoice.id}
       className="block w-full rounded-lg border border-transparent bg-uiBgLT hover:border-primary dark:bg-uiBgDT"
       aria-label={`view invoice with id ${invoice.id}`}
     >
@@ -31,7 +32,7 @@ function Invoice({ invoice }: Props) {
           <ArrowRightIcon />
         </div>
       </div>
-    </a>
+    </Link>
   );
 }
 
