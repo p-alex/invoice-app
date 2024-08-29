@@ -242,14 +242,14 @@ function CreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
             <div className="flex gap-2">
               <Button
                 onClick={() => submitAsDraft(form.getValues())}
-                disabled={!form.formState.isValid || form.formState.isLoading}
+                disabled={form.formState.isLoading}
               >
                 Save as Draft
               </Button>
               <PrimaryButton
                 type="submit"
                 ref={props.lastFocusableButtonRef}
-                disabled={!form.formState.isValid || form.formState.isLoading}
+                disabled={form.formState.isLoading}
               >
                 {form.formState.isLoading ? "Loading..." : "Save & Send"}
               </PrimaryButton>
