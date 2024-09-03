@@ -3,7 +3,7 @@ interface Props {
   zeroBasedMonth: number;
 }
 
-enum Months {
+export enum Months {
   January = 0,
   Febuary = 1,
   March = 2,
