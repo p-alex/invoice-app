@@ -127,7 +127,7 @@ describe("Calendar.tsx", () => {
   });
 
   it("should set current day to last day of the month if current day does not exist in the current month, after pressing previous month button", async () => {
-    render(<Calendar date={new Date(2024, 0, 31)} handleChange={() => {}} />);
+    render(<Calendar date={new Date(2024, 4, 31)} handleChange={() => {}} />);
 
     const prevMonthBtn = screen.getByTestId(PREV_MONTH_BTN_TEST_ID);
 
@@ -135,7 +135,7 @@ describe("Calendar.tsx", () => {
 
     const fullDateBtn = screen.getByTestId(FULL_DATE_BTN_TEST_ID);
 
-    expect(fullDateBtn).toHaveTextContent(getPrettyDate(2023, 11, 30));
+    expect(fullDateBtn).toHaveTextContent(getPrettyDate(2024, 3, 30));
   });
 
   it("if year changes from leap year to non leap year and date was Febuary 29, it should change date to Febuary 28", async () => {
