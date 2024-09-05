@@ -2,7 +2,7 @@ import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import user from "@testing-library/user-event";
 import InvoiceFilter from "./InvoiceFilter";
-import { IInvoiceFilters } from "../InvoicesPage";
+import { IInvoiceFilters } from "../../../pages/InvoicesPage";
 
 describe("InvoiceFilter.tsx", () => {
   const availableFilters: IInvoiceFilters = { draft: false, paid: false, pending: false };

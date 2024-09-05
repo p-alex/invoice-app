@@ -1,0 +1,113 @@
+.invoiceItemsSummary caption {
+  display: none;
+}
+
+.invoiceItemsSummary th {
+  text-align: left;
+  padding: 2.133rem 2.133rem 1.05rem 2.133rem;
+  width: 100%;
+  font-size: 0.867rem;
+  font-weight: medium;
+}
+
+.invoiceItemsSummary td {
+  padding: 1.05rem 2.133rem;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.invoiceItemsSummary tr:last-child td {
+  padding: 1.05rem 2.133rem 2.133rem 2.133rem;
+}
+
+.invoiceItemsSummary th[data-cell="quantity"] {
+  text-align: center;
+}
+
+.invoiceItemsSummary th[data-cell="price"] {
+  text-align: right;
+}
+
+.invoiceItemsSummary th[data-cell="total"] {
+  text-align: right;
+}
+
+.invoiceItemsSummary td[data-cell="quantity"] {
+  text-align: center;
+}
+
+.invoiceItemsSummary td[data-cell="price"] {
+  text-align: right;
+}
+
+.invoiceItemsSummary td[data-cell="total"] {
+  text-align: right;
+}
+
+@media screen and (max-width: 640px) {
+  .invoiceItemsSummary {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+    padding: 1.6rem;
+  }
+
+  .invoiceItemsSummary thead {
+    display: none;
+  }
+
+  .invoiceItemsSummary tr {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    grid-template-areas:
+      "name total"
+      "price total";
+    width: 100%;
+    text-align: left;
+  }
+
+  .invoiceItemsSummary tbody {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+  }
+
+  .invoiceItemsSummary td[data-cell="name"] {
+    grid-area: name;
+    font-size: 1rem;
+  }
+
+  .invoiceItemsSummary td[data-cell="quantity"] {
+    grid-area: quantity;
+    text-align: left;
+    display: none;
+  }
+
+  .invoiceItemsSummary td[data-cell="price"] {
+    grid-area: price;
+    text-align: left;
+    font-weight: bold;
+  }
+
+  .invoiceItemsSummary td[data-cell="price"]::before {
+    content: attr(data-quantity) " x ";
+  }
+
+  .invoiceItemsSummary td[data-cell="total"] {
+    grid-area: total;
+    align-self: center;
+  }
+
+  .invoiceItemsSummary td {
+    padding: 0;
+  }
+
+  .invoiceItemsSummary tr:last-child td {
+    padding: 0;
+  }
+
+  .invoiceItemsSummary tr {
+    padding: 0;
+  }
+}

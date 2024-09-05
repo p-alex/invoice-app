@@ -1,5 +1,5 @@
-import Invoice from "../../components/Invoice";
-import { InvoiceType } from "../../entities/Invoice";
+import Invoice from "../../Invoice";
+import { InvoiceType } from "../../../entities/Invoice";
 
 interface Props {
   invoices: InvoiceType[];
@@ -13,7 +13,7 @@ function InvoiceList({ invoices }: Props) {
   const sortedInvoices = invoices.length > 0 ? sortInvoicesByCreatedAtDesc(invoices) : invoices;
 
   return (
-    <div className="mb-10">
+    <div>
       {invoices.length > 0 && (
         <ul className="flex flex-col gap-4">
           {sortedInvoices.map((invoice, index) => (
@@ -23,7 +23,6 @@ function InvoiceList({ invoices }: Props) {
           ))}
         </ul>
       )}
-
       {invoices.length === 0 && (
         <div className="flex w-full  items-center justify-center  text-center text-textLT sm:h-[70vh] dark:text-textDT">
           <div className="flex w-[242px] flex-col gap-16">

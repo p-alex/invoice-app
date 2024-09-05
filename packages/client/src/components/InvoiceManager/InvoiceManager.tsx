@@ -1,9 +1,9 @@
-import InvoiceFilter from "../../pages/InvoiceFilter";
+import InvoiceFilter from "./InvoiceFilter";
 import VisibiltyToggleProvider from "../VisibilityToggleProvider";
 import { PrimaryButton } from "../../ui";
 import { PlusIcon } from "../../svgs";
 import CreateInvoiceSideModal from "../CreateInvoiceSideModal";
-import InvoiceList from "../../pages/InvoiceList";
+import InvoiceList from "./InvoiceList";
 import { invoiceController } from "../../api";
 import feebackPopupManager from "../../utils/FeedbackPopupManager";
 import useInvoiceManager from "./useInvoiceManager";
@@ -18,7 +18,7 @@ function InvoiceManager() {
   } = useInvoiceManager();
 
   return (
-    <div>
+    <div className="mb-8">
       <header className="mb-14 flex flex-col items-center justify-between gap-7 sm:flex-row">
         <div className="flex flex-col gap-2 text-center sm:text-left">
           <h1 className="text-4xl font-bold text-textLT dark:text-textDT">Invoices</h1>

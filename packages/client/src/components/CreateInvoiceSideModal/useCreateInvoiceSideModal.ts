@@ -49,10 +49,10 @@ function useCreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
     try {
       const response = await props.handleSaveAndSend(invoiceData.invoice, invoiceData.invoiceItems);
       if (response.success) {
+        reset();
         props.handleCloseModal();
         props.displayPopup(createInvoiceSideModal_pendingSuccessMessage);
         props.handleAddInvoiceToState(response.result.invoice);
-        reset();
         return;
       }
       props.displayPopup(response.error);
@@ -70,10 +70,10 @@ function useCreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
     try {
       const response = await props.handleSaveAsDraft(invoiceData.invoice, invoiceData.invoiceItems);
       if (response.success) {
+        reset();
         props.handleCloseModal();
         props.displayPopup(createInvoiceSideModal_draftSuccessMessage);
         props.handleAddInvoiceToState(response.result.invoice);
-        reset();
         return;
       }
       props.displayPopup(response.error);

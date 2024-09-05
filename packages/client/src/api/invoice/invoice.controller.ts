@@ -1,4 +1,3 @@
-import { ZodError } from "zod";
 import { DefaultResponse } from "../../entities/DefaultResponse";
 import { InvoiceType } from "../../entities/Invoice";
 import { InvoiceItemType } from "../../entities/InvoiceItem";
@@ -12,21 +11,23 @@ class InvoiceController {
     private readonly _invoiceItemService: InvoiceItemService,
   ) {
     this.getAll = this.getAll.bind(this);
+    this.getById = this.getById.bind(this);
     this.saveAndSend = this.saveAndSend.bind(this);
     this.saveAsDraft = this.saveAsDraft.bind(this);
   }
 
   async getAll(): Promise<DefaultResponse<{ invoices: InvoiceType[] }>> {
+    return new Promise((resolve) => {
+      const invoices = this._invoiceService.getAll();
+      resolve(HTTPResponse.success({ invoices }));
+    });
+  }
+
+  async getById(id: string): Promise<DefaultResponse<{ invoice: InvoiceType }>> {
     return new Promise((resolve, reject) => {
-      try {
-        const invoices = this._invoiceService.getAll();
-        resolve(HTTPResponse.success({ invoices }));
-      } catch (error: any) {
-        if (error instanceof ZodError) {
-          console.log(error.errors[0].message);
-          reject(HTTPResponse.error(error.message));
-        }
-      }
+      const invoice = this._invoiceService.getById(id);
+      if (!invoice) return reject(HTTPResponse.error("An invoice with this id does not exist"));
+      resolve(HTTPResponse.success({ invoice }));
     });
   }
 

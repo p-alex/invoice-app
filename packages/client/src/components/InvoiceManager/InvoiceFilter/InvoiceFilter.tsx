@@ -1,7 +1,7 @@
-import { ArrowDownIcon } from "../../svgs";
-import { IInvoiceFilters, InvoiceFilterType } from "../InvoicesPage";
-import VisibiltyToggleProvider from "../../components/VisibilityToggleProvider";
-import Checkbox from "../../ui/Checkbox";
+import { ArrowDownIcon } from "../../../svgs";
+import { IInvoiceFilters, InvoiceFilterType } from "../../../pages/InvoicesPage";
+import VisibiltyToggleProvider from "../../VisibilityToggleProvider";
+import Checkbox from "../../../ui/Checkbox";
 
 interface Props {
   invoiceFilters: IInvoiceFilters;

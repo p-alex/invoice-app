@@ -15,7 +15,7 @@ function Navbar() {
         <NavbarSection>
           <NavbarButton aria-label="toggle profile menu">
             <img
-              src="./images/image-avatar.jpg"
+              src="/images/image-avatar.jpg"
               className="h-full w-full rounded-[inherit]"
               alt=""
             />

@@ -1,4 +1,4 @@
-import { InvoiceType } from "../../entities/Invoice";
+import { InvoiceType } from "../../../entities/Invoice";
 
 interface Props {
   status: InvoiceType["status"];

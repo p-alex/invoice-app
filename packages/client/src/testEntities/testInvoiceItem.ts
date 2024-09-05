@@ -1,19 +1,23 @@
 import { InvoiceItemType } from "../entities/InvoiceItem";
 
-const validTestInvoiceItem: InvoiceItemType = {
-  id: "testId1",
-  invoice_id: "testId",
-  name: "test",
-  price: 100,
-  quantity: 2,
+const getValidTestInvoiceItem = (id: string, invoice_id: string): InvoiceItemType => {
+  return {
+    id,
+    invoice_id,
+    name: "name" + id,
+    price: 100,
+    quantity: 2,
+  };
 };
 
-const invalidTestInvoiceItem: InvoiceItemType = {
-  id: "testId1",
-  invoice_id: "testId",
-  name: "",
-  price: 100,
-  quantity: 2,
+const getInvalidTestInvoiceItem = (id: string, invoice_id: string): InvoiceItemType => {
+  return {
+    id,
+    invoice_id,
+    name: "",
+    price: 100,
+    quantity: 2,
+  };
 };
 
-export { validTestInvoiceItem, invalidTestInvoiceItem };
+export { getValidTestInvoiceItem, getInvalidTestInvoiceItem };
