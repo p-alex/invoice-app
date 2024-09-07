@@ -4,7 +4,7 @@ function NavLogo() {
   return (
     <Link
       to="/invoices"
-      className="relative flex h-[80px] w-[80px] items-center justify-center rounded-br-nav rounded-tr-nav bg-primary md:h-[103px] md:w-[103px]"
+      className="relative flex h-full w-[80px] items-center justify-center rounded-br-nav rounded-tr-nav bg-primary md:h-[103px] md:w-[103px]"
     >
       <img
         className="relative z-[1] h-[31px] w-[31px] shrink-0 md:h-[40px] md:w-[40px]"
