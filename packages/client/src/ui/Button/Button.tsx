@@ -1,11 +1,11 @@
-import { ButtonHTMLAttributes } from "react";
+import { ButtonHTMLAttributes, forwardRef, LegacyRef } from "react";
 import { twMerge } from "tailwind-merge";
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: string;
 }
 
-function Button({ children, ...btnProps }: Props) {
+const Button = forwardRef(({ children, ...btnProps }: Props, ref: LegacyRef<HTMLButtonElement>) => {
   return (
     <button
       type="button"
@@ -16,10 +16,11 @@ function Button({ children, ...btnProps }: Props) {
         ],
         btnProps.className,
       )}
+      ref={ref}
     >
       {children}
     </button>
   );
-}
+});
 
 export default Button;

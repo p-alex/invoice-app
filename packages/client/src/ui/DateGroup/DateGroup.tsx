@@ -6,6 +6,7 @@ import getPrettyDate from "../../utils/getPrettyDate";
 interface Props extends DateGroupFormProps {
   label: string;
   id: string;
+  disabled?: boolean;
 }
 
 export interface DateGroupFormProps {
@@ -46,11 +47,12 @@ function DateGroup(props: Props) {
             <>
               <button
                 type="button"
-                className={`field ${borderColor} flex items-center justify-between`}
+                className={`field ${borderColor} flex items-center justify-between disabled:opacity-70`}
                 id={props.id}
                 onClick={handleToggleVisibilty}
                 data-testid="dateGroupToggle"
                 ref={toggleRef}
+                disabled={props.disabled}
               >
                 <div>{getPrettyDate(date.getFullYear(), date.getMonth(), date.getDate())}</div>
                 <img src="./images/icon-calendar.svg" width={16} height={16} alt="" />

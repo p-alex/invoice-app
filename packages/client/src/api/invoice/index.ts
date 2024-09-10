@@ -17,5 +17,6 @@ const invoiceController = new InvoiceController(invoiceService, invoiceItemServi
 
 export type SaveAndSendInvoiceType = typeof invoiceController.saveAndSend;
 export type SaveInvoiceAsDraftType = typeof invoiceController.saveAsDraft;
+export type UpdateInvoiceType = typeof invoiceController.update;
 
 export default invoiceController;

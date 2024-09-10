@@ -1,43 +1,27 @@
+import SideModal from "../SideModal";
+import { Form, FormSection, FormThreeColGrid } from "../Form";
 import { Button, InputGroup, PrimaryButton, SelectGroup } from "../../ui";
 import DateGroup from "../../ui/DateGroup/DateGroup";
-import SideModal from "../SideModal";
-import InvoiceItemList from "./InvoiceItemList";
-import { Form, FormSection, FormThreeColGrid } from "../Form";
-import InvoiceItem from "./InvoiceItemList/InvoiceItem";
-import useCreateInvoiceSideModal from "./useCreateInvoiceSideModal";
-import { SaveAndSendInvoiceType, SaveInvoiceAsDraftType } from "../../api/invoice";
-import { DisplayPopupType } from "../../utils/FeedbackPopupManager";
-import { InvoiceType } from "../../entities/Invoice";
-import { CreateInvoiceType } from "./CreateInvoiceSideModal.schema";
+import InvoiceItemList from "../CreateInvoiceSideModal/InvoiceItemList";
+import InvoiceItem from "../CreateInvoiceSideModal/InvoiceItemList/InvoiceItem";
+import useEditInvoiceSideModal, { EditInvoiceSideModalProps } from "./useEditInvoiceSideModal";
 
-export interface CreateInvoiceSideModalProps {
-  defaultValues?: CreateInvoiceType;
-  handleCloseModal: () => void;
-  handleAddInvoiceToState: (invoice: InvoiceType) => void;
-  displayPopup: DisplayPopupType;
-  handleSaveAndSend: SaveAndSendInvoiceType;
-  handleSaveAsDraft: SaveInvoiceAsDraftType;
-  firstFocusableButtonRef: React.RefObject<HTMLButtonElement>;
-  lastFocusableButtonRef: React.RefObject<HTMLButtonElement>;
-}
-
-function CreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
+function EditInvoiceSideModal(props: EditInvoiceSideModalProps) {
   const {
     form,
-    submit,
-    submitAsDraft,
     handleAddInvoiceItem,
     handleRemoveInvoiceItem,
     handleSetInvoiceDate,
-  } = useCreateInvoiceSideModal(props);
+    handleUpdateInvoice,
+  } = useEditInvoiceSideModal(props);
 
   return (
     <SideModal
       handleCloseModal={props.handleCloseModal}
-      title={"New Invoice"}
+      title={"Edit #" + form.getValues("invoice.id")}
       closeButtonRef={props.firstFocusableButtonRef}
       children={
-        <Form onSubmit={form.handleSubmit(submit)} noValidate>
+        <Form onSubmit={form.handleSubmit(handleUpdateInvoice)} noValidate>
           <FormSection title="Bill From">
             <InputGroup
               id="from_street_address"
@@ -146,17 +130,19 @@ function CreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
               <DateGroup
                 id="invoiceDate"
                 label="Invoice Date"
-                utcDate={new Date(Date.now()).toUTCString()}
+                utcDate={new Date(props.defaultValues.invoice.created_at).toUTCString()}
                 handleChange={(date) => handleSetInvoiceDate(new Date(date))}
                 error={
                   form.formState.errors.invoice?.created_at &&
                   form.formState.errors.invoice?.created_at?.message
                 }
+                disabled
               />
               <SelectGroup
                 id="paymentTerms"
                 label="Payment Terms"
                 options={["Net 1 Day", "Net 7 Days", "Net 14 Days", "Net 30 Days"]}
+                option={form.getValues("invoice.payment_terms")}
                 handleChange={(option) => {
                   form.setValue("invoice.payment_terms", option);
                 }}
@@ -241,25 +227,19 @@ function CreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
           </FormSection>
           <div className="flex justify-end gap-2">
             <div className="flex gap-2">
-              <Button
-                onClick={() => submitAsDraft(form.getValues())}
-                disabled={form.formState.isLoading}
-              >
-                Save as Draft
-              </Button>
               <PrimaryButton
                 type="submit"
                 ref={props.lastFocusableButtonRef}
                 disabled={form.formState.isLoading}
               >
-                {form.formState.isLoading ? "Loading..." : "Save & Send"}
+                {form.formState.isLoading ? "Loading..." : "Save changes"}
               </PrimaryButton>
             </div>
           </div>
         </Form>
       }
-    ></SideModal>
+    />
   );
 }
 
-export default CreateInvoiceSideModal;
+export default EditInvoiceSideModal;

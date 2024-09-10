@@ -14,6 +14,7 @@ class InvoiceController {
     this.getById = this.getById.bind(this);
     this.saveAndSend = this.saveAndSend.bind(this);
     this.saveAsDraft = this.saveAsDraft.bind(this);
+    this.update = this.update.bind(this);
   }
 
   async getAll(): Promise<DefaultResponse<{ invoices: InvoiceType[] }>> {
@@ -51,6 +52,17 @@ class InvoiceController {
       const createdInvoice = this._invoiceService.save(invoice);
       this._invoiceItemService.saveMany(invoiceItems);
       resolve(HTTPResponse.success({ invoice: createdInvoice }));
+    });
+  }
+
+  async update(
+    invoice: InvoiceType,
+    invoiceItems: InvoiceItemType[],
+  ): Promise<DefaultResponse<{ invoice: InvoiceType; invoiceItems: InvoiceItemType[] }>> {
+    return new Promise((resolve) => {
+      const updatedInvoice = this._invoiceService.update(invoice);
+      const updatedInvoiceItems = this._invoiceItemService.updateMany(invoiceItems);
+      resolve(HTTPResponse.success({ invoice: updatedInvoice, invoiceItems: updatedInvoiceItems }));
     });
   }
 }

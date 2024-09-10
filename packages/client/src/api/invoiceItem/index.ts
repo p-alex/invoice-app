@@ -11,4 +11,7 @@ const invoiceItemService = new InvoiceItemService(invoiceItemRepository);
 
 const invoiceItemController = new InvoiceItemController(invoiceItemService);
 
+export type GetAllByInvoiceIdType = typeof invoiceItemController.getAllByInvoiceId;
+export type UpdateInvoiceItemsType = typeof invoiceItemController.updateInvoiceItems;
+
 export default invoiceItemController;

@@ -29,12 +29,26 @@ class InvoiceItemRepository {
     this._storage.setItem(this._key, newInvoiceItems);
   }
 
-  deleteOne(id: string) {
+  deleteOne(invoiceItem: InvoiceItemType) {
+    const invoiceItems = this.getAll();
+    const newInvoices = invoiceItems.filter((item) => item.id !== invoiceItem.id);
+    this._storage.setItem(this._key, newInvoices);
+    return invoiceItem;
+  }
+
+  deleteManyByInvoiceId(invoiceId: string) {
     const invoiceItems = this.getAll();
     if (!invoiceItems) return false;
-    const newInvoices = invoiceItems.filter((item) => item.id !== id);
+    const newInvoices = invoiceItems.filter((item) => item.invoice_id !== invoiceId);
     this._storage.setItem(this._key, newInvoices);
     return true;
+  }
+
+  updateMany(invoiceItems: InvoiceItemType[]) {
+    if (invoiceItems.length === 0) return [];
+    this.deleteManyByInvoiceId(invoiceItems[0].invoice_id);
+    this.saveMany(invoiceItems);
+    return invoiceItems;
   }
 }
 

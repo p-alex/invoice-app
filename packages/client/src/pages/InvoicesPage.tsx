@@ -1,4 +1,4 @@
-import InvoiceManager from "../components/InvoiceManager";
+import InvoiceDisplay from "../components/InvoiceDisplay";
 import Layout from "../components/Layout";
 
 export interface IInvoiceFilters {
@@ -12,7 +12,7 @@ export type InvoiceFilterType = keyof IInvoiceFilters;
 function InvoicesPage() {
   return (
     <Layout>
-      <InvoiceManager />
+      <InvoiceDisplay />
     </Layout>
   );
 }

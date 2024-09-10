@@ -37,6 +37,18 @@ class InvoiceRepository {
     this._storage.setItem(this._key, newInvoices);
     return invoice;
   }
+
+  update(invoice: InvoiceType) {
+    const invoices = this.getAll();
+    const newInvoices = invoices.map((currentInvoice) => {
+      if (currentInvoice.id === invoice.id) {
+        return invoice;
+      }
+      return currentInvoice;
+    });
+    this._storage.setItem(this._key, newInvoices);
+    return invoice;
+  }
 }
 
 export default InvoiceRepository;

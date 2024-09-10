@@ -1,11 +1,11 @@
 import { useEffect, useRef } from "react";
 import createRandomId from "../../utils/createRandomId";
-import { createInvoiceSchema, CreateInvoiceType } from "../../entities/Invoice";
 import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CreateInvoiceSideModalProps } from "./CreateInvoiceSideModal";
 import getInvoiceDueDate from "../../utils/getInvoiceDueDate";
-import { InvoiceItemType } from "../../entities/InvoiceItem";
+import { createInvoiceSchema, CreateInvoiceType } from "./CreateInvoiceSideModal.schema";
+import calculateInvoiceTotalPrice from "../../utils/calculateInvoiceTotalPrice";
 
 export const createInvoiceSideModal_pendingSuccessMessage =
   "Invoice was saved and sent successfully!";
@@ -43,7 +43,7 @@ function useCreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
   });
 
   const submit = async (invoiceData: CreateInvoiceType) => {
-    const totalPrice = calculateTotalPrice(invoiceData.invoiceItems);
+    const totalPrice = calculateInvoiceTotalPrice(invoiceData.invoiceItems);
     invoiceData.invoice.total_price = totalPrice;
 
     try {
@@ -64,7 +64,7 @@ function useCreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
   const submitAsDraft = async (invoiceData: CreateInvoiceType) => {
     invoiceData.invoice.status = "draft";
 
-    const totalPrice = calculateTotalPrice(invoiceData.invoiceItems);
+    const totalPrice = calculateInvoiceTotalPrice(invoiceData.invoiceItems);
     invoiceData.invoice.total_price = totalPrice;
 
     try {
@@ -100,16 +100,6 @@ function useCreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
     setValue("invoice.created_at", date.toISOString());
     const dueDate = getInvoiceDueDate(date, getValues("invoice.payment_terms"));
     setValue("invoice.due_at", dueDate.toISOString());
-  };
-
-  const calculateTotalPrice = (invoiceItems: InvoiceItemType[]) => {
-    let totalPrice = 0;
-    for (let i = 0; i < invoiceItems.length; i++) {
-      const price = invoiceItems[i].price;
-      const quantity = invoiceItems[i].quantity;
-      totalPrice = totalPrice + price * quantity;
-    }
-    return totalPrice;
   };
 
   const paymentTerms = watch("invoice.payment_terms");

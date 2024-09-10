@@ -1,49 +1,56 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { InvoiceType } from "../../entities/Invoice";
-import { IInvoiceFilters, InvoiceFilterType } from "../../pages/InvoicesPage";
-import useIsWindowSizeLowerThan from "../../hooks/useIsWindowSizeLowerThan";
-import { invoiceController } from "../../api";
+import { InvoiceItemType } from "../../entities/InvoiceItem";
+import { invoiceController, invoiceItemController } from "../../api";
 import feebackPopupManager from "../../utils/FeedbackPopupManager";
+import { InvoiceMangerProps } from "./InvoiceManager";
 
-function useInvoiceManager() {
-  const [invoices, setInvoices] = useState<InvoiceType[]>([]);
+function useInvoiceManager({ invoiceId }: InvoiceMangerProps) {
+  const [invoice, setInvoice] = useState<InvoiceType | null>(null);
 
-  const [invoiceFilters, setInvoiceFilters] = useState<IInvoiceFilters>({
-    draft: false,
-    pending: false,
-    paid: false,
-  });
+  const [invoiceItems, setInvoiceItems] = useState<InvoiceItemType[]>([]);
 
-  const handleSetInvoiceFilter = (filter: InvoiceFilterType, isChecked: boolean) =>
-    setInvoiceFilters((prevState) => ({ ...prevState, [filter]: isChecked }));
-
-  const isMobileSize = useIsWindowSizeLowerThan(640);
-
-  const handleLoadInvoices = async () => {
+  const handleGetInvoice = useCallback(async () => {
     try {
-      const response = await invoiceController.getAll();
+      const response = await invoiceController.getById(invoiceId);
       if (response.success) {
-        setInvoices(response.result.invoices);
+        setInvoice(response.result.invoice);
+        return;
       }
+      feebackPopupManager.displayPopup(response.error);
     } catch (error: any) {
-      feebackPopupManager.displayPopup(error.message);
+      feebackPopupManager.displayPopup(error.error);
     }
+  }, [invoiceId]);
+
+  const handleUpdateInvoiceStateData = (invoice: InvoiceType, invoiceItems: InvoiceItemType[]) => {
+    setInvoice(invoice);
+    setInvoiceItems(invoiceItems);
   };
 
-  const handleAddInvoiceToState = (invoice: InvoiceType) =>
-    setInvoices((prevState) => [...prevState, invoice]);
+  const handleGetInvoiceItems = useCallback(async () => {
+    try {
+      const response = await invoiceItemController.getAllByInvoiceId(invoiceId);
+      if (response.success) {
+        setInvoiceItems(response.result.invoiceItems);
+        return;
+      }
+      feebackPopupManager.displayPopup(response.error);
+    } catch (error: any) {
+      feebackPopupManager.displayPopup(error.error);
+    }
+  }, [invoiceId]);
+
+  const handleLoadInvoiceData = useCallback(async () => {
+    await handleGetInvoice();
+    await handleGetInvoiceItems();
+  }, [handleGetInvoice, handleGetInvoiceItems]);
 
   useEffect(() => {
-    handleLoadInvoices();
-  }, []);
+    handleLoadInvoiceData();
+  }, [handleLoadInvoiceData]);
 
-  return {
-    invoices,
-    invoiceFilters,
-    isMobileSize,
-    handleSetInvoiceFilter,
-    handleAddInvoiceToState,
-  };
+  return { invoice, invoiceItems, handleUpdateInvoiceStateData };
 }
 
 export default useInvoiceManager;

@@ -23,6 +23,11 @@ class InvoiceService {
     console.log(invoice.id + " was sent to the client");
     return true;
   }
+
+  update(invoice: InvoiceType) {
+    const updatedInvoice = this._invoiceRepository.update(invoice);
+    return updatedInvoice;
+  }
 }
 
 export default InvoiceService;

@@ -1,5 +1,4 @@
 import * as z from "zod";
-import { invoiceItemSchema } from "./InvoiceItem";
 import { addressSchema } from "./Address";
 
 export const invoiceSchema = z.object({
@@ -16,13 +15,6 @@ export const invoiceSchema = z.object({
   total_price: z.number(),
 });
 
-export const createInvoiceSchema = z.object({
-  invoice: invoiceSchema,
-  invoiceItems: z.array(invoiceItemSchema).min(1, "No invoice item added"),
-});
-
 export type InvoiceType = z.TypeOf<typeof invoiceSchema>;
 
 export type PaymentTermsType = InvoiceType["payment_terms"];
-
-export type CreateInvoiceType = z.TypeOf<typeof createInvoiceSchema>;

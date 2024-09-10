@@ -13,6 +13,15 @@ class InvoiceItemService {
     this._invoiceItemRepository.saveMany(invoiceItems);
     return true;
   }
+
+  updateMany(invoiceItems: InvoiceItemType[]) {
+    return this._invoiceItemRepository.updateMany(invoiceItems);
+  }
+
+  deleteOne(invoiceItem: InvoiceItemType) {
+    const deletedInvoice = this._invoiceItemRepository.deleteOne(invoiceItem);
+    return deletedInvoice;
+  }
 }
 
 export default InvoiceItemService;
