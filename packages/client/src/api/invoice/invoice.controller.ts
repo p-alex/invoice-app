@@ -65,6 +65,14 @@ class InvoiceController {
       resolve(HTTPResponse.success({ invoice: updatedInvoice, invoiceItems: updatedInvoiceItems }));
     });
   }
+
+  async delete(invoice: InvoiceType): Promise<DefaultResponse<{ deletedInvoice: InvoiceType }>> {
+    return new Promise((resolve) => {
+      const deletedInvoice = this._invoiceService.delete(invoice);
+      this._invoiceItemService.deleteManyByInvoiceId(invoice.id);
+      resolve(HTTPResponse.success({ deletedInvoice }));
+    });
+  }
 }
 
 export default InvoiceController;

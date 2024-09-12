@@ -22,6 +22,11 @@ class InvoiceItemService {
     const deletedInvoice = this._invoiceItemRepository.deleteOne(invoiceItem);
     return deletedInvoice;
   }
+
+  deleteManyByInvoiceId(invoiceId: string) {
+    const deletedInvoices = this._invoiceItemRepository.deleteManyByInvoiceId(invoiceId);
+    return deletedInvoices;
+  }
 }
 
 export default InvoiceItemService;

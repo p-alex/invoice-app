@@ -28,6 +28,11 @@ class InvoiceService {
     const updatedInvoice = this._invoiceRepository.update(invoice);
     return updatedInvoice;
   }
+
+  delete(invoice: InvoiceType) {
+    const deletedInvoice = this._invoiceRepository.deleteOne(invoice);
+    return deletedInvoice;
+  }
 }
 
 export default InvoiceService;

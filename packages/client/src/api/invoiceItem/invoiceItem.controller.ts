@@ -26,6 +26,13 @@ class InvoiceItemController {
       resolve(HTTPResponse.success({ invoiceItems: updatedInvoiceItems }));
     });
   }
+
+  async deleteInvoiceItemsByInvoiceId(invoiceId: string): Promise<DefaultResponse<null>> {
+    return new Promise((resolve) => {
+      this._invoiceItemService.deleteManyByInvoiceId(invoiceId);
+      resolve(HTTPResponse.success(null));
+    });
+  }
 }
 
 export default InvoiceItemController;

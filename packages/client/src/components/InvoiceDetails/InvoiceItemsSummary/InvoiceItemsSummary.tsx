@@ -13,7 +13,7 @@ function InvoiceItemsSummary({ invoiceItems }: Props) {
       {invoiceItems.length === 0 ? (
         <p>No invoice items</p>
       ) : (
-        <div className="rounded-lg">
+        <div className="rounded-uiBorderRadius">
           <table className="invoiceItemsSummary w-full rounded-tl-[inherit] rounded-tr-[inherit] bg-uiBgLTDarker dark:bg-uiBgDTLighter">
             <caption>Invoice items summary</caption>
             <thead>

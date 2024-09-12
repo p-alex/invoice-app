@@ -49,6 +49,13 @@ class InvoiceRepository {
     this._storage.setItem(this._key, newInvoices);
     return invoice;
   }
+
+  deleteOne(invoice: InvoiceType) {
+    const invoices = this.getAll();
+    const newInvoices = invoices.filter((currentInvoice) => currentInvoice.id !== invoice.id);
+    this._storage.setItem(this._key, newInvoices);
+    return invoice;
+  }
 }
 
 export default InvoiceRepository;
