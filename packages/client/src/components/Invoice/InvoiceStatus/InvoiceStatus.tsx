@@ -28,8 +28,10 @@ function InvoiceStatus({ status }: Props) {
   const dotColor = colors[status].dot;
 
   return (
-    <div className={`${bgColor} flex h-10 w-[104px] items-center justify-center gap-2 rounded-lg`}>
-      <div className={`${dotColor} h-2 w-2 rounded-full`}></div>
+    <div
+      className={`${bgColor} flex h-10 w-[104px] items-center justify-center gap-2 rounded-uiBorderRadius`}
+    >
+      <div className={`${dotColor} h-2 w-2 rounded-buttonBorderRadius`}></div>
       <p className={`${textColor} font-bold capitalize`}>{status}</p>
     </div>
   );

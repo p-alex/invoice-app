@@ -22,7 +22,7 @@ function Checkbox({ id, name, label, checked, onChange }: Props) {
       <button
         id={id}
         name={name}
-        className={`flex h-4 w-4 items-center justify-center rounded-[2px] border border-transparent hover:border-primary  ${isChecked ? "bg-primary dark:bg-primary" : "bg-[#DFE3FA] dark:bg-[#121422]"}`}
+        className={`flex h-4 w-4 items-center justify-center rounded-checkboxBorderRadius border border-transparent hover:border-primary  ${isChecked ? "bg-primary dark:bg-primary" : "bg-[#DFE3FA] dark:bg-[#121422]"}`}
         onClick={handleToggleCheck}
         role="checkbox"
         aria-checked={isChecked}

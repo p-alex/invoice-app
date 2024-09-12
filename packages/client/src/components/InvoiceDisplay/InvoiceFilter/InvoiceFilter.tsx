@@ -29,7 +29,7 @@ function InvoiceFilter({ invoiceFilters, handleSetInvoiceFilter, children }: Pro
           </button>
         )}
         content={() => (
-          <ul className="absolute top-12 z-10 flex w-[192px] flex-col gap-4 rounded-lg bg-uiBgLT p-6 shadow-lg dark:bg-uiBgDT">
+          <ul className="absolute top-12 z-10 flex w-[192px] flex-col gap-4 rounded-uiBorderRadius bg-uiBgLT p-6 shadow-lg dark:bg-uiBgDT">
             {Object.keys(invoiceFilters).map((filter) => {
               return (
                 <li key={filter + "-filter"}>

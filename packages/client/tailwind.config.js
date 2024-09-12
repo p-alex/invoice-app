@@ -5,7 +5,11 @@ export default {
   theme: {
     extend: {
       borderRadius: {
-        nav: "20px",
+        nav: "1.333rem",
+        uiBorderRadius: "0.5rem",
+        buttonBorderRadius: "9999px",
+        inputBorderRadius: "0.267rem",
+        checkboxBorderRadius: "0.13rem",
       },
       margin: {
         navMdOffset: "113px",

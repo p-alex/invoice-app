@@ -22,7 +22,7 @@ function InvoiceDetails({ invoice, invoiceItems }: Props) {
     <>
       {invoice && (
         <div className="mb-8">
-          <div className="mb-[110px] rounded-lg bg-uiBgLT p-8 text-textLT sm:mb-0 dark:bg-uiBgDT dark:text-textDT">
+          <div className="mb-[110px] rounded-uiBorderRadius bg-uiBgLT p-8 text-textLT sm:mb-0 dark:bg-uiBgDT dark:text-textDT">
             <div className="mb-6 flex justify-between">
               <div className="flex flex-col gap-2">
                 <p className="font-bold">

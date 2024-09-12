@@ -15,7 +15,7 @@ function Invoice({ invoice }: Props) {
   return (
     <Link
       to={"/invoices/" + invoice.id}
-      className="block w-full rounded-lg border border-transparent bg-uiBgLT hover:border-primary dark:bg-uiBgDT"
+      className="block w-full rounded-uiBorderRadius border border-transparent bg-uiBgLT hover:border-primary dark:bg-uiBgDT"
       aria-label={`view invoice with id ${invoice.id}`}
     >
       <div className="invoiceGrid px-6 py-6 shadow-md sm:py-4">

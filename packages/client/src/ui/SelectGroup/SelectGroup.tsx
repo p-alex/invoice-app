@@ -52,7 +52,7 @@ function SelectGroup<TOption extends React.ReactNode>(props: Props<TOption>) {
           firstFocusableButtonRef,
           lastFocusableButtonRef,
         }) => (
-          <ul className="absolute top-24 flex w-full flex-col rounded-lg bg-uiBgLT shadow-lg dark:bg-uiBgDT">
+          <ul className="absolute top-24 flex w-full flex-col rounded-uiBorderRadius bg-uiBgLT shadow-lg dark:bg-uiBgDT">
             {props.options.map((option, index) => {
               return (
                 <button
