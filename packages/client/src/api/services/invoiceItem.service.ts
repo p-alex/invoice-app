@@ -1,5 +1,5 @@
 import { InvoiceItemType } from "../../entities/InvoiceItem";
-import InvoiceItemRepository from "./invoiceItem.repository";
+import InvoiceItemRepository from "../repositories/invoiceItem.repository";
 
 class InvoiceItemService {
   constructor(private readonly _invoiceItemRepository: InvoiceItemRepository) {}

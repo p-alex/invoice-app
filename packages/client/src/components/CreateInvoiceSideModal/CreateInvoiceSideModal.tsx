@@ -5,18 +5,18 @@ import InvoiceItemList from "./InvoiceItemList";
 import { Form, FormSection, FormThreeColGrid } from "../Form";
 import InvoiceItem from "./InvoiceItemList/InvoiceItem";
 import useCreateInvoiceSideModal from "./useCreateInvoiceSideModal";
-import { SaveAndSendInvoiceType, SaveInvoiceAsDraftType } from "../../api/invoice";
 import { DisplayPopupType } from "../../utils/FeedbackPopupManager";
 import { InvoiceType } from "../../entities/Invoice";
 import { CreateInvoiceType } from "./CreateInvoiceSideModal.schema";
+import InvoiceController from "../../api/controllers/invoice.controller";
 
 export interface CreateInvoiceSideModalProps {
   defaultValues?: CreateInvoiceType;
   handleCloseModal: () => void;
   handleAddInvoiceToState: (invoice: InvoiceType) => void;
   displayPopup: DisplayPopupType;
-  handleSaveAndSend: SaveAndSendInvoiceType;
-  handleSaveAsDraft: SaveInvoiceAsDraftType;
+  handleSaveAndSend: InvoiceController["saveAndSend"];
+  handleSaveAsDraft: InvoiceController["saveAsDraft"];
   firstFocusableButtonRef: React.RefObject<HTMLButtonElement>;
   lastFocusableButtonRef: React.RefObject<HTMLButtonElement>;
 }

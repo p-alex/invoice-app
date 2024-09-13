@@ -18,7 +18,7 @@ describe("EditInvoiceSideModal.tsx", () => {
     const updateInvoiceMock = jest.fn();
     updateInvoiceMock.mockReturnValue({
       success: true,
-      result: { invoice: validTestInvoice, invoiceItems: validTestInvoiceItems },
+      result: { updatedInvoice: validTestInvoice, updatedInvoiceItems: validTestInvoiceItems },
     });
     const closeModalMock = jest.fn();
     const displayPopupMock = jest.fn();
@@ -42,9 +42,9 @@ describe("EditInvoiceSideModal.tsx", () => {
     await submitForm();
 
     expect(updateInvoiceMock).toHaveBeenCalled();
-    expect(updateInvoiceStateMock).toHaveBeenCalledWith(validTestInvoice, validTestInvoiceItems);
     expect(displayPopupMock).toHaveBeenCalled();
     expect(closeModalMock).toHaveBeenCalled();
+    expect(updateInvoiceStateMock).toHaveBeenCalledWith(validTestInvoice, validTestInvoiceItems);
   });
 
   it("should handle a failed submition correctly", async () => {

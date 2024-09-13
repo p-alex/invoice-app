@@ -2,14 +2,15 @@ import { DefaultResponse } from "../../entities/DefaultResponse";
 import { InvoiceType } from "../../entities/Invoice";
 import { InvoiceItemType } from "../../entities/InvoiceItem";
 import HTTPResponse from "../HTTPResponse";
-import InvoiceItemService from "../invoiceItem/invoiceItem.service";
-import InvoiceService from "./invoice.service";
+import InvoiceService from "../services/invoice.service";
+
+interface InvoiceData {
+  invoice: InvoiceType;
+  invoiceItems: InvoiceItemType[];
+}
 
 class InvoiceController {
-  constructor(
-    private readonly _invoiceService: InvoiceService,
-    private readonly _invoiceItemService: InvoiceItemService,
-  ) {
+  constructor(private readonly _invoiceService: InvoiceService) {
     this.getAll = this.getAll.bind(this);
     this.getById = this.getById.bind(this);
     this.saveAndSend = this.saveAndSend.bind(this);
@@ -32,44 +33,44 @@ class InvoiceController {
     });
   }
 
-  async saveAndSend(
-    invoice: InvoiceType,
-    invoiceItems: InvoiceItemType[],
-  ): Promise<DefaultResponse<{ invoice: InvoiceType }>> {
+  async saveAndSend(invoiceData: InvoiceData): Promise<DefaultResponse<{ invoice: InvoiceType }>> {
     return new Promise((resolve) => {
-      const createdInvoice = this._invoiceService.save(invoice);
-      this._invoiceItemService.saveMany(invoiceItems);
+      const createdInvoice = this._invoiceService.save(
+        invoiceData.invoice,
+        invoiceData.invoiceItems,
+      );
       this._invoiceService.send(createdInvoice);
       resolve(HTTPResponse.success({ invoice: createdInvoice }));
     });
   }
 
-  async saveAsDraft(
-    invoice: InvoiceType,
-    invoiceItems: InvoiceItemType[],
-  ): Promise<DefaultResponse<{ invoice: InvoiceType }>> {
+  async saveAsDraft(invoiceData: InvoiceData): Promise<DefaultResponse<{ invoice: InvoiceType }>> {
     return new Promise((resolve) => {
-      const createdInvoice = this._invoiceService.save(invoice);
-      this._invoiceItemService.saveMany(invoiceItems);
+      const createdInvoice = this._invoiceService.save(
+        invoiceData.invoice,
+        invoiceData.invoiceItems,
+      );
       resolve(HTTPResponse.success({ invoice: createdInvoice }));
     });
   }
 
   async update(
-    invoice: InvoiceType,
-    invoiceItems: InvoiceItemType[],
-  ): Promise<DefaultResponse<{ invoice: InvoiceType; invoiceItems: InvoiceItemType[] }>> {
+    invoiceData: InvoiceData,
+  ): Promise<
+    DefaultResponse<{ updatedInvoice: InvoiceType; updatedInvoiceItems: InvoiceItemType[] }>
+  > {
     return new Promise((resolve) => {
-      const updatedInvoice = this._invoiceService.update(invoice);
-      const updatedInvoiceItems = this._invoiceItemService.updateMany(invoiceItems);
-      resolve(HTTPResponse.success({ invoice: updatedInvoice, invoiceItems: updatedInvoiceItems }));
+      const { updatedInvoice, updatedInvoiceItems } = this._invoiceService.update(
+        invoiceData.invoice,
+        invoiceData.invoiceItems,
+      );
+      resolve(HTTPResponse.success({ updatedInvoice, updatedInvoiceItems }));
     });
   }
 
   async delete(invoice: InvoiceType): Promise<DefaultResponse<{ deletedInvoice: InvoiceType }>> {
     return new Promise((resolve) => {
       const deletedInvoice = this._invoiceService.delete(invoice);
-      this._invoiceItemService.deleteManyByInvoiceId(invoice.id);
       resolve(HTTPResponse.success({ deletedInvoice }));
     });
   }

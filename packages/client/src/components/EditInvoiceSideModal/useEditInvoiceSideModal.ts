@@ -9,7 +9,7 @@ import calculateInvoiceTotalPrice from "../../utils/calculateInvoiceTotalPrice";
 import { InvoiceItemType } from "../../entities/InvoiceItem";
 import { InvoiceType } from "../../entities/Invoice";
 import { DisplayPopupType } from "../../utils/FeedbackPopupManager";
-import { UpdateInvoiceType } from "../../api/invoice";
+import { InvoiceControllerType } from "../../api";
 
 export interface EditInvoiceSideModalProps {
   defaultValues: { invoice: InvoiceType; invoiceItems: InvoiceItemType[] };
@@ -17,7 +17,7 @@ export interface EditInvoiceSideModalProps {
   handleDisplayPopup: DisplayPopupType;
   firstFocusableButtonRef: React.RefObject<HTMLButtonElement>;
   lastFocusableButtonRef: React.RefObject<HTMLButtonElement>;
-  updateInvoiceRequest: UpdateInvoiceType;
+  updateInvoiceRequest: InvoiceControllerType["update"];
   handleUpdateInvoiceStateData: (invoice: InvoiceType, invoiceItems: InvoiceItemType[]) => void;
 }
 
@@ -59,14 +59,14 @@ function useEditInvoiceSideModal(props: EditInvoiceSideModalProps) {
   const handleUpdateInvoice = async (invoiceData: EditInvoiceType) => {
     try {
       invoiceData.invoice.total_price = calculateInvoiceTotalPrice(invoiceData.invoiceItems);
-      const response = await props.updateInvoiceRequest(
-        invoiceData.invoice,
-        invoiceData.invoiceItems,
-      );
+      const response = await props.updateInvoiceRequest(invoiceData);
       if (response.success) {
         props.handleDisplayPopup("Invoice updated successfully!");
         props.handleCloseModal();
-        props.handleUpdateInvoiceStateData(response.result.invoice, response.result.invoiceItems);
+        props.handleUpdateInvoiceStateData(
+          response.result.updatedInvoice,
+          response.result.updatedInvoiceItems,
+        );
         return;
       }
       props.handleDisplayPopup(response.error);

@@ -47,7 +47,7 @@ function useCreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
     invoiceData.invoice.total_price = totalPrice;
 
     try {
-      const response = await props.handleSaveAndSend(invoiceData.invoice, invoiceData.invoiceItems);
+      const response = await props.handleSaveAndSend(invoiceData);
       if (response.success) {
         reset();
         props.handleCloseModal();
@@ -68,7 +68,7 @@ function useCreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
     invoiceData.invoice.total_price = totalPrice;
 
     try {
-      const response = await props.handleSaveAsDraft(invoiceData.invoice, invoiceData.invoiceItems);
+      const response = await props.handleSaveAsDraft(invoiceData);
       if (response.success) {
         reset();
         props.handleCloseModal();

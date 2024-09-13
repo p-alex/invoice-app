@@ -1,7 +1,7 @@
 import { DefaultResponse } from "../../entities/DefaultResponse";
 import { InvoiceItemType } from "../../entities/InvoiceItem";
 import HTTPResponse from "../HTTPResponse";
-import InvoiceItemService from "./invoiceItem.service";
+import InvoiceItemService from "../services/invoiceItem.service";
 
 class InvoiceItemController {
   constructor(private readonly _invoiceItemService: InvoiceItemService) {

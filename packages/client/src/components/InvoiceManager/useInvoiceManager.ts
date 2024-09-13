@@ -64,7 +64,12 @@ function useInvoiceManager({ invoiceId }: InvoiceMangerProps) {
     handleLoadInvoiceData();
   }, [handleLoadInvoiceData]);
 
-  return { invoice, invoiceItems, handleUpdateInvoiceStateData, handleDeleteInvoice };
+  return {
+    invoice,
+    invoiceItems,
+    handleUpdateInvoiceStateData,
+    handleDeleteInvoice,
+  };
 }
 
 export default useInvoiceManager;
