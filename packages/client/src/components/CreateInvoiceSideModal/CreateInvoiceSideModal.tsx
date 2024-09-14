@@ -16,7 +16,7 @@ export interface CreateInvoiceSideModalProps {
   handleAddInvoiceToState: (invoice: InvoiceType) => void;
   displayPopup: DisplayPopupType;
   handleSaveAndSend: InvoiceController["saveAndSend"];
-  handleSaveAsDraft: InvoiceController["saveAsDraft"];
+  handleSave: InvoiceController["save"];
   firstFocusableButtonRef: React.RefObject<HTMLButtonElement>;
   lastFocusableButtonRef: React.RefObject<HTMLButtonElement>;
 }

@@ -18,7 +18,7 @@ const invoiceItemRepository = new InvoiceItemRepository(localStorage);
 
 // Services
 const invoiceItemService = new InvoiceItemService(invoiceItemRepository);
-const invoiceService = new InvoiceService(invoiceRepository, invoiceItemService);
+const invoiceService = new InvoiceService(invoiceRepository, invoiceItemRepository);
 
 // Controllers
 const invoiceController = new InvoiceController(invoiceService);

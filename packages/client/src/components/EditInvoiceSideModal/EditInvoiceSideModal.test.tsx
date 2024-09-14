@@ -11,8 +11,8 @@ async function submitForm() {
 }
 
 describe("EditInvoiceSideModal.tsx", () => {
-  const validTestInvoice = getValidTestInvoice("123");
   const validTestInvoiceItems = [getValidTestInvoiceItem("1", "123")];
+  const validTestInvoice = getValidTestInvoice("123", validTestInvoiceItems);
 
   it("should handle a successfull submition correctly", async () => {
     const updateInvoiceMock = jest.fn();
@@ -41,7 +41,7 @@ describe("EditInvoiceSideModal.tsx", () => {
 
     await submitForm();
 
-    expect(updateInvoiceMock).toHaveBeenCalled();
+    expect(updateInvoiceMock).toHaveBeenCalledWith(validTestInvoice, validTestInvoiceItems);
     expect(displayPopupMock).toHaveBeenCalled();
     expect(closeModalMock).toHaveBeenCalled();
     expect(updateInvoiceStateMock).toHaveBeenCalledWith(validTestInvoice, validTestInvoiceItems);
@@ -81,9 +81,6 @@ describe("EditInvoiceSideModal.tsx", () => {
 
   it("should handle an invalid submittion correctly", async () => {
     const updateInvoiceMock = jest.fn();
-    updateInvoiceMock.mockImplementation(() => {
-      throw new Error("error");
-    });
     const closeModalMock = jest.fn();
     const displayPopupMock = jest.fn();
     const updateInvoiceStateMock = jest.fn();
@@ -91,7 +88,7 @@ describe("EditInvoiceSideModal.tsx", () => {
     render(
       <EditInvoiceSideModal
         defaultValues={{
-          invoice: getInvalidTestInvoice("123"),
+          invoice: getInvalidTestInvoice("123", []),
           invoiceItems: [],
         }}
         firstFocusableButtonRef={{ current: null }}

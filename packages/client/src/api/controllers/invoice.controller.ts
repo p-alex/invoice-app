@@ -14,7 +14,7 @@ class InvoiceController {
     this.getAll = this.getAll.bind(this);
     this.getById = this.getById.bind(this);
     this.saveAndSend = this.saveAndSend.bind(this);
-    this.saveAsDraft = this.saveAsDraft.bind(this);
+    this.save = this.save.bind(this);
     this.update = this.update.bind(this);
   }
 
@@ -33,36 +33,39 @@ class InvoiceController {
     });
   }
 
-  async saveAndSend(invoiceData: InvoiceData): Promise<DefaultResponse<{ invoice: InvoiceType }>> {
+  async saveAndSend(
+    invoice: InvoiceType,
+    invoiceItems: InvoiceItemType[],
+  ): Promise<DefaultResponse<{ savedInvoice: InvoiceType; savedInvoiceItems: InvoiceItemType[] }>> {
     return new Promise((resolve) => {
-      const createdInvoice = this._invoiceService.save(
-        invoiceData.invoice,
-        invoiceData.invoiceItems,
-      );
-      this._invoiceService.send(createdInvoice);
-      resolve(HTTPResponse.success({ invoice: createdInvoice }));
+      const { savedInvoice, savedInvoiceItems } = this._invoiceService.save(invoice, invoiceItems);
+      this._invoiceService.send(savedInvoice);
+      resolve(HTTPResponse.success({ savedInvoice, savedInvoiceItems }));
     });
   }
 
-  async saveAsDraft(invoiceData: InvoiceData): Promise<DefaultResponse<{ invoice: InvoiceType }>> {
+  async save(
+    invoiceData: InvoiceData,
+  ): Promise<DefaultResponse<{ savedInvoice: InvoiceType; savedInvoiceItems: InvoiceItemType[] }>> {
     return new Promise((resolve) => {
-      const createdInvoice = this._invoiceService.save(
+      const { savedInvoice, savedInvoiceItems } = this._invoiceService.save(
         invoiceData.invoice,
         invoiceData.invoiceItems,
       );
-      resolve(HTTPResponse.success({ invoice: createdInvoice }));
+      resolve(HTTPResponse.success({ savedInvoice, savedInvoiceItems }));
     });
   }
 
   async update(
-    invoiceData: InvoiceData,
+    invoice: InvoiceType,
+    invoiceItems: InvoiceItemType[],
   ): Promise<
     DefaultResponse<{ updatedInvoice: InvoiceType; updatedInvoiceItems: InvoiceItemType[] }>
   > {
     return new Promise((resolve) => {
       const { updatedInvoice, updatedInvoiceItems } = this._invoiceService.update(
-        invoiceData.invoice,
-        invoiceData.invoiceItems,
+        invoice,
+        invoiceItems,
       );
       resolve(HTTPResponse.success({ updatedInvoice, updatedInvoiceItems }));
     });

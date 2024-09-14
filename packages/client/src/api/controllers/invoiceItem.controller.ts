@@ -6,7 +6,7 @@ import InvoiceItemService from "../services/invoiceItem.service";
 class InvoiceItemController {
   constructor(private readonly _invoiceItemService: InvoiceItemService) {
     this.getAllByInvoiceId = this.getAllByInvoiceId.bind(this);
-    this.updateInvoiceItems = this.updateInvoiceItems.bind(this);
+    this.update = this.update.bind(this);
   }
 
   async getAllByInvoiceId(
@@ -18,19 +18,12 @@ class InvoiceItemController {
     });
   }
 
-  async updateInvoiceItems(
+  async update(
     invoiceItems: InvoiceItemType[],
-  ): Promise<DefaultResponse<{ invoiceItems: InvoiceItemType[] }>> {
+  ): Promise<DefaultResponse<{ updatedInvoiceItems: InvoiceItemType[] }>> {
     return new Promise((resolve) => {
       const updatedInvoiceItems = this._invoiceItemService.updateMany(invoiceItems);
-      resolve(HTTPResponse.success({ invoiceItems: updatedInvoiceItems }));
-    });
-  }
-
-  async deleteInvoiceItemsByInvoiceId(invoiceId: string): Promise<DefaultResponse<null>> {
-    return new Promise((resolve) => {
-      this._invoiceItemService.deleteManyByInvoiceId(invoiceId);
-      resolve(HTTPResponse.success(null));
+      resolve(HTTPResponse.success({ updatedInvoiceItems }));
     });
   }
 }

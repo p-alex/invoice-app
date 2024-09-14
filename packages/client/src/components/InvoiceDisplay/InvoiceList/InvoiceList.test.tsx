@@ -6,10 +6,10 @@ import { getValidTestInvoice } from "../../../testEntities/testInvoice";
 
 describe("InvoiceList.tsx", () => {
   const testInvoices = [
-    getValidTestInvoice("1"),
-    getValidTestInvoice("2"),
-    getValidTestInvoice("3"),
-    getValidTestInvoice("4"),
+    getValidTestInvoice("1", []),
+    getValidTestInvoice("2", []),
+    getValidTestInvoice("3", []),
+    getValidTestInvoice("4", []),
   ];
 
   it("should display invoices correctly", () => {

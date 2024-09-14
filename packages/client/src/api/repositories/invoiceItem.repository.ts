@@ -27,6 +27,7 @@ class InvoiceItemRepository {
     const currentInvoiceItems = this.getAll();
     const newInvoiceItems = [...currentInvoiceItems, ...invoiceItems];
     this._storage.setItem(this._key, newInvoiceItems);
+    return newInvoiceItems;
   }
 
   deleteOne(invoiceItem: InvoiceItemType) {

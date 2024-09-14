@@ -47,12 +47,12 @@ function useCreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
     invoiceData.invoice.total_price = totalPrice;
 
     try {
-      const response = await props.handleSaveAndSend(invoiceData);
+      const response = await props.handleSaveAndSend(invoiceData.invoice, invoiceData.invoiceItems);
       if (response.success) {
         reset();
         props.handleCloseModal();
         props.displayPopup(createInvoiceSideModal_pendingSuccessMessage);
-        props.handleAddInvoiceToState(response.result.invoice);
+        props.handleAddInvoiceToState(response.result.savedInvoice);
         return;
       }
       props.displayPopup(response.error);
@@ -68,12 +68,12 @@ function useCreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
     invoiceData.invoice.total_price = totalPrice;
 
     try {
-      const response = await props.handleSaveAsDraft(invoiceData);
+      const response = await props.handleSave(invoiceData);
       if (response.success) {
         reset();
         props.handleCloseModal();
         props.displayPopup(createInvoiceSideModal_draftSuccessMessage);
-        props.handleAddInvoiceToState(response.result.invoice);
+        props.handleAddInvoiceToState(response.result.savedInvoice);
         return;
       }
       props.displayPopup(response.error);

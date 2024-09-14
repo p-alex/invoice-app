@@ -1,12 +1,12 @@
 import { InvoiceType } from "../../entities/Invoice";
 import { InvoiceItemType } from "../../entities/InvoiceItem";
 import InvoiceRepository from "../repositories/invoice.repository";
-import InvoiceItemService from "./invoiceItem.service";
+import InvoiceItemRepository from "../repositories/invoiceItem.repository";
 
 class InvoiceService {
   constructor(
     private readonly _invoiceRepository: InvoiceRepository,
-    private readonly _invoiceItemService: InvoiceItemService,
+    private readonly _invoiceItemRepository: InvoiceItemRepository,
   ) {}
 
   getAll() {
@@ -21,24 +21,25 @@ class InvoiceService {
 
   save(invoice: InvoiceType, invoiceItems: InvoiceItemType[]) {
     const savedInvoice = this._invoiceRepository.saveOne(invoice);
-    this._invoiceItemService.saveMany(invoiceItems);
-    return savedInvoice;
+    const savedInvoiceItems = this._invoiceItemRepository.saveMany(invoiceItems);
+    return { savedInvoice, savedInvoiceItems };
   }
 
   send(invoice: InvoiceType) {
     console.log(invoice.id + " was sent to the client");
-    return true;
+    const updatedInvoice = this._invoiceRepository.update({ ...invoice, status: "pending" });
+    return updatedInvoice;
   }
 
   update(invoice: InvoiceType, invoiceItems: InvoiceItemType[]) {
     const updatedInvoice = this._invoiceRepository.update(invoice);
-    const updatedInvoiceItems = this._invoiceItemService.updateMany(invoiceItems);
+    const updatedInvoiceItems = this._invoiceItemRepository.updateMany(invoiceItems);
     return { updatedInvoice, updatedInvoiceItems };
   }
 
   delete(invoice: InvoiceType) {
     const deletedInvoice = this._invoiceRepository.deleteOne(invoice);
-    this._invoiceItemService.deleteManyByInvoiceId(invoice.id);
+    this._invoiceItemRepository.deleteManyByInvoiceId(invoice.id);
     return deletedInvoice;
   }
 }

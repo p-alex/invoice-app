@@ -49,7 +49,7 @@ function InvoiceDisplay() {
                 displayPopup={feebackPopupManager.displayPopup}
                 handleAddInvoiceToState={handleAddInvoiceToState}
                 handleSaveAndSend={invoiceController.saveAndSend}
-                handleSaveAsDraft={invoiceController.saveAsDraft}
+                handleSave={invoiceController.save}
                 firstFocusableButtonRef={props.firstFocusableButtonRef}
                 lastFocusableButtonRef={props.lastFocusableButtonRef}
               />

@@ -8,12 +8,12 @@ import { getValidTestInvoice } from "../../testEntities/testInvoice";
 import { getValidTestInvoiceItem } from "../../testEntities/testInvoiceItem";
 
 describe("InvoiceDetails Component", () => {
-  const testInvoice: InvoiceType = getValidTestInvoice("123abc");
-
   const testInvoiceItems: InvoiceItemType[] = [
     getValidTestInvoiceItem("1", "123abc"),
     getValidTestInvoiceItem("2", "123abc"),
   ];
+
+  const testInvoice: InvoiceType = getValidTestInvoice("123abc", testInvoiceItems);
 
   test("renders the invoice ID and project description", () => {
     render(<InvoiceDetails invoice={testInvoice} invoiceItems={testInvoiceItems} />);

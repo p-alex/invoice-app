@@ -16,8 +16,8 @@ async function submitForm(submitType: "save & send" | "save as draft") {
 }
 
 describe("CreateInvoiceSideModal.tsx", () => {
-  const validTestInvoice = getValidTestInvoice("123");
-  const invalidTestInvoice = getInvalidTestInvoice("123");
+  const validTestInvoice = getValidTestInvoice("123", []);
+  const invalidTestInvoice = getInvalidTestInvoice("123", []);
 
   const testInvoiceItems = [
     getValidTestInvoiceItem("1", "123"),
@@ -38,7 +38,7 @@ describe("CreateInvoiceSideModal.tsx", () => {
         handleCloseModal={handleCloseModalMock}
         handleAddInvoiceToState={handleAddInvoiceToStateMock}
         handleSaveAndSend={handleSaveAndSendMock}
-        handleSaveAsDraft={jest.fn()}
+        handleSave={jest.fn()}
         displayPopup={handleDisplayPopupMock}
         firstFocusableButtonRef={{ current: null }}
         lastFocusableButtonRef={{ current: null }}
@@ -60,11 +60,11 @@ describe("CreateInvoiceSideModal.tsx", () => {
 
   it("should call 'handleCloseModal', 'handleAddInvoiceToState', and show a feedback popup if invoice was saved as draft successfully!", async () => {
     const handleCloseModalMock = jest.fn();
-    const handleSaveAsDraftMock = jest.fn();
+    const handleSaveMock = jest.fn();
     const handleDisplayPopupMock = jest.fn();
     const handleAddInvoiceToStateMock = jest.fn();
 
-    handleSaveAsDraftMock.mockReturnValue(HTTPResponse.success({ invoice: validTestInvoice }));
+    handleSaveMock.mockReturnValue(HTTPResponse.success({ invoice: validTestInvoice }));
 
     render(
       <CreateInvoiceSideModal
@@ -72,7 +72,7 @@ describe("CreateInvoiceSideModal.tsx", () => {
         handleCloseModal={handleCloseModalMock}
         handleAddInvoiceToState={handleAddInvoiceToStateMock}
         handleSaveAndSend={jest.fn()}
-        handleSaveAsDraft={handleSaveAsDraftMock}
+        handleSave={handleSaveMock}
         displayPopup={handleDisplayPopupMock}
         firstFocusableButtonRef={{ current: null }}
         lastFocusableButtonRef={{ current: null }}
@@ -81,7 +81,7 @@ describe("CreateInvoiceSideModal.tsx", () => {
 
     await submitForm("save as draft");
 
-    expect(handleSaveAsDraftMock).toHaveBeenCalled();
+    expect(handleSaveMock).toHaveBeenCalled();
 
     expect(handleCloseModalMock).toHaveBeenCalled();
 
@@ -104,7 +104,7 @@ describe("CreateInvoiceSideModal.tsx", () => {
         handleCloseModal={handleCloseModalMock}
         handleAddInvoiceToState={handleAddInvoiceToStateMock}
         handleSaveAndSend={handleSaveAndSendMock}
-        handleSaveAsDraft={jest.fn()}
+        handleSave={jest.fn()}
         displayPopup={handleDisplayPopupMock}
         firstFocusableButtonRef={{ current: null }}
         lastFocusableButtonRef={{ current: null }}
@@ -126,11 +126,11 @@ describe("CreateInvoiceSideModal.tsx", () => {
 
   it("should display error if the 'save as draft' form submittion request fails", async () => {
     const handleCloseModalMock = jest.fn();
-    const handleSaveAsDraftMock = jest.fn();
+    const handleSaveMock = jest.fn();
     const handleDisplayPopupMock = jest.fn();
     const handleAddInvoiceToStateMock = jest.fn();
 
-    handleSaveAsDraftMock.mockReturnValue(HTTPResponse.error("request error"));
+    handleSaveMock.mockReturnValue(HTTPResponse.error("request error"));
 
     render(
       <CreateInvoiceSideModal
@@ -138,7 +138,7 @@ describe("CreateInvoiceSideModal.tsx", () => {
         handleCloseModal={handleCloseModalMock}
         handleAddInvoiceToState={handleAddInvoiceToStateMock}
         handleSaveAndSend={jest.fn()}
-        handleSaveAsDraft={handleSaveAsDraftMock}
+        handleSave={handleSaveMock}
         displayPopup={handleDisplayPopupMock}
         firstFocusableButtonRef={{ current: null }}
         lastFocusableButtonRef={{ current: null }}
@@ -147,7 +147,7 @@ describe("CreateInvoiceSideModal.tsx", () => {
 
     await submitForm("save as draft");
 
-    expect(handleSaveAsDraftMock).toHaveBeenCalled();
+    expect(handleSaveMock).toHaveBeenCalled();
 
     expect(handleCloseModalMock).not.toHaveBeenCalled();
 
@@ -172,7 +172,7 @@ describe("CreateInvoiceSideModal.tsx", () => {
         handleCloseModal={handleCloseModalMock}
         handleAddInvoiceToState={handleAddInvoiceToStateMock}
         handleSaveAndSend={handleSaveAndSendMock}
-        handleSaveAsDraft={jest.fn()}
+        handleSave={jest.fn()}
         displayPopup={handleDisplayPopupMock}
         firstFocusableButtonRef={{ current: null }}
         lastFocusableButtonRef={{ current: null }}
@@ -192,7 +192,7 @@ describe("CreateInvoiceSideModal.tsx", () => {
 
   it("should display a feedback popup if 'handleSaveInvoiceAsDraft' function throws an error", async () => {
     const handleCloseModalMock = jest.fn();
-    const handleSaveAsDraftMock = jest.fn(() => {
+    const handleSaveMock = jest.fn(() => {
       throw new Error("save as draft error");
     });
     const handleDisplayPopupMock = jest.fn();
@@ -204,7 +204,7 @@ describe("CreateInvoiceSideModal.tsx", () => {
         handleCloseModal={handleCloseModalMock}
         handleAddInvoiceToState={handleAddInvoiceToStateMock}
         handleSaveAndSend={jest.fn()}
-        handleSaveAsDraft={handleSaveAsDraftMock}
+        handleSave={handleSaveMock}
         displayPopup={handleDisplayPopupMock}
         firstFocusableButtonRef={{ current: null }}
         lastFocusableButtonRef={{ current: null }}
@@ -213,7 +213,7 @@ describe("CreateInvoiceSideModal.tsx", () => {
 
     await submitForm("save as draft");
 
-    expect(handleSaveAsDraftMock).toThrow();
+    expect(handleSaveMock).toThrow();
 
     expect(handleCloseModalMock).not.toHaveBeenCalled();
 

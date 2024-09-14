@@ -59,7 +59,10 @@ function useEditInvoiceSideModal(props: EditInvoiceSideModalProps) {
   const handleUpdateInvoice = async (invoiceData: EditInvoiceType) => {
     try {
       invoiceData.invoice.total_price = calculateInvoiceTotalPrice(invoiceData.invoiceItems);
-      const response = await props.updateInvoiceRequest(invoiceData);
+      const response = await props.updateInvoiceRequest(
+        invoiceData.invoice,
+        invoiceData.invoiceItems,
+      );
       if (response.success) {
         props.handleDisplayPopup("Invoice updated successfully!");
         props.handleCloseModal();
@@ -67,9 +70,7 @@ function useEditInvoiceSideModal(props: EditInvoiceSideModalProps) {
           response.result.updatedInvoice,
           response.result.updatedInvoiceItems,
         );
-        return;
       }
-      props.handleDisplayPopup(response.error);
     } catch (error: any) {
       props.handleDisplayPopup(error.message);
     }
