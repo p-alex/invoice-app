@@ -7,13 +7,8 @@ import InvoiceItem from "../CreateInvoiceSideModal/InvoiceItemList/InvoiceItem";
 import useEditInvoiceSideModal, { EditInvoiceSideModalProps } from "./useEditInvoiceSideModal";
 
 function EditInvoiceSideModal(props: EditInvoiceSideModalProps) {
-  const {
-    form,
-    handleAddInvoiceItem,
-    handleRemoveInvoiceItem,
-    handleSetInvoiceDate,
-    handleUpdateInvoice,
-  } = useEditInvoiceSideModal(props);
+  const { form, handleAddInvoiceItem, handleRemoveInvoiceItem, handleSetInvoiceDate, handleSave } =
+    useEditInvoiceSideModal(props);
 
   return (
     <SideModal
@@ -21,7 +16,7 @@ function EditInvoiceSideModal(props: EditInvoiceSideModalProps) {
       title={"Edit #" + form.getValues("invoice.id")}
       closeButtonRef={props.firstFocusableButtonRef}
       children={
-        <Form onSubmit={form.handleSubmit(handleUpdateInvoice)} noValidate>
+        <Form onSubmit={form.handleSubmit(handleSave)} noValidate>
           <FormSection title="Bill From">
             <InputGroup
               id="from_street_address"

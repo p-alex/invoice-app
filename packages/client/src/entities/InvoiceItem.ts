@@ -8,4 +8,9 @@ export const invoiceItemSchema = z.object({
   price: z.number(),
 });
 
+export function validateInvoiceItems(invoiceItems: InvoiceItemType[]) {
+  const validation = z.array(invoiceItemSchema).safeParse(invoiceItems);
+  return validation.success;
+}
+
 export type InvoiceItemType = z.TypeOf<typeof invoiceItemSchema>;

@@ -44,6 +44,13 @@ class InvoiceController {
     });
   }
 
+  async send(invoice: InvoiceType): Promise<DefaultResponse<{ sentInvoice: InvoiceType }>> {
+    return new Promise((resolve) => {
+      const { sentInvoice } = this._invoiceService.send(invoice);
+      resolve(HTTPResponse.success({ sentInvoice }));
+    });
+  }
+
   async save(
     invoiceData: InvoiceData,
   ): Promise<DefaultResponse<{ savedInvoice: InvoiceType; savedInvoiceItems: InvoiceItemType[] }>> {

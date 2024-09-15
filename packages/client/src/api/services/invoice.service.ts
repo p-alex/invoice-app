@@ -28,7 +28,7 @@ class InvoiceService {
   send(invoice: InvoiceType) {
     console.log(invoice.id + " was sent to the client");
     const updatedInvoice = this._invoiceRepository.update({ ...invoice, status: "pending" });
-    return updatedInvoice;
+    return { sentInvoice: updatedInvoice };
   }
 
   update(invoice: InvoiceType, invoiceItems: InvoiceItemType[]) {

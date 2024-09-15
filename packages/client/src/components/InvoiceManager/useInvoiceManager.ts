@@ -37,6 +37,50 @@ function useInvoiceManager({ invoiceId }: InvoiceMangerProps) {
     }
   };
 
+  const handleUpdateInvoice = async (invoice: InvoiceType, invoiceItems: InvoiceItemType[]) => {
+    if (!invoice) return { success: false };
+    try {
+      const response = await invoiceController.update(invoice, invoiceItems);
+      if (!response.success) {
+        feebackPopupManager.displayPopup(response.error);
+        return { success: false };
+      }
+      feebackPopupManager.displayPopup("Invoice updated successfully!");
+      handleUpdateInvoiceStateData(
+        response.result.updatedInvoice,
+        response.result.updatedInvoiceItems,
+      );
+      return { success: true };
+    } catch (error: any) {
+      feebackPopupManager.displayPopup(error.message);
+      return { success: false };
+    }
+  };
+
+  const handleSendInvoice = async () => {
+    if (!invoice) return;
+    try {
+      const response = await invoiceController.send(invoice);
+      if (!response.success) return feebackPopupManager.displayPopup(response.error);
+      feebackPopupManager.displayPopup("Invoice sent successfully!");
+      handleUpdateInvoiceStateData({ ...invoice, status: "pending" }, invoiceItems);
+    } catch (error: any) {
+      feebackPopupManager.displayPopup(error.message);
+    }
+  };
+
+  const handleMarkInvoiceAsPaid = async () => {
+    if (!invoice) return;
+    try {
+      const response = await invoiceController.update({ ...invoice, status: "paid" }, invoiceItems);
+      if (!response.success) return feebackPopupManager.displayPopup(response.error);
+      feebackPopupManager.displayPopup("Invoice marked as paid successfully!");
+      handleUpdateInvoiceStateData({ ...invoice, status: "paid" }, invoiceItems);
+    } catch (error: any) {
+      feebackPopupManager.displayPopup(error.message);
+    }
+  };
+
   const handleUpdateInvoiceStateData = (invoice: InvoiceType, invoiceItems: InvoiceItemType[]) => {
     setInvoice(invoice);
     setInvoiceItems(invoiceItems);
@@ -67,8 +111,10 @@ function useInvoiceManager({ invoiceId }: InvoiceMangerProps) {
   return {
     invoice,
     invoiceItems,
-    handleUpdateInvoiceStateData,
     handleDeleteInvoice,
+    handleUpdateInvoice,
+    handleSendInvoice,
+    handleMarkInvoiceAsPaid,
   };
 }
 

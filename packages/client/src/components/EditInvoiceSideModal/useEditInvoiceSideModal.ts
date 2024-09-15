@@ -5,20 +5,18 @@ import getInvoiceDueDate from "../../utils/getInvoiceDueDate";
 import { EditInvoiceType } from "./EditInvoiceSideModal.schema";
 import { useCallback, useEffect } from "react";
 import { editInvoiceSchema } from ".";
-import calculateInvoiceTotalPrice from "../../utils/calculateInvoiceTotalPrice";
 import { InvoiceItemType } from "../../entities/InvoiceItem";
 import { InvoiceType } from "../../entities/Invoice";
-import { DisplayPopupType } from "../../utils/FeedbackPopupManager";
-import { InvoiceControllerType } from "../../api";
 
 export interface EditInvoiceSideModalProps {
   defaultValues: { invoice: InvoiceType; invoiceItems: InvoiceItemType[] };
   handleCloseModal: () => void;
-  handleDisplayPopup: DisplayPopupType;
   firstFocusableButtonRef: React.RefObject<HTMLButtonElement>;
   lastFocusableButtonRef: React.RefObject<HTMLButtonElement>;
-  updateInvoiceRequest: InvoiceControllerType["update"];
-  handleUpdateInvoiceStateData: (invoice: InvoiceType, invoiceItems: InvoiceItemType[]) => void;
+  handleUpdateInvoice: (
+    invoice: InvoiceType,
+    invoiceitems: InvoiceItemType[],
+  ) => Promise<{ success: boolean }>;
 }
 
 function useEditInvoiceSideModal(props: EditInvoiceSideModalProps) {
@@ -47,6 +45,14 @@ function useEditInvoiceSideModal(props: EditInvoiceSideModalProps) {
     remove(index);
   };
 
+  const handleSave = async () => {
+    const response = await props.handleUpdateInvoice(
+      getValues("invoice"),
+      getValues("invoiceItems"),
+    );
+    if (response.success) props.handleCloseModal();
+  };
+
   const handleSetInvoiceDate = useCallback(
     (date: Date) => {
       setValue("invoice.created_at", date.toISOString());
@@ -55,26 +61,6 @@ function useEditInvoiceSideModal(props: EditInvoiceSideModalProps) {
     },
     [getValues, setValue],
   );
-
-  const handleUpdateInvoice = async (invoiceData: EditInvoiceType) => {
-    try {
-      invoiceData.invoice.total_price = calculateInvoiceTotalPrice(invoiceData.invoiceItems);
-      const response = await props.updateInvoiceRequest(
-        invoiceData.invoice,
-        invoiceData.invoiceItems,
-      );
-      if (response.success) {
-        props.handleDisplayPopup("Invoice updated successfully!");
-        props.handleCloseModal();
-        props.handleUpdateInvoiceStateData(
-          response.result.updatedInvoice,
-          response.result.updatedInvoiceItems,
-        );
-      }
-    } catch (error: any) {
-      props.handleDisplayPopup(error.message);
-    }
-  };
 
   const paymentTerms = watch("invoice.payment_terms");
 
@@ -92,10 +78,10 @@ function useEditInvoiceSideModal(props: EditInvoiceSideModalProps) {
       getValues,
       watch,
     },
+    handleSave,
     handleAddInvoiceItem,
     handleRemoveInvoiceItem,
     handleSetInvoiceDate,
-    handleUpdateInvoice,
   };
 }
 

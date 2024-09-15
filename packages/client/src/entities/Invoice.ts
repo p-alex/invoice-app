@@ -15,6 +15,11 @@ export const invoiceSchema = z.object({
   total_price: z.number(),
 });
 
+export function validateInvoice(invoice: InvoiceType) {
+  const validation = invoiceSchema.safeParse(invoice);
+  return validation.success;
+}
+
 export type InvoiceType = z.TypeOf<typeof invoiceSchema>;
 
 export type PaymentTermsType = InvoiceType["payment_terms"];
