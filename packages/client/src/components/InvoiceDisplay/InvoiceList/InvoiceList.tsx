@@ -24,7 +24,7 @@ function InvoiceList({ invoices }: Props) {
         </ul>
       )}
       {invoices.length === 0 && (
-        <div className="flex w-full  items-center justify-center  text-center text-textLT sm:h-[70vh] dark:text-textDT">
+        <div className="flex w-full  items-center justify-center  text-center text-textLT sm:h-[60vh] dark:text-textDT">
           <div className="flex w-[242px] flex-col gap-16">
             <img src={"./images/illustration-empty.svg"} width={242} height={200} alt="" />
             <div className="flex flex-col gap-6">

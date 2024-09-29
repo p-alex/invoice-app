@@ -13,7 +13,12 @@ function EditInvoiceSideModal(props: EditInvoiceSideModalProps) {
   return (
     <SideModal
       handleCloseModal={props.handleCloseModal}
-      title={"Edit #" + form.getValues("invoice.id")}
+      title={
+        <>
+          Edit <span className="font-bold text-muted">#</span>
+          {form.getValues("invoice.id")}
+        </>
+      }
       closeButtonRef={props.firstFocusableButtonRef}
       children={
         <Form onSubmit={form.handleSubmit(handleSave)} noValidate>

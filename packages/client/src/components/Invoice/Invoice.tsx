@@ -19,7 +19,9 @@ function Invoice({ invoice }: Props) {
       aria-label={`view invoice with id ${invoice.id}`}
     >
       <div className="invoiceGrid px-6 py-6 shadow-md sm:py-4">
-        <p className="invoiceGrid__id font-bold">#{invoice.id}</p>
+        <p className="invoiceGrid__id font-bold before:text-muted before:content-['#']">
+          {invoice.id}
+        </p>
         <p className="invoiceGrid__date text-sm font-medium text-muted">
           Due {getPrettyDate(dueAt.getFullYear(), dueAt.getMonth(), dueAt.getDate())}
         </p>

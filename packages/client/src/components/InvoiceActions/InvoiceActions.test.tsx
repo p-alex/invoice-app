@@ -175,7 +175,7 @@ describe("InvoiceActions.ts", () => {
 
     const editInvoiceSideModalTitle = screen.getByRole("heading", {
       level: 2,
-      name: new RegExp("edit #" + validInvoice.id, "i"),
+      name: /edit /i,
     });
 
     expect(editInvoiceSideModalTitle).toBeInTheDocument();

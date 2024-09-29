@@ -7,7 +7,7 @@ function Backdrop({ func, ...divProps }: Props) {
     <div
       data-testid={"backdrop"}
       {...divProps}
-      className="fixed left-0 top-0 z-10 h-full w-full bg-[rgba(0,0,0,0.8)]"
+      className="fixed left-0 top-0 z-10 h-full w-full bg-[rgba(0,0,0,0.5)]"
       onClick={func}
     ></div>
   );
