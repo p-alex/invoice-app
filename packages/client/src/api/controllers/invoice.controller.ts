@@ -4,11 +4,6 @@ import { InvoiceItemType } from "../../entities/InvoiceItem";
 import HTTPResponse from "../HTTPResponse";
 import InvoiceService from "../services/invoice.service";
 
-interface InvoiceData {
-  invoice: InvoiceType;
-  invoiceItems: InvoiceItemType[];
-}
-
 class InvoiceController {
   constructor(private readonly _invoiceService: InvoiceService) {
     this.getAll = this.getAll.bind(this);
@@ -21,7 +16,7 @@ class InvoiceController {
   async getAll(): Promise<DefaultResponse<{ invoices: InvoiceType[] }>> {
     return new Promise((resolve) => {
       const invoices = this._invoiceService.getAll();
-      resolve(HTTPResponse.success({ invoices }));
+      resolve(HTTPResponse.success("Invoices found!", { invoices }));
     });
   }
 
@@ -29,7 +24,7 @@ class InvoiceController {
     return new Promise((resolve, reject) => {
       const invoice = this._invoiceService.getById(id);
       if (!invoice) return reject(HTTPResponse.error("An invoice with this id does not exist"));
-      resolve(HTTPResponse.success({ invoice }));
+      resolve(HTTPResponse.success("Invoice " + id + " was found!", { invoice }));
     });
   }
 
@@ -40,26 +35,34 @@ class InvoiceController {
     return new Promise((resolve) => {
       const { savedInvoice, savedInvoiceItems } = this._invoiceService.save(invoice, invoiceItems);
       this._invoiceService.send(savedInvoice);
-      resolve(HTTPResponse.success({ savedInvoice, savedInvoiceItems }));
+      resolve(
+        HTTPResponse.success("Invoice #" + invoice.id + " has been saved and sent!", {
+          savedInvoice,
+          savedInvoiceItems,
+        }),
+      );
     });
   }
 
   async send(invoice: InvoiceType): Promise<DefaultResponse<{ sentInvoice: InvoiceType }>> {
     return new Promise((resolve) => {
       const { sentInvoice } = this._invoiceService.send(invoice);
-      resolve(HTTPResponse.success({ sentInvoice }));
+      resolve(HTTPResponse.success("Invoice #" + invoice.id + " has been sent!", { sentInvoice }));
     });
   }
 
   async save(
-    invoiceData: InvoiceData,
+    invoice: InvoiceType,
+    invoiceItems: InvoiceItemType[],
   ): Promise<DefaultResponse<{ savedInvoice: InvoiceType; savedInvoiceItems: InvoiceItemType[] }>> {
     return new Promise((resolve) => {
-      const { savedInvoice, savedInvoiceItems } = this._invoiceService.save(
-        invoiceData.invoice,
-        invoiceData.invoiceItems,
+      const { savedInvoice, savedInvoiceItems } = this._invoiceService.save(invoice, invoiceItems);
+      resolve(
+        HTTPResponse.success("Invoice #" + invoice.id + " has been saved!", {
+          savedInvoice,
+          savedInvoiceItems,
+        }),
       );
-      resolve(HTTPResponse.success({ savedInvoice, savedInvoiceItems }));
     });
   }
 
@@ -74,14 +77,23 @@ class InvoiceController {
         invoice,
         invoiceItems,
       );
-      resolve(HTTPResponse.success({ updatedInvoice, updatedInvoiceItems }));
+      resolve(
+        HTTPResponse.success("Invoice #" + invoice.id + " has been updated!", {
+          updatedInvoice,
+          updatedInvoiceItems,
+        }),
+      );
     });
   }
 
   async delete(invoice: InvoiceType): Promise<DefaultResponse<{ deletedInvoice: InvoiceType }>> {
     return new Promise((resolve) => {
       const deletedInvoice = this._invoiceService.delete(invoice);
-      resolve(HTTPResponse.success({ deletedInvoice }));
+      resolve(
+        HTTPResponse.success("Invoice #" + invoice.id + " has been deleted!", {
+          deletedInvoice,
+        }),
+      );
     });
   }
 }

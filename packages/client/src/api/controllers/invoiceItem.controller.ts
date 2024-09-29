@@ -14,7 +14,11 @@ class InvoiceItemController {
   ): Promise<DefaultResponse<{ invoiceItems: InvoiceItemType[] }>> {
     return new Promise((resolve) => {
       const invoiceItems = this._invoiceItemService.getAllByInvoiceId(invoiceId);
-      resolve(HTTPResponse.success({ invoiceItems }));
+      resolve(
+        HTTPResponse.success("The invoice items of invoice #" + invoiceId + " have been found!", {
+          invoiceItems,
+        }),
+      );
     });
   }
 
@@ -23,7 +27,7 @@ class InvoiceItemController {
   ): Promise<DefaultResponse<{ updatedInvoiceItems: InvoiceItemType[] }>> {
     return new Promise((resolve) => {
       const updatedInvoiceItems = this._invoiceItemService.updateMany(invoiceItems);
-      resolve(HTTPResponse.success({ updatedInvoiceItems }));
+      resolve(HTTPResponse.success("The invoice items saved", { updatedInvoiceItems }));
     });
   }
 }

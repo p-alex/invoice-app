@@ -4,28 +4,15 @@ import SideModal from "../SideModal";
 import InvoiceItemList from "./InvoiceItemList";
 import { Form, FormSection, FormThreeColGrid } from "../Form";
 import InvoiceItem from "./InvoiceItemList/InvoiceItem";
-import useCreateInvoiceSideModal from "./useCreateInvoiceSideModal";
-import { DisplayPopupType } from "../../utils/FeedbackPopupManager";
-import { InvoiceType } from "../../entities/Invoice";
-import { CreateInvoiceType } from "./CreateInvoiceSideModal.schema";
-import InvoiceController from "../../api/controllers/invoice.controller";
-
-export interface CreateInvoiceSideModalProps {
-  defaultValues?: CreateInvoiceType;
-  handleCloseModal: () => void;
-  handleAddInvoiceToState: (invoice: InvoiceType) => void;
-  displayPopup: DisplayPopupType;
-  handleSaveAndSend: InvoiceController["saveAndSend"];
-  handleSave: InvoiceController["save"];
-  firstFocusableButtonRef: React.RefObject<HTMLButtonElement>;
-  lastFocusableButtonRef: React.RefObject<HTMLButtonElement>;
-}
+import useCreateInvoiceSideModal, {
+  CreateInvoiceSideModalProps,
+} from "./useCreateInvoiceSideModal";
 
 function CreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
   const {
     form,
-    submit,
-    submitAsDraft,
+    handleSaveAndSend,
+    handleSaveAsDraft,
     handleAddInvoiceItem,
     handleRemoveInvoiceItem,
     handleSetInvoiceDate,
@@ -37,7 +24,7 @@ function CreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
       title={"New Invoice"}
       closeButtonRef={props.firstFocusableButtonRef}
       children={
-        <Form onSubmit={form.handleSubmit(submit)} noValidate>
+        <Form onSubmit={form.handleSubmit(handleSaveAndSend)} noValidate>
           <FormSection title="Bill From">
             <InputGroup
               id="from_street_address"
@@ -242,7 +229,7 @@ function CreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
           <div className="flex justify-end gap-2">
             <div className="flex gap-2">
               <Button
-                onClick={() => submitAsDraft(form.getValues())}
+                onClick={() => handleSaveAsDraft(form.getValues())}
                 disabled={form.formState.isLoading}
               >
                 Save as Draft

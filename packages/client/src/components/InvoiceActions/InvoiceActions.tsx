@@ -88,10 +88,37 @@ function InvoiceActions(props: Props) {
           )}
           trapFocus
           disableScroll
+          hideWithEsc
         />
         {props.invoiceData.invoice.status === "draft" && !isValidInvoice && null}
         {props.invoiceData.invoice.status === "draft" && isValidInvoice && (
-          <PrimaryButton onClick={props.handleSendInvoice}>Send</PrimaryButton>
+          <VisibiltyToggleProvider
+            toggle={({ toggleRef, handleToggleVisibilty }) => (
+              <PrimaryButton onClick={handleToggleVisibilty} ref={toggleRef}>
+                Send
+              </PrimaryButton>
+            )}
+            content={({
+              firstFocusableButtonRef,
+              lastFocusableButtonRef,
+              handleToggleOffVisibilty,
+            }) => (
+              <Dialog
+                title={`Send invoice`}
+                description={`Are you sure you want to send invoice #${props.invoiceData.invoice.id}? This action cannot be undone.`}
+                cancelBtnRef={firstFocusableButtonRef}
+                closeFunc={handleToggleOffVisibilty}
+                actionBtn={
+                  <PrimaryButton onClick={props.handleSendInvoice} ref={lastFocusableButtonRef}>
+                    Send
+                  </PrimaryButton>
+                }
+              />
+            )}
+            trapFocus
+            disableScroll
+            hideWithEsc
+          />
         )}
         {props.invoiceData.invoice.status === "pending" && isValidInvoice && (
           <VisibiltyToggleProvider
@@ -115,6 +142,7 @@ function InvoiceActions(props: Props) {
             )}
             trapFocus
             disableScroll
+            hideWithEsc
           />
         )}
       </div>

@@ -2,14 +2,22 @@ import { useEffect, useRef } from "react";
 import createRandomId from "../../utils/createRandomId";
 import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CreateInvoiceSideModalProps } from "./CreateInvoiceSideModal";
 import getInvoiceDueDate from "../../utils/getInvoiceDueDate";
 import { createInvoiceSchema, CreateInvoiceType } from "./CreateInvoiceSideModal.schema";
 import calculateInvoiceTotalPrice from "../../utils/calculateInvoiceTotalPrice";
+import { InvoiceType } from "../../entities/Invoice";
+import { InvoiceControllerType } from "../../api";
 
-export const createInvoiceSideModal_pendingSuccessMessage =
-  "Invoice was saved and sent successfully!";
-export const createInvoiceSideModal_draftSuccessMessage = "Draft invoice saved!";
+export interface CreateInvoiceSideModalProps {
+  defaultValues?: CreateInvoiceType;
+  handleCloseModal: () => void;
+  handleAddInvoiceToState: (invoice: InvoiceType) => void;
+  handleDisplayPopup: (message: string) => void;
+  saveAndSendRequest: InvoiceControllerType["saveAndSend"];
+  saveRequest: InvoiceControllerType["save"];
+  firstFocusableButtonRef: React.RefObject<HTMLButtonElement>;
+  lastFocusableButtonRef: React.RefObject<HTMLButtonElement>;
+}
 
 function useCreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
   const invoiceId = useRef(createRandomId());
@@ -42,43 +50,32 @@ function useCreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
     control,
   });
 
-  const submit = async (invoiceData: CreateInvoiceType) => {
-    const totalPrice = calculateInvoiceTotalPrice(invoiceData.invoiceItems);
-    invoiceData.invoice.total_price = totalPrice;
-
+  const handleSaveAndSend = async ({ invoice, invoiceItems }: CreateInvoiceType) => {
+    invoice.total_price = calculateInvoiceTotalPrice(invoiceItems);
     try {
-      const response = await props.handleSaveAndSend(invoiceData.invoice, invoiceData.invoiceItems);
-      if (response.success) {
-        reset();
-        props.handleCloseModal();
-        props.displayPopup(createInvoiceSideModal_pendingSuccessMessage);
-        props.handleAddInvoiceToState(response.result.savedInvoice);
-        return;
-      }
-      props.displayPopup(response.error);
+      const response = await props.saveAndSendRequest(invoice, invoiceItems);
+      if (!response.success) return props.handleDisplayPopup(response.error);
+      reset();
+      props.handleCloseModal();
+      props.handleAddInvoiceToState(response.result.savedInvoice);
+      props.handleDisplayPopup(response.message);
     } catch (error: any) {
-      props.displayPopup(error.message);
+      props.handleDisplayPopup(error.message);
     }
   };
 
-  const submitAsDraft = async (invoiceData: CreateInvoiceType) => {
-    invoiceData.invoice.status = "draft";
-
-    const totalPrice = calculateInvoiceTotalPrice(invoiceData.invoiceItems);
-    invoiceData.invoice.total_price = totalPrice;
-
+  const handleSaveAsDraft = async ({ invoice, invoiceItems }: CreateInvoiceType) => {
+    invoice.status = "draft";
+    invoice.total_price = calculateInvoiceTotalPrice(invoiceItems);
     try {
-      const response = await props.handleSave(invoiceData);
-      if (response.success) {
-        reset();
-        props.handleCloseModal();
-        props.displayPopup(createInvoiceSideModal_draftSuccessMessage);
-        props.handleAddInvoiceToState(response.result.savedInvoice);
-        return;
-      }
-      props.displayPopup(response.error);
+      const response = await props.saveRequest(invoice, invoiceItems);
+      if (!response.success) return props.handleDisplayPopup(response.error);
+      reset();
+      props.handleCloseModal();
+      props.handleAddInvoiceToState(response.result.savedInvoice);
+      props.handleDisplayPopup(response.message);
     } catch (error: any) {
-      props.displayPopup(error.message);
+      props.handleDisplayPopup(error.message);
     }
   };
 
@@ -122,8 +119,8 @@ function useCreateInvoiceSideModal(props: CreateInvoiceSideModalProps) {
       getValues,
       watch,
     },
-    submit,
-    submitAsDraft,
+    handleSaveAndSend,
+    handleSaveAsDraft,
     handleAddInvoiceItem,
     handleRemoveInvoiceItem,
     handleSetInvoiceDate,
