@@ -3,6 +3,7 @@ import ArrowRightIcon from "./ArrowRightIcon";
 import CheckIcon from "./CheckIcon";
 import ChevronLeft from "./ChevronLeft";
 import CloseIcon from "./CloseIcon";
+import InfoIcon from "./InfoIcon";
 import MoonIcon from "./MoonIcon";
 import PlusIcon from "./PlusIcon";
 import SunIcon from "./SunIcon";
@@ -20,4 +21,5 @@ export {
   ChevronLeft,
   CloseIcon,
   ArrowRightIcon,
+  InfoIcon,
 };

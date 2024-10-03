@@ -15,7 +15,17 @@ class FeedbackPopupManager {
       this._popupList = document.createElement("ul");
       this._popupList.setAttribute("aria-live", "polite");
       this._popupList.id = this.listId;
-      this._popupList.classList.add("flex", "flex-column", "gap-2");
+      this._popupList.classList.add(
+        "fixed",
+        "bottom-[16px]",
+        "right-[16px]",
+        "sm:bottom-auto",
+        "sm:top-[16px]",
+        "flex",
+        "flex-col",
+        "gap-2",
+        "z-[1000]",
+      );
       document.body.appendChild(this._popupList);
     }
   }
@@ -26,7 +36,7 @@ class FeedbackPopupManager {
     }
 
     const popup = this.createPopup(message);
-    this._popupList.appendChild(popup);
+    this._popupList.prepend(popup);
     this.removePopup(popup);
   }
 
@@ -52,9 +62,11 @@ class FeedbackPopupManager {
   private createPopup(message: string) {
     const listItem = document.createElement("li");
     listItem.classList.add(
-      "fixed",
-      "top-[16px]",
-      "right-[16px]",
+      "flex",
+      "items-center",
+      "gap-2",
+      "border",
+      "border-primary",
       "py-2",
       "px-4",
       "rounded-md",
@@ -64,7 +76,37 @@ class FeedbackPopupManager {
       "dark:text-textDT",
       "shadow-md",
     );
-    listItem.innerText = message;
+
+    const infoSvg = document.createElement("img");
+    infoSvg.src = "./images/info-icon.svg";
+    infoSvg.width = 24;
+    infoSvg.height = 24;
+
+    const paragraph = document.createElement("p");
+    paragraph.innerText = message;
+
+    const closeButton = document.createElement("button");
+    closeButton.classList.add(
+      "w-6",
+      "h-6",
+      "flex",
+      "items-center",
+      "justify-center",
+      "close-popup-button",
+    );
+    closeButton.setAttribute("aria-label", "close popup");
+    const closeButtonIcon = document.createElement("img");
+    closeButtonIcon.src = "./images/close-icon.svg";
+    closeButtonIcon.width = 24;
+    closeButtonIcon.height = 24;
+    closeButtonIcon.alt = "";
+    closeButton.addEventListener("click", () => listItem.remove());
+    closeButton.appendChild(closeButtonIcon);
+
+    listItem.appendChild(infoSvg);
+    listItem.appendChild(paragraph);
+    listItem.appendChild(closeButton);
+
     return listItem;
   }
 }
