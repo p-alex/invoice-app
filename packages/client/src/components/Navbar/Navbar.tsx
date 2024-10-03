@@ -14,11 +14,15 @@ function Navbar() {
         </NavbarSection>
         <NavbarSection>
           <NavbarButton aria-label="toggle profile menu">
-            <img
-              src="/images/image-avatar.jpg"
-              className="h-full w-full rounded-[inherit]"
-              alt=""
-            />
+            <a href="https://github.com/p-alex" target="_blank" className="rounded-[inherit]">
+              <img
+                src="/images/profile_picture.jpg"
+                className="rounded-[inherit]"
+                alt=""
+                width={80}
+                height={80}
+              />
+            </a>
           </NavbarButton>
         </NavbarSection>
       </NavbarSectionContainer>
