@@ -78,7 +78,7 @@ class FeedbackPopupManager {
     );
 
     const infoSvg = document.createElement("img");
-    infoSvg.src = "./images/info-icon.svg";
+    infoSvg.src = "/images/info-icon.svg";
     infoSvg.width = 24;
     infoSvg.height = 24;
 
@@ -96,7 +96,7 @@ class FeedbackPopupManager {
     );
     closeButton.setAttribute("aria-label", "close popup");
     const closeButtonIcon = document.createElement("img");
-    closeButtonIcon.src = "./images/close-icon.svg";
+    closeButtonIcon.src = "/images/close-icon.svg";
     closeButtonIcon.width = 24;
     closeButtonIcon.height = 24;
     closeButtonIcon.alt = "";
